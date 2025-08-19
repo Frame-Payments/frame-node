@@ -1,0 +1,28 @@
+{
+  "name": "frame-node",
+  "version": "1.0.0",
+  "description": "The Frame Node.js Library simplifies the process of creating a seamless payment experience within your web app. it provides access to the underlying APIs that drive these components, allowing you to design fully customized payment workflows tailored to your app's needs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frame-Payments/frame-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Frame-Payments/frame-node/issues"
+  },
+  "homepage": "https://github.com/Frame-Payments/frame-node#readme",
+  "dependencies": {
+    "axios": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}

@@ -8,8 +8,8 @@ export interface ChargeIntent {
   description?: string | null;
   metadata?: Record<string, any>;
   latest_charge?: Record<string, any>;
-  customer?: string;  // could link to Customer type
-  payment_method?: string; // could link to PaymentMethod type
+  customer?: string;
+  payment_method?: string;
   client_secret?: string;
   authorization_mode?: string;
   failure_description?: string | null;

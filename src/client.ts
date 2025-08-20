@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
-import { FrameAPIError } from './errors/FrameAPIError';
+import { FrameAPIError } from './errors/frame_api_error';
 
 export interface AuthOptions {
   apiKey: string;

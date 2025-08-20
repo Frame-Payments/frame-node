@@ -13,7 +13,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "outDir": "dist",
-    "types": ["node"],
+    "types": ["jest", "node"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],

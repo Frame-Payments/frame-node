@@ -6,6 +6,7 @@ import type {
     UpdateSubscriptionParams,
     SearchSubscriptionParams
 } from '../types/subscriptions';
+import { paginate } from '../utils/paginator';
 
 export class SubscriptionsAPI {
   constructor(private client: AxiosInstance) {}
@@ -29,6 +30,15 @@ export class SubscriptionsAPI {
     const resp = await this.client.get('/v1/subscriptions', { params: { per_page, page } });
     return resp.data;
   }
+
+  async iterateAllSubscriptions(per_page = 20) {
+        return paginate<Subscription>(async (page: number) => {
+          const res = await this.client.get('/v1/subscriptions', {
+            params: { per_page, page }
+          });
+          return res.data;
+        }, per_page);
+      }
 
   async search(query: SearchSubscriptionParams): Promise<SubscriptionListResponse> {
     const resp = await this.client.get('/v1/subscriptions/search', { params: query });

@@ -5,6 +5,7 @@ import type {
     CreateChargeIntentParams,
     UpdateChargeIntentParams
 } from '../types/charge_intents';
+import { paginate } from '../utils/paginator';
 
 export class ChargeIntentsAPI {
   constructor(private client: AxiosInstance) {}
@@ -28,6 +29,15 @@ export class ChargeIntentsAPI {
     const resp = await this.client.get('/v1/charge_intents', { params: { per_page, page } });
     return resp.data;
   }
+
+  async iterateAllChargeIntents(per_page = 20) {
+          return paginate<ChargeIntent>(async (page: number) => {
+            const res = await this.client.get('/v1/charge_intents', {
+              params: { per_page, page }
+            });
+            return res.data;
+          }, per_page);
+        }
 
   async cancel(id: string): Promise<ChargeIntent> {
     const resp = await this.client.post(`/v1/charge_intents/${id}/cancel`);

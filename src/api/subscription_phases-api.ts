@@ -5,6 +5,7 @@ import type {
     CreateSubscriptionPhaseParams,
     UpdateSubscriptionPhaseParams
 } from '../types/subscription_phases';
+import { paginate } from '../utils/paginator';
 
 export class SubscriptionPhasesAPI {
   constructor(private client: AxiosInstance) {}
@@ -13,6 +14,15 @@ export class SubscriptionPhasesAPI {
     const resp = await this.client.get(`/v1/subscriptions/${subscriptionId}/phases`);
     return resp.data;
   }
+
+  async iterateAllSubscriptionPhases(subscriptionId: string, per_page = 20) {
+          return paginate<SubscriptionPhase>(async (page: number) => {
+            const res = await this.client.get(`/v1/subscriptions/${subscriptionId}/phases`, {
+              params: { per_page, page }
+            });
+            return res.data;
+          }, per_page);
+        }
 
   async get(subscriptionId: string, phaseId: string): Promise<SubscriptionPhase> {
     const resp = await this.client.get(`/v1/subscriptions/${subscriptionId}/phases/${phaseId}`);

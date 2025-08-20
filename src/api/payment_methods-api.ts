@@ -5,6 +5,7 @@ import type {
     CreatePaymentMethodParams,
     UpdatePaymentMethodParams
 } from '../types/payment_methods';
+import { paginate } from '../utils/paginator';
 
 export class PaymentMethodsAPI {
   constructor(private client: AxiosInstance) {}
@@ -26,6 +27,15 @@ export class PaymentMethodsAPI {
     const resp = await this.client.get('/v1/payment_methods', { params: { per_page, page } });
     return resp.data;
   }
+
+  async iterateAllPaymentMethods(per_page = 20) {
+      return paginate<PaymentMethod>(async (page: number) => {
+        const res = await this.client.get('/v1/payment_methods', {
+          params: { per_page, page }
+        });
+        return res.data;
+      }, per_page);
+    }
 
   // Retrieve for customer
   async listForCustomer(customerId: string, per_page?: number, page?: number): Promise<PaymentMethodListResponse> {

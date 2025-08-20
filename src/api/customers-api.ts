@@ -1,4 +1,5 @@
 import type { AxiosInstance } from 'axios';
+import { paginate } from '../utils/paginator';
 import type {
     Customer,
     CustomerListResponse,
@@ -35,6 +36,15 @@ export class CustomersAPI {
       params: { per_page, page }
     });
     return resp.data;
+  }
+
+  async iterateAllCustomers(per_page = 20) {
+    return paginate<Customer>(async (page: number) => {
+      const res = await this.client.get('/v1/customers', {
+        params: { per_page, page }
+      });
+      return res.data;
+    }, per_page);
   }
 
   // Delete

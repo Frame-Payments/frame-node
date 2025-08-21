@@ -2,21 +2,18 @@ import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import { FrameAPIError } from './errors/frame_api_error';
 
-export interface AuthOptions {
-  apiKey: string;
-}
-
 export interface ClientConfig {
-  baseURL: string;
-  auth: AuthOptions;
+  apiKey: string
 }
 
-export const createApiClient = ({ baseURL, auth }: ClientConfig): AxiosInstance => {
+export const createApiClient = ({ apiKey }: ClientConfig): AxiosInstance => {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   };
 
-  headers['Authorization'] = `Bearer ${auth.apiKey}`;
+  const baseURL = 'https://api.framepayments.com'
+
+  headers['Authorization'] = `Bearer ${apiKey}`;
 
   const client = axios.create({
     baseURL,

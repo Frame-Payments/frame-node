@@ -23,7 +23,7 @@ export interface Invoice {
   description?: string;
   memo?: string;
   livemode: boolean;
-  metadata: Record<string, any>;
+  metadata?: Record<string, any>;
   line_items: InvoiceLineItem[];
   created: number;
   updated: number;

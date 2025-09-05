@@ -38,10 +38,10 @@ export interface CreateProductParams {
   description: string;
   default_price: number;
   purchase_type: ProductPurchaseType;
-  recurring_interval?: ProductRecurringInterval;
-  shippable?: boolean;
-  url?: string;
-  metadata?: Record<string, string>;
+  recurring_interval?: ProductRecurringInterval | null;
+  shippable?: boolean | null;
+  url?: string | null;
+  metadata?: Record<string, string> | null;
 }
 
 export interface UpdateProductParams {

@@ -50,7 +50,7 @@ export interface CreateChargeIntentParams {
   confirm?: boolean;
   receipt_email?: string;
   metadata?: Record<string, any>;
-  authorization_mode: "automatic" | "manual";
+  authorization_mode: 'automatic' | 'manual';
   customer_data?: CustomerDataParams;
   payment_method_data?: PaymentMethodDataParams;
 }
@@ -63,7 +63,7 @@ export interface CustomerDataParams {
 export interface PaymentMethodDataParams {
   attach: boolean;
   billing?: Address;
-  type: "card";
+  type: 'card';
   card_number: string;
   exp_month: string;
   exp_year: string;

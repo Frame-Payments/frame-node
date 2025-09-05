@@ -6,6 +6,10 @@ import { RefundsAPI } from './api/refunds-api';
 import { SubscriptionsAPI } from './api/subscriptions-api';
 import { CustomerIdentityVerificationsAPI } from './api/customer_identity-api';
 import { SubscriptionPhasesAPI } from './api/subscription_phases-api';
+import { InvoicesAPI } from './api/invoices-api';
+import { InvoiceLineItemsAPI } from './api/invoice_line_item-api';
+import { DisputesAPI } from './api/disputes-api';
+import { ProductsAPI } from './api/products-api';
 
 export { paginate } from './utils/paginator'
 export { FrameAPIError } from './errors/frame_api_error'
@@ -18,6 +22,10 @@ export class FrameSDK {
   public subscriptions: SubscriptionsAPI;
   public customerIdentityVerifications: CustomerIdentityVerificationsAPI;
   public subscriptionPhases: SubscriptionPhasesAPI;
+  public invoices: InvoicesAPI;
+  public invoiceLineItems: InvoiceLineItemsAPI;
+  public disputes: DisputesAPI;
+  public products: ProductsAPI;
 
   constructor(config: ClientConfig) {
     const client = createApiClient(config);
@@ -27,6 +35,10 @@ export class FrameSDK {
     this.refunds = new RefundsAPI(client);
     this.subscriptions = new SubscriptionsAPI(client);
     this.customerIdentityVerifications = new CustomerIdentityVerificationsAPI(client);
-    this.subscriptionPhases = new SubscriptionPhasesAPI(client)
+    this.subscriptionPhases = new SubscriptionPhasesAPI(client);
+    this.invoices = new InvoicesAPI(client);
+    this.invoiceLineItems = new InvoiceLineItemsAPI(client);
+    this.disputes = new DisputesAPI(client);
+    this.products = new ProductsAPI(client);
   }
 }

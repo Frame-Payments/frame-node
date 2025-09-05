@@ -21,7 +21,7 @@ export interface Customer {
   date_of_birth?: string | null;
   billing_address?: Address | null;
   shipping_address?: Address | null;
-  status: "active" | "blocked";
+  status: 'active' | 'blocked';
   payment_methods: PaymentMethod[];
   metadata: Record<string, any>;
   object: string;

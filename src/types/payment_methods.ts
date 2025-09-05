@@ -20,7 +20,7 @@ export interface PaymentMethod {
   livemode: Boolean;
   created: number;
   updated: number;
-  status: "active" | "blocked";
+  status: 'active' | 'blocked';
   card: PaymentCard;
 }
 
@@ -32,7 +32,7 @@ export interface PaymentMethodListResponse {
 export interface CreatePaymentMethodParams {
   customer?: string;
   billing?: Address;
-  type: "card" | "ach";
+  type: 'card' | 'ach';
   card_number: string;
   exp_month: string;
   exp_year: string;

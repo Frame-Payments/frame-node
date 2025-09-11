@@ -1,6 +1,14 @@
 /// <reference types="jest" />
 
 import { PaymentMethodsAPI } from '../src/api/payment_methods-api';
+import { 
+  CreateCardPaymentMethodParams, 
+  CreateACHPaymentMethodParams, 
+  PaymentAccountType, 
+  PaymentMethodType, 
+  PaymentMethod,
+  PaymentMethodStatus
+} from '../src/types/payment_methods';
 import nock from 'nock';
 import axios from 'axios';
 
@@ -8,24 +16,53 @@ const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
 const paymentMethods = new PaymentMethodsAPI(client);
 
-const mockPaymentMethod = {
+const mockPaymentMethod: PaymentMethod = {
   id: 'pm_123',
   customer: 'cus_abc',
-  type: 'card',
-  status: 'active',
+  type: PaymentMethodType.CARD,
+  status: PaymentMethodStatus.ACTIVE,
   created: 1234567890,
   updated: 1234567890,
   livemode: false,
-  metadata: {},
   object: 'payment_method'
 };
 
-test('create payment method', async () => {
-  const input = { type: 'card', customer: 'cus_abc' };
-  nock(baseUrl).post('/v1/payment_methods', input).reply(200, mockPaymentMethod);
+const mockACHPaymentMethod: PaymentMethod = {
+  id: 'pm_123',
+  customer: 'cus_abc',
+  type: PaymentMethodType.ACH,
+  status: PaymentMethodStatus.ACTIVE,
+  created: 1234567890,
+  updated: 1234567890,
+  livemode: false,
+  object: 'payment_method'
+};
 
-  const result = await paymentMethods.create(input as any);
+test('create card payment method', async () => {
+  const input: CreateCardPaymentMethodParams = {
+    type: PaymentMethodType.CARD,
+    card_number: '2121212121212121',
+    exp_month: '02',
+    exp_year: '26',
+    cvc: '234'
+   };
+  nock(baseUrl).post('/v1/payment_methods').reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.createCard(input as any);
   expect(result).toEqual(mockPaymentMethod);
+});
+
+test('create ach payment method', async () => {
+  const input: CreateACHPaymentMethodParams = {
+      type: PaymentMethodType.ACH,
+      account_type: PaymentAccountType.CHECKING,
+      account_number: '1234567890123',
+      routing_number: '123123123'
+   };
+  nock(baseUrl).post('/v1/payment_methods').reply(200, mockACHPaymentMethod);
+
+  const result = await paymentMethods.createACH(input as any);
+  expect(result).toEqual(mockACHPaymentMethod);
 });
 
 test('get payment method', async () => {

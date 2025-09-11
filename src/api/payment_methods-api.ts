@@ -2,7 +2,8 @@ import type { AxiosInstance } from 'axios';
 import type {
     PaymentMethod,
     PaymentMethodListResponse,
-    CreatePaymentMethodParams,
+    CreateCardPaymentMethodParams,
+    CreateACHPaymentMethodParams,
     UpdatePaymentMethodParams
 } from '../types/payment_methods';
 import { paginate } from '../utils/paginator';
@@ -11,7 +12,12 @@ export class PaymentMethodsAPI {
   constructor(private client: AxiosInstance) {}
 
   // Create
-  async create(params: CreatePaymentMethodParams): Promise<PaymentMethod> {
+  async createCard(params: CreateCardPaymentMethodParams): Promise<PaymentMethod> {
+    const resp = await this.client.post('/v1/payment_methods', params);
+    return resp.data;
+  }
+
+  async createACH(params: CreateACHPaymentMethodParams): Promise<PaymentMethod> {
     const resp = await this.client.post('/v1/payment_methods', params);
     return resp.data;
   }

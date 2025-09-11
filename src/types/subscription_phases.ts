@@ -1,6 +1,12 @@
-export type PricingType = 'static' | 'relative';
+export enum PricingType { 
+  STATIC = 'static', 
+  RELATIVE = 'relative'
+}
 
-export type DurationType = 'finite' | 'infinite';
+export enum DurationType {
+  FINITE = 'finite', 
+  INFINITE = 'infinite' 
+}
 
 export interface SubscriptionPhase {
   id: string;

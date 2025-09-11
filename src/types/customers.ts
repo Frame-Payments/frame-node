@@ -9,6 +9,11 @@ export interface Address {
   postal_code?: string;
 }
 
+export enum CustomerStatus {
+  ACTIVE = 'active',
+  BLOCKED = 'blocked'
+}
+
 export interface Customer {
   id: string;
   created: number;
@@ -21,7 +26,7 @@ export interface Customer {
   date_of_birth?: string | null;
   billing_address?: Address | null;
   shipping_address?: Address | null;
-  status: 'active' | 'blocked';
+  status: CustomerStatus;
   payment_methods: PaymentMethod[];
   metadata: Record<string, any>;
   object: string;

@@ -1,7 +1,7 @@
 import nock from 'nock';
 import axios from 'axios';
 import { InvoicesAPI } from '../src/api/invoices-api';
-import type { Invoice, DeleteInvoiceResponse } from '../src/types/invoices';
+import { type Invoice, type DeleteInvoiceResponse, InvoiceStatus, CollectionMethod } from '../src/types/invoices';
 
 const baseURL = 'https://api.framepayments.com';
 const client = axios.create({ baseURL });
@@ -16,8 +16,8 @@ const mockInvoice: Invoice = {
     },
     currency: 'usd',
     total: 9900,
-    status: 'outstanding',
-    collection_method: 'auto_charge',
+    status: InvoiceStatus.DRAFT,
+    collection_method: CollectionMethod.AUTO_CHARGE,
     net_terms: 30,
     object: 'invoice',
     metadata: {},

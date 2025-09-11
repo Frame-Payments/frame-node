@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nock from 'nock';
 import { RefundsAPI } from '../src/api/refunds-api';
-import type { Refund } from '../src/types/refunds';
+import { RefundReason, RefundStatus, type Refund } from '../src/types/refunds';
 
 const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
@@ -11,9 +11,9 @@ const refunds = new RefundsAPI(client);
 const mockRefund: Refund = {
     id: 're_123',
     currency: 'usd',
-    status: 'succeeded',
+    status: RefundStatus.PENDING,
     amount: 1234,
-    reason: 'fraudulent',
+    reason: RefundReason.FRADULENT,
     charge_intent: 'ch_123',
     object: 'n/a',
     livemode: true,

@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nock from 'nock';
 import { CustomerIdentityVerificationsAPI } from '../src/api/customer_identity-api';
-import type { CustomerIdentityVerification } from '../src/types/customer_identity';
+import { VerificationStatus, type CustomerIdentityVerification } from '../src/types/customer_identity';
 
 const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
@@ -10,7 +10,7 @@ const identityAPI = new CustomerIdentityVerificationsAPI(client);
 
 const mockVerification: CustomerIdentityVerification = {
     id: 'civ_123',
-    status: 'pending',
+    status: VerificationStatus.PENDING,
     created: 1625256000,
     updated: 1625257000,
     object: 'customer_identity_verification',

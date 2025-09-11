@@ -1,7 +1,7 @@
 import nock from 'nock';
 import axios from 'axios';
 import { DisputesAPI } from '../src/api/disputes-api';
-import type { Dispute, UpdateDisputeParams } from '../src/types/disputes';
+import { DisputeReason, DisputeStatus, type Dispute, type UpdateDisputeParams } from '../src/types/disputes';
 
 const baseURL = 'https://api.framepayments.com';
 const client = axios.create({ baseURL });
@@ -11,8 +11,8 @@ const mockDispute: Dispute = {
     id: 'dp_123',
     amount: 5000,
     currency: 'usd',
-    reason: 'fraudulent',
-    status: 'under_review',
+    reason: DisputeReason.FRADULENT,
+    status: DisputeStatus.UNDER_REVIEW,
     charge_intent: 'ci_123',
     livemode: false,
     object: 'dispute',

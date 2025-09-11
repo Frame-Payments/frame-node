@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nock from 'nock';
 import { SubscriptionPhasesAPI } from '../src/api/subscription_phases-api';
-import type { SubscriptionPhase, SubscriptionPhaseListResponse, UpdateSubscriptionPhaseParams } from '../src/types/subscription_phases';
+import { DurationType, PricingType, type SubscriptionPhase, type SubscriptionPhaseListResponse, type UpdateSubscriptionPhaseParams } from '../src/types/subscription_phases';
 
 const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
@@ -15,8 +15,8 @@ const mockPhase: SubscriptionPhase = {
     id: phaseId,
     object: 'subscription_phase',
     ordinal: 0,
-    pricing_type: 'static',
-    duration_type: 'finite',
+    pricing_type: PricingType.RELATIVE,
+    duration_type: DurationType.FINITE,
     currency: '',
     livemode: false,
     created: 0,

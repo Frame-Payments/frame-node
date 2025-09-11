@@ -29,9 +29,19 @@ export interface ProductListResponse {
   data: Product[];
 }
 
-export type ProductRecurringInterval = 'daily' | 'weekly' | 'monthly' | 'yearly' | 'every_3_months' | 'every_6_months';
+export enum ProductRecurringInterval { 
+  DAILY = 'daily', 
+  WEEKLY = 'weekly', 
+  MONTHLY = 'monthly', 
+  YEARLY = 'yearly', 
+  EVERY_3_MONTHS = 'every_3_months', 
+  EVERY_6_MONTHS = 'every_6_months'
+ }
 
-export type ProductPurchaseType = 'one_time' | 'recurring';
+export enum ProductPurchaseType { 
+  ONETIME = 'one_time',
+  RECURRING = 'recurring' 
+}
 
 export interface CreateProductParams {
   name: string;

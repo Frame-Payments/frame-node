@@ -7,12 +7,14 @@ export interface InvoiceLineItem {
   unit_amount_currency?: number;
   created?: number;
   updated?: number;
-  product?: {
+  product?: InvoiceProduct;
+}
+
+export interface InvoiceProduct {
     object: string;
     id: string;
     name: string;
     price: number;
-  };
 }
 
 export interface InvoiceLineItemListResponse {

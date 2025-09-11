@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nock from 'nock';
 import { ProductsAPI } from '../src/api/products-api';
-import type { Product, CreateProductParams, UpdateProductParams } from '../src/types/products';
+import { type Product, type CreateProductParams, type UpdateProductParams, ProductPurchaseType } from '../src/types/products';
 
 const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
@@ -29,7 +29,7 @@ test('create product', async () => {
     name: 'Gold Plan',
     description: 'Best plan for VIPs',
     default_price: 9900,
-    purchase_type: 'one_time'
+    purchase_type: ProductPurchaseType.RECURRING
   };
 
   nock(baseUrl).post('/v1/products', input as any).reply(200, mockProduct);

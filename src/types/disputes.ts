@@ -1,6 +1,29 @@
-export type DisputeReason = 'bank_cannot_process' | 'check_returned' | 'credit_not_processed' | 'customer_initiated' | 'debit_not_authorized' | 'duplicate' | 'fraudulent' | 'general' | 'incorrect_account_details' | 'insufficient_funds' | 'product_not_received' | 'product_unacceptable' | 'subscription_canceled' | 'unrecognized';
+export enum DisputeReason { 
+  BANK_CANNOT_PROCESS = 'bank_cannot_process',
+  CHECK_RETURNED = 'check_returned',
+  CREDIT_NOT_PROCESSED = 'credit_not_processed',
+  CUSTOMER_INITIATED = 'customer_initiated',
+  DEBIT_NOT_AUTHORIZED = 'debit_not_authorized',
+  DUPLICATE = 'duplicate',
+  FRADULENT = 'fraudulent', 
+  GENERAL = 'general',
+  INCORRECT_ACCOUNT_DETAILS = 'incorrect_account_details',
+  INSUFFICIENT_FUNDS = 'insufficient_funds',
+  PRODUCT_NOT_RECEIVED = 'product_not_received',
+  PRODUCT_UNACCEPTABLE = 'product_unacceptable' ,
+  SUBSCRIPTION_CANCELED = 'subscription_canceled',
+  UNRECOGNIZED = 'unrecognized' 
+}
 
-export type DisputeStatus = 'warning_needs_response' | 'warning_under_review' | 'warning_closed' | 'needs_response' | 'under_review' | 'won' | 'lost';
+export enum DisputeStatus { 
+  WARNING_NEEDS_RESPONSE = 'warning_needs_response',
+  WARNING_UNDER_REVIEW ='warning_under_review',
+  WARNING_CLOSED ='warning_closed',
+  NEEDS_RESPONSE = 'needs_response', 
+  UNDER_REVIEW = 'under_review', 
+  WON = 'won', 
+  LOST = 'lost' 
+}
 
 export interface DisputeEvidence {
   access_activity_log?: string;

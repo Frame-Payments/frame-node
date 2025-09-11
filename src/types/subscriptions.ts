@@ -1,3 +1,10 @@
+export enum SubscriptionStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+  TERMINATED = 'terminated',
+  CANCELED = 'canceled'
+}
+
 export interface PlanDetails {
   id: string;
   interval: string;
@@ -18,13 +25,14 @@ export interface Subscription {
   current_period_end?: number;
   livemode?: boolean;
   currency?: string;
-  status?: 'pending' | 'active' | 'terminated' | 'canceled';
+  status?: SubscriptionStatus;
   customer?: string;
   default_payment_method?: string;
   plan?: PlanDetails;
   metadata?: Record<string, any>;
   object?: string;
   created?: number;
+  updated?: number;
   start_date?: number;
 }
 

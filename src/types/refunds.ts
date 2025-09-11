@@ -1,8 +1,23 @@
-export type RefundStatus = 'pending' | 'requires_action' | 'succeeded' | 'failed' | 'canceled';
+export enum RefundStatus {
+  PENDING = 'pending',
+  REQUIRES_ACTION = 'requires_action',
+  SUCCEEDED = 'succeeded',
+  FAILED = 'failed',
+  CANCELED = 'canceled'
+}
 
-export type RefundReason = 'duplicate' | 'fraudulent' | 'requested_by_customer' | 'expired_uncaptured_charge';
+export enum RefundReason { 
+  DUPLICATE = 'duplicate', 
+  FRADULENT = 'fraudulent', 
+  REQUESTED = 'requested_by_customer', 
+  EXPIRED = 'expired_uncaptured_charge'
+}
 
-export type RefundReasonParam = 'duplicate' | 'fraudulent' | 'requested_by_customer'
+export enum RefundReasonParam { 
+  DUPLICATE = 'duplicate', 
+  FRADULENT = 'fraudulent', 
+  REQUESTED = 'requested_by_customer', 
+}
 
 export interface Refund {
   id: string;

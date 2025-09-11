@@ -3,21 +3,28 @@
 import { SubscriptionsAPI } from '../src/api/subscriptions-api';
 import nock from 'nock';
 import axios from 'axios';
+import { Subscription, SubscriptionStatus } from '../src/types/subscriptions';
 
 const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
 const subscriptions = new SubscriptionsAPI(client);
 
-const mockSubscription = {
+const mockSubscription: Subscription = {
   id: 'sub_123',
   customer: 'cus_abc',
-  status: 'active',
+  status: SubscriptionStatus.ACTIVE,
   object: 'subscription',
   created: 1234567890,
   updated: 1234567890,
   livemode: false,
   metadata: {},
-  current_phase: null,
+  description: undefined,
+  current_period_start: undefined,
+  current_period_end: undefined,
+  currency: 'usd',
+  default_payment_method: undefined,
+  plan: undefined,
+  start_date: undefined,
 };
 
 test('create subscription', async () => {

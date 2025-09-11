@@ -1,6 +1,11 @@
 import type { Address } from "./customers";
 
-export type VerificationStatus = 'incomplete' | 'pending' | 'verified' | 'failed';
+export enum VerificationStatus { 
+  INCOMPLETE = 'incomplete',
+  PENDING = 'pending',
+  VERIFIED = 'verified',
+  FAILED = 'failed'
+}
 
 export interface CustomerIdentityVerification {
   id: string;

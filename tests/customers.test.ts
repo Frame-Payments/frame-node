@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nock from 'nock';
 import { CustomersAPI } from '../src/api/customers-api';
-import type { Customer } from '../src/types/customers';
+import { CustomerStatus, type Customer } from '../src/types/customers';
 
 const baseUrl = 'https://api.framepayments.com';
 const client = axios.create({ baseURL: baseUrl });
@@ -12,7 +12,7 @@ const mockCustomer: Customer = {
   id: 'cus_123',
   name: 'Alice',
   email: 'alice@example.com',
-  status: 'active',
+  status: CustomerStatus.ACTIVE,
   object: 'customer',
   payment_methods: [],
   created: 1234567890,

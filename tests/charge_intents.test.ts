@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nock from 'nock';
 import { ChargeIntentsAPI } from '../src/api/charge_intents-api'; // adjust path
-import type { ChargeIntent } from '../src/types/charge_intents'; // adjust path if needed
+import { ChargeIntentStatus, type ChargeIntent } from '../src/types/charge_intents'; // adjust path if needed
  // adjust path if needed
 
 const baseUrl = 'https://api.framepayments.com';
@@ -13,7 +13,7 @@ const mockChargeIntent: ChargeIntent = {
   id: 'ci_123',
   amount: 1500,
   currency: 'usd',
-  status: 'pending',
+  status: ChargeIntentStatus.PENDING,
   object: 'charge_intent',
   customer: 'cus_123',
   created: 1234567890,

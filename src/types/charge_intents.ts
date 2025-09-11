@@ -1,10 +1,26 @@
 import type { Address } from "./customers";
 
+export enum ChargeIntentStatus {
+  INCOMPLETE = 'incomplete',
+  PENDING = 'pending',
+  CANCELED = 'canceled',
+  REFUNDED = 'refunded',
+  REVERSED = 'reversed',
+  FAILED = 'failed', 
+  DISPUTED = 'disputed',
+  SUCCEEDED = 'succeeded'
+}
+
+export enum AuthorizationMode {
+  AUTOMATIC = 'automatic',
+  MANUAL = 'manual'
+}
+
 export interface ChargeIntent {
   id: string;
   currency: string;
   amount: number;
-  status: 'incomplete' | 'pending' | 'canceled' | 'refunded' | 'reversed' | 'failed' | 'disputed' | 'succeeded';
+  status: ChargeIntentStatus;
   description?: string | null;
   metadata?: Record<string, any>;
   latest_charge?: Record<string, any>;
@@ -50,7 +66,7 @@ export interface CreateChargeIntentParams {
   confirm?: boolean;
   receipt_email?: string;
   metadata?: Record<string, any>;
-  authorization_mode: 'automatic' | 'manual';
+  authorization_mode: AuthorizationMode;
   customer_data?: CustomerDataParams;
   payment_method_data?: PaymentMethodDataParams;
 }

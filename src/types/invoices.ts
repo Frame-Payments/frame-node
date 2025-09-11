@@ -1,8 +1,19 @@
 import type { InvoiceLineItem } from "./invoice_line_items";
 
-export type InvoiceStatus = 'draft' | 'outstanding' | 'due' | 'overdue' | 'paid' | 'written_off' | 'voided';
+export enum InvoiceStatus { 
+  DRAFT = 'draft', 
+  OUTSTANDING = 'outstanding', 
+  DUE = 'due', 
+  OVERDUE = 'overdue', 
+  PAID = 'paid', 
+  WRITTEN_OFF = 'written_off', 
+  VOIDED = 'voided' 
+}
 
-export type CollectionMethod = 'auto_charge' | 'request_payment';
+export enum CollectionMethod { 
+  AUTO_CHARGE = 'auto_charge', 
+  REQUEST_PAYMENT = 'request_payment' 
+}
 
 export interface CustomerRef {
   object: string;

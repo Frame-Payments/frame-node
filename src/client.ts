@@ -1,6 +1,8 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import { FrameAPIError } from './errors/frame_api_error';
+import { ConfigurationAPI } from './api/configuration-api';
+import { loadEvervault } from '@evervault/js';
 
 export interface ClientConfig {
   apiKey: string
@@ -36,3 +38,14 @@ export const createApiClient = ({ apiKey }: ClientConfig): AxiosInstance => {
 
   return client;
 };
+
+// export const initClient = async ({ apiKey }: ClientConfig): Promise<AxiosInstance> => {
+//   const client = createApiClient({ apiKey });
+
+//   // Configure Evervault
+//   const configAPI = new ConfigurationAPI(client);
+//   const config = await configAPI.get();
+//   const evervault = loadEvervault(config.team_id, config.app_id);
+
+//   return client;
+// };

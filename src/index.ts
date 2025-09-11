@@ -10,6 +10,7 @@ import { InvoicesAPI } from './api/invoices-api';
 import { InvoiceLineItemsAPI } from './api/invoice_line_item-api';
 import { DisputesAPI } from './api/disputes-api';
 import { ProductsAPI } from './api/products-api';
+import type { AxiosInstance } from 'axios';
 
 export { paginate } from './utils/paginator'
 export { FrameAPIError } from './errors/frame_api_error'
@@ -27,7 +28,7 @@ export class FrameSDK {
   public disputes: DisputesAPI;
   public products: ProductsAPI;
 
-  constructor(config: ClientConfig) {
+   constructor(config: ClientConfig) {
     const client = createApiClient(config);
     this.customers = new CustomersAPI(client);
     this.paymentMethods = new PaymentMethodsAPI(client);
@@ -41,4 +42,8 @@ export class FrameSDK {
     this.disputes = new DisputesAPI(client);
     this.products = new ProductsAPI(client);
   }
+//   static async init(config: ClientConfig): Promise<FrameSDK> {
+//     const client = await initClient(config);
+//     return new FrameSDK(client);
+//   }
 }

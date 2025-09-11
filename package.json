@@ -16,12 +16,16 @@
   "keywords": [],
   "author": "Frame Payments <engineering@framepayments.com>",
   "license": "Apache-2.0",
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "bugs": {
     "url": "https://github.com/Frame-Payments/frame-node/issues"
   },
   "homepage": "https://github.com/Frame-Payments/frame-node#readme",
   "dependencies": {
+    "@evervault/js": "^2.5.0",
     "axios": "^1.11.0"
   },
   "devDependencies": {

@@ -7,12 +7,23 @@ import type {
     UpdatePaymentMethodParams
 } from '../types/payment_methods';
 import { paginate } from '../utils/paginator';
+import { ConfigurationAPI } from './configuration-api';
+import { loadEvervault } from '@evervault/js';
 
 export class PaymentMethodsAPI {
   constructor(private client: AxiosInstance) {}
 
   // Create
   async createCard(params: CreateCardPaymentMethodParams): Promise<PaymentMethod> {
+    //1. Encrypt the card data with Evervault
+    const configAPI = new ConfigurationAPI(this.client);
+    const config = await configAPI.get();
+    const evervault = await loadEvervault(config.team_id, config.app_id);
+
+    params.card_number = await evervault.encrypt(params.card_number);
+    params.cvc = await evervault.encrypt(params.cvc);
+
+    //2. Pass encrypted params to backend.
     const resp = await this.client.post('/v1/payment_methods', params);
     return resp.data;
   }

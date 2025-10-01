@@ -31,9 +31,9 @@ export interface Charge {
   disputed: boolean;
   charge_intent: string;
   refunded: boolean;
-  failure_code: string | null;
-  failure_message: string | null;
-  description: string | null;
+  failure_code?: string | null;
+  failure_message?: string | null;
+  description?: string | null;
   status: ChargeStatus;
   payment_method_details: PaymentMethod;
   customer: string;

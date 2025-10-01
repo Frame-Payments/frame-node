@@ -1,4 +1,4 @@
-import type { Address } from './customers';
+import type { Address, Customer } from './customers';
 import type { PaymentMethod } from './payment_methods';
 
 export enum ChargeIntentStatus {
@@ -52,8 +52,10 @@ export interface ChargeIntent {
   description?: string | null;
   metadata?: Record<string, any>;
   latest_charge?: Charge;
-  customer?: string;
-  payment_method?: string;
+  customer?: Customer;
+  payment_method?: PaymentMethod;
+  subscription?: string;
+  invoice?: string;
   client_secret?: string;
   authorization_mode?: string;
   failure_description?: string | null;

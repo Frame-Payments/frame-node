@@ -2,7 +2,8 @@ import type { Address } from "./customers";
 
 export enum PaymentMethodStatus {
   ACTIVE = 'active',
-  BLOCKED = 'blocked'
+  BLOCKED = 'blocked',
+  DETACHED = 'detached'
 }
 
 export enum PaymentAccountType {

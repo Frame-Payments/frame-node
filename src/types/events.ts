@@ -68,7 +68,7 @@ export enum EventType {
 }
 
 // The general payload for all events
-interface EventPayload<T extends EventType, D extends unknown> {
+export interface EventPayload<T extends EventType, D extends unknown> {
   id: string;
   type: T;
   object: string;

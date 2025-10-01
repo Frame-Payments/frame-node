@@ -71,7 +71,7 @@ export enum EventType {
 interface EventPayload<T extends EventType, D extends unknown> {
   id: string;
   type: T;
-  object: 'event';
+  object: string;
   created: number;
   livemode: boolean;
   data: D;

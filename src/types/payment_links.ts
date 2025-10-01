@@ -13,5 +13,5 @@ export interface PaymentLink {
   livemode: boolean;
   shipping_address_required: boolean;
   require_customer_phone_number: boolean;
-  object: 'payment_link';
+  object: string;
 }

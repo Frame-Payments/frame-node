@@ -1,8 +1,10 @@
+import type { Charge } from './charge_intents';
+
 export enum SubscriptionStatus {
   PENDING = 'pending',
   ACTIVE = 'active',
   TERMINATED = 'terminated',
-  CANCELED = 'canceled'
+  CANCELED = 'canceled',
 }
 
 export interface PlanDetails {
@@ -28,6 +30,7 @@ export interface Subscription {
   status?: SubscriptionStatus;
   customer?: string;
   default_payment_method?: string;
+  latest_charge?: Charge;
   plan?: PlanDetails;
   metadata?: Record<string, any>;
   object?: string;

@@ -1,4 +1,5 @@
-import type { Address } from "./customers";
+import type { Address } from './customers';
+import type { PaymentMethod } from './payment_methods';
 
 export enum ChargeIntentStatus {
   INCOMPLETE = 'incomplete',
@@ -6,14 +7,41 @@ export enum ChargeIntentStatus {
   CANCELED = 'canceled',
   REFUNDED = 'refunded',
   REVERSED = 'reversed',
-  FAILED = 'failed', 
+  FAILED = 'failed',
   DISPUTED = 'disputed',
-  SUCCEEDED = 'succeeded'
+  SUCCEEDED = 'succeeded',
 }
 
 export enum AuthorizationMode {
   AUTOMATIC = 'automatic',
-  MANUAL = 'manual'
+  MANUAL = 'manual',
+}
+
+export enum ChargeStatus {
+  SUCCEEDED = 'succeeded',
+  FAILED = 'failed',
+}
+
+export interface Charge {
+  id: string;
+  currency: string;
+  amount_captured: number;
+  amount_refunded: number;
+  captured: boolean;
+  disputed: boolean;
+  charge_intent: string;
+  refunded: boolean;
+  failure_code?: string | null;
+  failure_message?: string | null;
+  description?: string | null;
+  status: ChargeStatus;
+  payment_method_details: PaymentMethod;
+  customer: string;
+  payment_method: string;
+  amount: number;
+  created: number;
+  updated: number;
+  livemode: boolean;
 }
 
 export interface ChargeIntent {
@@ -23,7 +51,7 @@ export interface ChargeIntent {
   status: ChargeIntentStatus;
   description?: string | null;
   metadata?: Record<string, any>;
-  latest_charge?: Record<string, any>;
+  latest_charge?: Charge;
   customer?: string;
   payment_method?: string;
   client_secret?: string;

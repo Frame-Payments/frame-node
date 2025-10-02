@@ -5,6 +5,8 @@ export enum SubscriptionStatus {
   ACTIVE = 'active',
   TERMINATED = 'terminated',
   CANCELED = 'canceled',
+  PAST_DUE = 'past_due',
+  UNPAID = 'unpaid',
 }
 
 export interface PlanDetails {

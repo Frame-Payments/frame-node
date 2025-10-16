@@ -3,10 +3,16 @@ import type { PaymentMethod } from './payment_methods';
 
 export enum ChargeIntentStatus {
   INCOMPLETE = 'incomplete',
+  REQUIRES_CAPTURE = 'requires_capture',
+  REQUIRES_CUSTOMER = 'requires_customer',
+  REQUIRES_PAYMENT_METHOD = 'requires_payment_method',
+  REQUIRES_CONFIRMATION = 'requires_confirmation',
+  REQUIRES_3D_SECURE = 'requires_3d_secure',
   PENDING = 'pending',
   CANCELED = 'canceled',
   REFUNDED = 'refunded',
   REVERSED = 'reversed',
+  EXPIRED = 'expired',
   FAILED = 'failed',
   DISPUTED = 'disputed',
   SUCCEEDED = 'succeeded',

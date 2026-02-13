@@ -105,6 +105,7 @@ export interface CreateChargeIntentParams {
   authorization_mode: AuthorizationMode;
   customer_data?: CustomerDataParams;
   payment_method_data?: PaymentMethodDataParams;
+  sonar_session_id?: string;
 }
 
 export interface CustomerDataParams {

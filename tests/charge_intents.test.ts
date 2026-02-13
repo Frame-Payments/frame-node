@@ -31,6 +31,23 @@ test('create charge intent', async () => {
   expect(result).toEqual(mockChargeIntent);
 });
 
+test('create charge intent with sonar_session_id', async () => {
+  const input = {
+    amount: 1500,
+    currency: 'usd',
+    authorization_mode: 'automatic' as const,
+    sonar_session_id: 'fps_sandbox_01H8X9Y2Z3A4B5C6D7E8F9G0H1',
+  };
+
+  const scope = nock(baseUrl)
+    .post('/v1/charge_intents', (body: Record<string, unknown>) => body.sonar_session_id === input.sonar_session_id)
+    .reply(200, mockChargeIntent);
+
+  const result = await chargeIntents.create(input as any);
+  expect(result).toEqual(mockChargeIntent);
+  expect(scope.isDone()).toBe(true);
+});
+
 test('update charge intent', async () => {
   const updates = { metadata: { updated_by: 'admin' } };
 

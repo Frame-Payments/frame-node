@@ -1,4 +1,7 @@
 import { createApiClient, type ClientConfig } from './client';
+import { AccountsAPI } from './api/accounts-api';
+import { CapabilitiesAPI } from './api/capabilities-api';
+import { OnboardingSessionsAPI } from './api/onboarding_sessions-api';
 import { CustomersAPI } from './api/customers-api';
 import { PaymentMethodsAPI } from './api/payment_methods-api';
 import { ChargeIntentsAPI } from './api/charge_intents-api';
@@ -15,6 +18,9 @@ export { paginate } from './utils/paginator'
 export { FrameAPIError } from './errors/frame_api_error'
 
 export class FrameSDK {
+  public accounts: AccountsAPI;
+  public capabilities: CapabilitiesAPI;
+  public onboardingSessions: OnboardingSessionsAPI;
   public customers: CustomersAPI;
   public paymentMethods: PaymentMethodsAPI;
   public chargeIntents: ChargeIntentsAPI;
@@ -29,6 +35,9 @@ export class FrameSDK {
 
   constructor(config: ClientConfig) {
     const client = createApiClient(config);
+    this.accounts = new AccountsAPI(client);
+    this.capabilities = new CapabilitiesAPI(client);
+    this.onboardingSessions = new OnboardingSessionsAPI(client);
     this.customers = new CustomersAPI(client);
     this.paymentMethods = new PaymentMethodsAPI(client);
     this.chargeIntents = new ChargeIntentsAPI(client);

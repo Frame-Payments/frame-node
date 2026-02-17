@@ -11,7 +11,7 @@ yarn add framepayments
 
 ## 🤖 Usage
 
-1. Initalize the client. You'll need your developer secret key from Frame, if you don't already have one you can sign up at https://www.framepayments.com
+1. Initialize the client. You'll need your developer secret key from Frame, if you don't already have one you can sign up at https://www.framepayments.com
 ```bash
 import { FrameSDK } from 'framepayments';
 

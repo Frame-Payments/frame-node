@@ -28,3 +28,11 @@ export interface CreateCustomerIdentityVerificationParams {
   ssn: string; // XXX-XX-XXXX or XXXXXXXXXX
   address: Address;
 }
+
+export interface UploadDocumentsParams {
+  documents: Array<{
+    document_type: string;
+    file_id?: string;
+    metadata?: Record<string, unknown>;
+  }>;
+}

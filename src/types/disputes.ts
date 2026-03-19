@@ -65,3 +65,20 @@ export interface UpdateDisputeParams {
   evidence?: DisputeEvidence;
   submit?: boolean;
 }
+
+export interface CreateDisputeDocumentParams {
+  file_id?: string;
+  document_type?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface DisputeDocument {
+  id: string;
+  object: string;
+  dispute_id: string;
+  file_id?: string;
+  document_type?: string;
+  metadata?: Record<string, unknown>;
+  created: number;
+  livemode: boolean;
+}

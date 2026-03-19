@@ -6,6 +6,7 @@ import type {
   CreateAccountParams,
   UpdateAccountParams
 } from '../types/accounts';
+import type { GeoComplianceStatus } from '../types/geo_compliance';
 import { paginate } from '../utils/paginator';
 
 export class AccountsAPI {
@@ -33,6 +34,11 @@ export class AccountsAPI {
 
   async disable(id: string): Promise<Account> {
     const resp = await this.client.delete(`/v1/accounts/${id}`);
+    return resp.data;
+  }
+
+  async getGeoCompliance(accountId: string): Promise<GeoComplianceStatus> {
+    const resp = await this.client.get(`/v1/accounts/${accountId}/geo_compliance`);
     return resp.data;
   }
 

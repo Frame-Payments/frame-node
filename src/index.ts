@@ -31,6 +31,7 @@ import { SubscriptionChangeLogsAPI } from './api/subscription_change_logs-api';
 import { BillingAPI } from './api/billing-api';
 import { ThreeDSAPI } from './api/three_ds-api';
 import { ProductPhasesAPI } from './api/product_phases-api';
+import { TermsOfServiceAPI } from './api/terms_of_service-api';
 
 export { paginate } from './utils/paginator'
 export { FrameAPIError } from './errors/frame_api_error'
@@ -68,6 +69,7 @@ export class FrameSDK {
   public billing: BillingAPI;
   public threeDS: ThreeDSAPI;
   public productPhases: ProductPhasesAPI;
+  public termsOfService: TermsOfServiceAPI;
 
   constructor(config: ClientConfig) {
     const client = createApiClient(config);
@@ -103,5 +105,6 @@ export class FrameSDK {
     this.billing = new BillingAPI(client);
     this.threeDS = new ThreeDSAPI(client);
     this.productPhases = new ProductPhasesAPI(client);
+    this.termsOfService = new TermsOfServiceAPI(client);
   }
 }

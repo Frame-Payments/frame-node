@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios';
-import type { TermsOfServiceTokenResponse, AcceptTermsOfServiceParams } from '../types/terms_of_service';
+import type { TermsOfServiceTokenResponse, UpdateTermsOfServiceParams } from '../types/terms_of_service';
 
 export class TermsOfServiceAPI {
   constructor(private client: AxiosInstance) {}
@@ -9,7 +9,7 @@ export class TermsOfServiceAPI {
     return resp.data;
   }
 
-  async acceptToken(params: AcceptTermsOfServiceParams): Promise<TermsOfServiceTokenResponse> {
+  async update(params: UpdateTermsOfServiceParams): Promise<TermsOfServiceTokenResponse> {
     const resp = await this.client.patch('/v1/terms_of_service', params);
     return resp.data;
   }

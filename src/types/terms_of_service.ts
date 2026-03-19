@@ -2,7 +2,7 @@ export interface TermsOfServiceTokenResponse {
   token: string;
 }
 
-export interface AcceptTermsOfServiceParams {
+export interface UpdateTermsOfServiceParams {
   token: string;
   accepted_at?: number;
   ip_address?: string;

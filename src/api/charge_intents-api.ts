@@ -53,4 +53,9 @@ export class ChargeIntentsAPI {
     const resp = await this.client.post(`/v1/charge_intents/${id}/capture`);
     return resp.data;
   }
+
+  async voidRemaining(id: string): Promise<ChargeIntent> {
+    const resp = await this.client.post(`/v1/charge_intents/${id}/void_remaining`);
+    return resp.data;
+  }
 }

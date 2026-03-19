@@ -39,7 +39,7 @@ test('update dispute', async () => {
     const updatedDispute = { ...mockDispute, ...updates };
 
     nock(baseURL)
-        .post('/v1/disputes/dp_123', updates as any)
+        .patch('/v1/disputes/dp_123', updates as any)
         .reply(200, updatedDispute);
 
     const result = await disputes.update('dp_123', updates);
@@ -67,13 +67,14 @@ test('list disputes', async () => {
     expect(result).toEqual(response);
 });
 
-test('close dispute', async () => {
-    const closedDispute = { ...mockDispute, status: 'closed' };
+test('create document', async () => {
+    const docParams = { file: 'file_123', type: 'evidence' };
+    const docResponse = { id: 'doc_123', dispute: 'dp_123' };
 
     nock(baseURL)
-        .post('/v1/disputes/dp_123/close')
-        .reply(200, closedDispute);
+        .post('/v1/disputes/dp_123/documents', docParams as any)
+        .reply(200, docResponse);
 
-    const result = await disputes.close('dp_123');
-    expect(result).toEqual(closedDispute);
+    const result = await disputes.createDocument('dp_123', docParams);
+    expect(result).toEqual(docResponse);
 });

@@ -2,14 +2,16 @@ import type { AxiosInstance } from 'axios';
 import type {
   Dispute,
   DisputeListResponse,
-  UpdateDisputeParams
+  UpdateDisputeParams,
+  CreateDisputeDocumentParams,
+  DisputeDocument
 } from '../types/disputes';
 
 export class DisputesAPI {
   constructor(private client: AxiosInstance) {}
 
   async update(id: string, params: UpdateDisputeParams): Promise<Dispute> {
-    const resp = await this.client.post(`/v1/disputes/${id}`, params);
+    const resp = await this.client.patch(`/v1/disputes/${id}`, params);
     return resp.data;
   }
 
@@ -23,8 +25,8 @@ export class DisputesAPI {
     return resp.data;
   }
 
-  async close(id: string): Promise<Dispute> {
-    const resp = await this.client.post(`/v1/disputes/${id}/close`);
+  async createDocument(id: string, params: CreateDisputeDocumentParams): Promise<DisputeDocument> {
+    const resp = await this.client.post(`/v1/disputes/${id}/documents`, params);
     return resp.data;
   }
 }

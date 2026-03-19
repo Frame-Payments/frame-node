@@ -13,6 +13,24 @@ import { InvoicesAPI } from './api/invoices-api';
 import { InvoiceLineItemsAPI } from './api/invoice_line_item-api';
 import { DisputesAPI } from './api/disputes-api';
 import { ProductsAPI } from './api/products-api';
+import { ChargesAPI } from './api/charges-api';
+import { ChargeSessionsAPI } from './api/charge_sessions-api';
+import { SonarSessionsAPI } from './api/sonar_sessions-api';
+import { PhoneVerificationsAPI } from './api/phone_verifications-api';
+import { GeofencesAPI } from './api/geofences-api';
+import { WebhookEndpointsAPI } from './api/webhook_endpoints-api';
+import { PayoutsAPI } from './api/payouts-api';
+import { TransfersAPI } from './api/transfers-api';
+import { TransferFeePlansAPI } from './api/transfer_fee_plans-api';
+import { TransferBillingAgreementsAPI } from './api/transfer_billing_agreements-api';
+import { CouponsAPI } from './api/coupons-api';
+import { PromotionCodesAPI } from './api/promotion_codes-api';
+import { DiscountsAPI } from './api/discounts-api';
+import { PaymentLinkSessionsAPI } from './api/payment_link_sessions-api';
+import { SubscriptionChangeLogsAPI } from './api/subscription_change_logs-api';
+import { BillingAPI } from './api/billing-api';
+import { ThreeDSAPI } from './api/three_ds-api';
+import { ProductPhasesAPI } from './api/product_phases-api';
 
 export { paginate } from './utils/paginator'
 export { FrameAPIError } from './errors/frame_api_error'
@@ -32,6 +50,24 @@ export class FrameSDK {
   public invoiceLineItems: InvoiceLineItemsAPI;
   public disputes: DisputesAPI;
   public products: ProductsAPI;
+  public charges: ChargesAPI;
+  public chargeSessions: ChargeSessionsAPI;
+  public sonarSessions: SonarSessionsAPI;
+  public phoneVerifications: PhoneVerificationsAPI;
+  public geofences: GeofencesAPI;
+  public webhookEndpoints: WebhookEndpointsAPI;
+  public payouts: PayoutsAPI;
+  public transfers: TransfersAPI;
+  public transferFeePlans: TransferFeePlansAPI;
+  public transferBillingAgreements: TransferBillingAgreementsAPI;
+  public coupons: CouponsAPI;
+  public promotionCodes: PromotionCodesAPI;
+  public discounts: DiscountsAPI;
+  public paymentLinkSessions: PaymentLinkSessionsAPI;
+  public subscriptionChangeLogs: SubscriptionChangeLogsAPI;
+  public billing: BillingAPI;
+  public threeDS: ThreeDSAPI;
+  public productPhases: ProductPhasesAPI;
 
   constructor(config: ClientConfig) {
     const client = createApiClient(config);
@@ -49,5 +85,23 @@ export class FrameSDK {
     this.invoiceLineItems = new InvoiceLineItemsAPI(client);
     this.disputes = new DisputesAPI(client);
     this.products = new ProductsAPI(client);
+    this.charges = new ChargesAPI(client);
+    this.chargeSessions = new ChargeSessionsAPI(client);
+    this.sonarSessions = new SonarSessionsAPI(client);
+    this.phoneVerifications = new PhoneVerificationsAPI(client);
+    this.geofences = new GeofencesAPI(client);
+    this.webhookEndpoints = new WebhookEndpointsAPI(client);
+    this.payouts = new PayoutsAPI(client);
+    this.transfers = new TransfersAPI(client);
+    this.transferFeePlans = new TransferFeePlansAPI(client);
+    this.transferBillingAgreements = new TransferBillingAgreementsAPI(client);
+    this.coupons = new CouponsAPI(client);
+    this.promotionCodes = new PromotionCodesAPI(client);
+    this.discounts = new DiscountsAPI(client);
+    this.paymentLinkSessions = new PaymentLinkSessionsAPI(client);
+    this.subscriptionChangeLogs = new SubscriptionChangeLogsAPI(client);
+    this.billing = new BillingAPI(client);
+    this.threeDS = new ThreeDSAPI(client);
+    this.productPhases = new ProductPhasesAPI(client);
   }
 }

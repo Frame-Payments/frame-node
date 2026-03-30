@@ -80,3 +80,33 @@ test('disable account', async () => {
   const result = await accounts.disable('acct_123');
   expect(result).toEqual(mockAccount);
 });
+
+test('search accounts', async () => {
+  const params = { email: 'jane@example.com' };
+  nock(baseUrl).get('/v1/accounts/search').query(params).reply(200, listResponse);
+
+  const result = await accounts.search(params);
+  expect(result).toEqual(listResponse);
+});
+
+test('get account payment methods', async () => {
+  const mockPaymentMethods = [{ id: 'pm_123', object: 'payment_method', type: 'card', livemode: false, created: 1234567890 }];
+  nock(baseUrl).get('/v1/accounts/acct_123/payment_methods').reply(200, mockPaymentMethods);
+
+  const result = await accounts.getPaymentMethods('acct_123');
+  expect(result).toEqual(mockPaymentMethods);
+});
+
+test('restrict account', async () => {
+  nock(baseUrl).post('/v1/accounts/acct_123/restrict').reply(200, mockAccount);
+
+  const result = await accounts.restrict('acct_123');
+  expect(result).toEqual(mockAccount);
+});
+
+test('unrestrict account', async () => {
+  nock(baseUrl).post('/v1/accounts/acct_123/unrestrict').reply(200, mockAccount);
+
+  const result = await accounts.unrestrict('acct_123');
+  expect(result).toEqual(mockAccount);
+});

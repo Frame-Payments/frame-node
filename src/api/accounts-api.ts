@@ -4,9 +4,11 @@ import type {
   AccountListResponse,
   ListAccountsParams,
   CreateAccountParams,
-  UpdateAccountParams
+  UpdateAccountParams,
+  SearchAccountsParams
 } from '../types/accounts';
 import type { GeoComplianceStatus } from '../types/geo_compliance';
+import type { PaymentMethod } from '../types/payment_methods';
 import { paginate } from '../utils/paginator';
 
 export class AccountsAPI {
@@ -34,6 +36,26 @@ export class AccountsAPI {
 
   async disable(id: string): Promise<Account> {
     const resp = await this.client.delete(`/v1/accounts/${id}`);
+    return resp.data;
+  }
+
+  async search(params: SearchAccountsParams): Promise<AccountListResponse> {
+    const resp = await this.client.get('/v1/accounts/search', { params });
+    return resp.data;
+  }
+
+  async getPaymentMethods(id: string): Promise<PaymentMethod[]> {
+    const resp = await this.client.get(`/v1/accounts/${id}/payment_methods`);
+    return resp.data;
+  }
+
+  async restrict(id: string): Promise<Account> {
+    const resp = await this.client.post(`/v1/accounts/${id}/restrict`);
+    return resp.data;
+  }
+
+  async unrestrict(id: string): Promise<Account> {
+    const resp = await this.client.post(`/v1/accounts/${id}/unrestrict`);
     return resp.data;
   }
 

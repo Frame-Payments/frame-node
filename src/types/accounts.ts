@@ -96,3 +96,11 @@ export interface UpdateAccountParams {
   metadata?: Record<string, unknown>;
   profile?: Partial<CreateAccountProfile>;
 }
+
+export interface SearchAccountsParams {
+  name?: string;
+  email?: string;
+  external_id?: string;
+  status?: string;
+  type?: string;
+}

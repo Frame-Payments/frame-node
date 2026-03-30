@@ -98,3 +98,11 @@ test('unblock customer', async () => {
   const result = await customers.unblock('cus_123');
   expect(result).toEqual(mockCustomer);
 });
+
+test('get customer payment methods', async () => {
+  const mockPaymentMethods = [{ id: 'pm_123', object: 'payment_method', type: 'card', livemode: false, created: 1234567890 }];
+  nock(baseUrl).get('/v1/customers/cus_123/payment_methods').reply(200, mockPaymentMethods);
+
+  const result = await customers.getPaymentMethods('cus_123');
+  expect(result).toEqual(mockPaymentMethods);
+});

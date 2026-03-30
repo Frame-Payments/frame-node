@@ -8,6 +8,7 @@ import type {
     DeleteResponse,
     SearchCustomerParams
 } from '../types/customers';
+import type { PaymentMethod } from '../types/payment_methods';
 
 export class CustomersAPI {
   constructor(private client: AxiosInstance) {}
@@ -68,6 +69,11 @@ export class CustomersAPI {
   // Unblock
   async unblock(id: string): Promise<Customer> {
     const resp = await this.client.post(`/v1/customers/${id}/unblock`);
+    return resp.data;
+  }
+
+  async getPaymentMethods(id: string): Promise<PaymentMethod[]> {
+    const resp = await this.client.get(`/v1/customers/${id}/payment_methods`);
     return resp.data;
   }
 }

@@ -31,6 +31,7 @@ export enum ChargeStatus {
 export interface Charge {
   id: string;
   currency: string;
+  amount: number;
   amount_captured: number;
   amount_refunded: number;
   captured: boolean;
@@ -43,8 +44,13 @@ export interface Charge {
   status: ChargeStatus;
   payment_method_details: PaymentMethod;
   customer: string;
+  account?: string | null;
   payment_method: string;
-  amount: number;
+  acquirer_reference_number?: string | null;
+  authorization_code?: string | null;
+  refund_reason?: string | null;
+  net_amount?: number;
+  revenue_split?: Record<string, unknown> | null;
   created: number;
   updated: number;
   livemode: boolean;
@@ -66,9 +72,13 @@ export interface ChargeIntent {
   authorization_mode?: string;
   failure_description?: string | null;
   shipping?: Address;
+  account?: Record<string, unknown> | null;
+  amount_captured?: number;
+  amount_voided?: number;
+  next_action?: Record<string, unknown> | null;
+  revenue_split?: Record<string, unknown> | null;
   object?: string;
   created?: number;
-  updated?: number;
   livemode: boolean;
 }
 
@@ -88,6 +98,7 @@ export interface ChargeIntentListResponse {
 export interface UpdateChargeIntentParams {
   amount?: number;
   customer?: string;
+  account?: string;
   description?: string;
   payment_method?: string;
   metadata?: Record<string, any>;
@@ -97,6 +108,7 @@ export interface CreateChargeIntentParams {
   amount: number;
   currency: string;
   customer?: string;
+  account?: string;
   description?: string;
   payment_method?: string;
   confirm?: boolean;
@@ -106,6 +118,10 @@ export interface CreateChargeIntentParams {
   customer_data?: CustomerDataParams;
   payment_method_data?: PaymentMethodDataParams;
   sonar_session_id?: string;
+  shipping?: Record<string, unknown>;
+  promotion_codes?: string[];
+  payment_method_options?: Record<string, unknown>;
+  revenue_split?: Record<string, unknown>;
 }
 
 export interface CustomerDataParams {

@@ -7,6 +7,12 @@ export interface Charge {
   charge_intent_id?: string;
   payment_method_id?: string;
   customer_id?: string;
+  account?: string | null;
+  acquirer_reference_number?: string | null;
+  authorization_code?: string | null;
+  refund_reason?: string | null;
+  net_amount?: number;
+  revenue_split?: Record<string, unknown> | null;
   metadata?: Record<string, unknown>;
   created: number;
   updated: number;

@@ -4,7 +4,8 @@ import type {
     PaymentMethodListResponse,
     CreateCardPaymentMethodParams,
     CreateACHPaymentMethodParams,
-    UpdatePaymentMethodParams
+    UpdatePaymentMethodParams,
+    ConnectPlaidParams
 } from '../types/payment_methods';
 import { paginate } from '../utils/paginator';
 
@@ -78,6 +79,12 @@ export class PaymentMethodsAPI {
   // Unblock
   async unblock(id: string): Promise<PaymentMethod> {
     const resp = await this.client.post(`/v1/payment_methods/${id}/unblock`);
+    return resp.data;
+  }
+
+  // Connect via Plaid
+  async connectPlaid(params: ConnectPlaidParams): Promise<PaymentMethod> {
+    const resp = await this.client.post('/v1/payment_methods/connect_plaid', params);
     return resp.data;
   }
 }

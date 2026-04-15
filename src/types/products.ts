@@ -8,6 +8,8 @@ export interface Product {
   shippable: boolean;
   active: boolean;
   default_price: number;
+  purchase_type?: string;
+  recurring?: { interval: string; interval_count: number } | null;
   metadata: Record<string, string>;
   created: number;
   updated: number;

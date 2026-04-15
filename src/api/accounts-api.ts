@@ -5,7 +5,8 @@ import type {
   ListAccountsParams,
   CreateAccountParams,
   UpdateAccountParams,
-  SearchAccountsParams
+  SearchAccountsParams,
+  PlaidLinkTokenResponse
 } from '../types/accounts';
 import type { GeoComplianceStatus } from '../types/geo_compliance';
 import type { PaymentMethod } from '../types/payment_methods';
@@ -56,6 +57,11 @@ export class AccountsAPI {
 
   async unrestrict(id: string): Promise<Account> {
     const resp = await this.client.post(`/v1/accounts/${id}/unrestrict`);
+    return resp.data;
+  }
+
+  async getPlaidLinkToken(id: string): Promise<PlaidLinkTokenResponse> {
+    const resp = await this.client.get(`/v1/accounts/${id}/plaid_link_token`);
     return resp.data;
   }
 

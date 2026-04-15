@@ -28,9 +28,4 @@ export class RefundsAPI {
         return res.data;
       }, per_page);
     }
-
-  async cancel(id: string): Promise<Refund> {
-    const resp = await this.client.post(`/v1/refunds/${id}/cancel`);
-    return resp.data;
-  }
 }

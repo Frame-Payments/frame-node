@@ -35,6 +35,15 @@ export interface Subscription {
   latest_charge?: Charge;
   plan?: PlanDetails;
   metadata?: Record<string, any>;
+  quantity?: number | null;
+  account?: string | null;
+  phases?: unknown[];
+  has_phases?: boolean;
+  current_phase?: Record<string, unknown> | null;
+  effective_amount?: number | null;
+  effective_interval?: string | null;
+  effective_interval_count?: number | null;
+  latest_charge_intent?: string | null;
   object?: string;
   created?: number;
   updated?: number;
@@ -56,13 +65,17 @@ export interface CreateSubscriptionParams {
   customer: string;
   product: string;
   currency: string;
-  default_payment_method: string;
+  default_payment_method?: string;
+  account?: string;
   description?: string;
+  proration_behavior?: string;
   metadata?: Record<string, any>;
 }
 
 export interface UpdateSubscriptionParams {
   default_payment_method?: string;
+  product?: string;
+  update_interval?: string;
   description?: string;
   metadata?: Record<string, any>;
 }

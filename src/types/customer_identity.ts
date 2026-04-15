@@ -12,6 +12,7 @@ export interface CustomerIdentityVerification {
   object: string;
   status: VerificationStatus;
   verification_url: string | null;
+  customer?: Record<string, unknown> | null;
   created: number;
   updated: number;
   pending: number | null;

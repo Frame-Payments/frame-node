@@ -2,6 +2,7 @@ export interface OnboardingSession {
   id: string;
   object: string;
   status: string;
+  user_id?: string | null;
   customer_id?: string | null;
   entry_point?: string | null;
   steps?: Record<string, unknown>;
@@ -9,6 +10,8 @@ export interface OnboardingSession {
   expires_at?: number | null;
   livemode: boolean;
   created_at: number;
+  updated_at?: number | null;
+  completed_at?: number | null;
   metadata?: Record<string, unknown> | null;
   components?: Record<string, unknown> | null;
 }

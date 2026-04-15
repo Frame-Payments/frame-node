@@ -1,21 +1,4 @@
-export enum DisputeReason { 
-  BANK_CANNOT_PROCESS = 'bank_cannot_process',
-  CHECK_RETURNED = 'check_returned',
-  CREDIT_NOT_PROCESSED = 'credit_not_processed',
-  CUSTOMER_INITIATED = 'customer_initiated',
-  DEBIT_NOT_AUTHORIZED = 'debit_not_authorized',
-  DUPLICATE = 'duplicate',
-  FRADULENT = 'fraudulent', 
-  GENERAL = 'general',
-  INCORRECT_ACCOUNT_DETAILS = 'incorrect_account_details',
-  INSUFFICIENT_FUNDS = 'insufficient_funds',
-  PRODUCT_NOT_RECEIVED = 'product_not_received',
-  PRODUCT_UNACCEPTABLE = 'product_unacceptable' ,
-  SUBSCRIPTION_CANCELED = 'subscription_canceled',
-  UNRECOGNIZED = 'unrecognized' 
-}
-
-export enum DisputeStatus { 
+export enum DisputeStatus {
   WARNING_NEEDS_RESPONSE = 'warning_needs_response',
   WARNING_UNDER_REVIEW ='warning_under_review',
   WARNING_CLOSED ='warning_closed',
@@ -45,13 +28,14 @@ export interface DisputeEvidence {
 export interface Dispute {
   id: string;
   object: string;
-  amount: number;
-  charge?: string | null;
-  currency: string;
-  evidence: DisputeEvidence;
-  charge_intent?: string | null;
-  reason: DisputeReason;
+  amount_cents: number;
+  amount_currency: string;
+  charge_intent?: Record<string, unknown> | null;
+  reason?: { code: string; description: string; category: string } | null;
   status: DisputeStatus;
+  display_status?: string;
+  acquirer_reference_number?: string | null;
+  authorization_code?: string | null;
   livemode: boolean;
   created: number;
   updated: number;

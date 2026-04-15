@@ -107,3 +107,45 @@ test('attach payment method to customer', async () => {
   const result = await paymentMethods.attach('pm_123', 'cus_abc');
   expect(result).toEqual(mockPaymentMethod);
 });
+
+test('detach payment method', async () => {
+  nock(baseUrl)
+    .post('/v1/payment_methods/pm_123/detach')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.detach('pm_123');
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('block payment method', async () => {
+  nock(baseUrl)
+    .post('/v1/payment_methods/pm_123/block')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.block('pm_123');
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('unblock payment method', async () => {
+  nock(baseUrl)
+    .post('/v1/payment_methods/pm_123/unblock')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.unblock('pm_123');
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('connect plaid payment method', async () => {
+  const params = {
+    account: 'acct_123',
+    public_token: 'public-sandbox-abc123',
+    account_id: 'plaid_acct_456',
+  };
+
+  nock(baseUrl)
+    .post('/v1/payment_methods/connect_plaid', params)
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.connectPlaid(params);
+  expect(result).toEqual(mockPaymentMethod);
+});

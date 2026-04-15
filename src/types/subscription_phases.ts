@@ -13,13 +13,13 @@ export interface SubscriptionPhase {
   ordinal: number;
   name?: string | null;
   pricing_type: PricingType;
-  duration_type: DurationType;
   amount?: number | null;
   currency: string;
   discount_percentage?: number | null;
-  period_count?: number | null; 
-  interval?: string | null;
-  interval_count?: number | null;
+  period_count?: number | null;
+  phaseable_type?: string | null;
+  phaseable_id?: string | null;
+  started_at?: number | null;
   livemode: boolean;
   created: number;
   updated: number;

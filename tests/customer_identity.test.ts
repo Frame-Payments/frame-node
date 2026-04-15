@@ -39,3 +39,18 @@ test('get identity verification by id', async () => {
   const result = await identityAPI.get('civ_123');
   expect(result).toEqual(mockVerification);
 });
+
+test('upload documents for identity verification', async () => {
+  const params = {
+    documents: [
+      { document_type: 'drivers_license', file_id: 'file_123' }
+    ]
+  };
+
+  nock(baseUrl)
+    .post('/v1/customer_identity_verifications/civ_123/upload_documents', params)
+    .reply(200, mockVerification);
+
+  const result = await identityAPI.uploadDocuments('civ_123', params);
+  expect(result).toEqual(mockVerification);
+});

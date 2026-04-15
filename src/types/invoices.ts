@@ -35,6 +35,8 @@ export interface Invoice {
   memo?: string;
   livemode: boolean;
   metadata?: Record<string, any>;
+  due_date?: string | null;
+  account?: Record<string, unknown> | null;
   line_items: InvoiceLineItem[];
   created: number;
   updated: number;
@@ -57,6 +59,9 @@ export interface DeleteInvoiceResponse {
 export interface CreateInvoiceParams {
   customer: string;
   collection_method: CollectionMethod;
+  account?: string;
+  payment_method?: string;
+  promotion_codes?: string[];
   net_terms?: number;
   number?: string;
   description?: string;

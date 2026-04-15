@@ -39,6 +39,7 @@ export interface PaymentMethod {
   id: string;
   object?: string;
   customer?: string | null;
+  account_id?: string | null;
   billing?: Address;
   type: string;
   livemode: Boolean;
@@ -77,4 +78,12 @@ export interface UpdatePaymentMethodParams {
   billing?: Address;
   exp_month?: number;
   exp_year?: number;
+}
+
+export interface ConnectPlaidParams {
+  account: string;
+  public_token: string;
+  account_id: string;
+  institution_name?: string;
+  subtype?: string;
 }

@@ -9,6 +9,9 @@ export interface Account {
   metadata?: Record<string, unknown>;
   profile?: Record<string, unknown> | null;
   capabilities?: unknown[];
+  payout_payment_method_id?: string | null;
+  terms_of_service?: { token?: string; accepted?: boolean; accepted_at?: string } | null;
+  steps?: Array<{ key: string; status: string; label: string; fields: unknown[]; currently_due: unknown[] }>;
   created: number;
   updated: number;
   livemode: boolean;
@@ -103,4 +106,8 @@ export interface SearchAccountsParams {
   external_id?: string;
   status?: string;
   type?: string;
+}
+
+export interface PlaidLinkTokenResponse {
+  link_token: string;
 }

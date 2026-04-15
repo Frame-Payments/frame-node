@@ -7,6 +7,7 @@ export interface OnboardingSession {
   return_url?: string | null;
   expires_at: number;
   livemode: boolean;
+  url?: string;
 }
 
 export interface CreateOnboardingSessionParams {

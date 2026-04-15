@@ -51,9 +51,3 @@ test('list refunds', async () => {
   expect(result).toEqual(response);
 });
 
-test('cancel refund', async () => {
-  nock(baseUrl).post('/v1/refunds/re_123/cancel').reply(200, mockRefund);
-
-  const result = await refunds.cancel('re_123');
-  expect(result).toEqual(mockRefund);
-});

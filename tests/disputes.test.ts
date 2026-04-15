@@ -1,7 +1,7 @@
 import nock from 'nock';
 import axios from 'axios';
 import { DisputesAPI } from '../src/api/disputes-api';
-import { DisputeReason, DisputeStatus, type Dispute, type UpdateDisputeParams } from '../src/types/disputes';
+import { DisputeStatus, type Dispute, type UpdateDisputeParams } from '../src/types/disputes';
 
 const baseURL = 'https://api.framepayments.com';
 const client = axios.create({ baseURL });
@@ -9,18 +9,18 @@ const disputes = new DisputesAPI(client);
 
 const mockDispute: Dispute = {
     id: 'dp_123',
-    amount: 5000,
-    currency: 'usd',
-    reason: DisputeReason.FRADULENT,
+    amount_cents: 5000,
+    amount_currency: 'usd',
+    reason: { code: 'fraudulent', description: 'Fraudulent transaction', category: 'fraud' },
     status: DisputeStatus.UNDER_REVIEW,
-    charge_intent: 'ci_123',
+    charge_intent: null,
+    display_status: 'Under Review',
+    acquirer_reference_number: null,
+    authorization_code: null,
     livemode: false,
     object: 'dispute',
     created: 1720200000,
     updated: 1720200000,
-    evidence: {
-        customer_name: 'customer'
-    }
 };
 
 test('get dispute', async () => {

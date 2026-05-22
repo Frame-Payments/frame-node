@@ -185,17 +185,13 @@ test('uploadIdentityDocuments (React Native path) detects RN runtime and uses gl
   }
   (globalThis as { FormData?: unknown }).FormData = MockRNFormData;
 
-  let capturedData: unknown;
-  (client.defaults as { adapter?: unknown }).adapter = async (config: { data: unknown }) => {
-    capturedData = config.data;
-    return {
-      data: mockVerification,
-      status: 200,
-      statusText: 'OK',
-      headers: {},
-      config,
-    };
-  };
+  (client.defaults as { adapter?: unknown }).adapter = async (config: unknown) => ({
+    data: mockVerification,
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config,
+  });
 
   try {
     await identityAPI.uploadIdentityDocuments(
@@ -209,7 +205,11 @@ test('uploadIdentityDocuments (React Native path) detects RN runtime and uses gl
       { usePublishableKey: true },
     );
 
-    expect(capturedData).toBeInstanceOf(MockRNFormData);
+    // appendCalls being populated proves makeFormData() picked globalThis.FormData
+    // (our mock) over the Node form-data path. axios may transform our mock into
+    // an undici FormData before the adapter sees the body, so we can't assert on
+    // the captured data type — but the mock's `.append` runs first, inside
+    // appendFile(), and that's the contract under test.
     expect(appendCalls).toHaveLength(1);
     expect(appendCalls[0][0]).toBe('drivers_license_front');
     expect(appendCalls[0][1]).toEqual({

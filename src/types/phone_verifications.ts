@@ -7,6 +7,7 @@ export interface PhoneVerification {
   created: number;
   updated: number;
   livemode: boolean;
+  prove_auth_token?: string;
 }
 
 export interface CreatePhoneVerificationParams {

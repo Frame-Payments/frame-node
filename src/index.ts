@@ -33,9 +33,47 @@ import { ThreeDSAPI } from './api/three_ds-api';
 import { ProductPhasesAPI } from './api/product_phases-api';
 import { TermsOfServiceAPI } from './api/terms_of_service-api';
 import { OnboardingAPI } from './api/onboarding-api';
+import { ConfigurationAPI } from './api/configuration-api';
+import { DeviceAttestationAPI } from './api/device_attestation-api';
+import { WalletAPI } from './api/wallet-api';
+import { GeoComplianceAPI } from './api/geo_compliance-api';
 
-export { paginate } from './utils/paginator'
-export { FrameAPIError } from './errors/frame_api_error'
+export { paginate } from './utils/paginator';
+export { FrameAPIError } from './errors/frame_api_error';
+export { withPublishableKey, maybePublishableKey } from './client';
+export type { ClientConfig, RequestOptions } from './client';
+
+export type {
+  EvervaultConfiguration,
+  SiftConfiguration,
+} from './types/configuration';
+export type {
+  ChallengeResponse,
+  AttestRequest,
+  AttestResponse,
+} from './types/device_attestation';
+export type { GooglePayConfiguration } from './types/wallet';
+export type {
+  ApplePayPaymentDataHeader,
+  ApplePayPaymentData,
+  ApplePayPaymentMethodInfo,
+  ApplePayToken,
+  ApplePayBillingContact,
+  ApplePayTokenDetails,
+  ApplePayDetails,
+  ApplePayWalletEnvelope,
+  CreateApplePayPaymentMethodParams,
+  GooglePayPaymentMethodData,
+  GooglePayWalletData,
+  GooglePayWalletEnvelope,
+  CreateGooglePayPaymentMethodParams,
+} from './types/payment_methods';
+export type {
+  IdentityDocumentUpload,
+  ReactNativeFileDescriptor,
+  NodeFilePayload,
+} from './types/customer_identity';
+export type { GeoComplianceStatus } from './types/geo_compliance';
 
 export class FrameSDK {
   public accounts: AccountsAPI;
@@ -72,6 +110,10 @@ export class FrameSDK {
   public productPhases: ProductPhasesAPI;
   public termsOfService: TermsOfServiceAPI;
   public onboarding: OnboardingAPI;
+  public configuration: ConfigurationAPI;
+  public deviceAttestation: DeviceAttestationAPI;
+  public wallet: WalletAPI;
+  public geoCompliance: GeoComplianceAPI;
 
   constructor(config: ClientConfig) {
     const client = createApiClient(config);
@@ -109,5 +151,9 @@ export class FrameSDK {
     this.productPhases = new ProductPhasesAPI(client);
     this.termsOfService = new TermsOfServiceAPI(client);
     this.onboarding = new OnboardingAPI(client);
+    this.configuration = new ConfigurationAPI(client);
+    this.deviceAttestation = new DeviceAttestationAPI(client);
+    this.wallet = new WalletAPI(client);
+    this.geoCompliance = new GeoComplianceAPI(client);
   }
 }

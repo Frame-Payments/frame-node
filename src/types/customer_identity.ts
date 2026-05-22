@@ -1,6 +1,6 @@
 import type { Address } from "./customers";
 
-export enum VerificationStatus { 
+export enum VerificationStatus {
   INCOMPLETE = 'incomplete',
   PENDING = 'pending',
   VERIFIED = 'verified',
@@ -23,10 +23,10 @@ export interface CustomerIdentityVerification {
 export interface CreateCustomerIdentityVerificationParams {
   first_name: string;
   last_name: string;
-  date_of_birth: string; // YYYY-MM-DD
+  date_of_birth: string;
   email: string;
   phone_number: string;
-  ssn: string; // XXX-XX-XXXX or XXXXXXXXXX
+  ssn: string;
   address: Address;
 }
 
@@ -36,4 +36,23 @@ export interface UploadDocumentsParams {
     file_id?: string;
     metadata?: Record<string, unknown>;
   }>;
+}
+
+export interface ReactNativeFileDescriptor {
+  uri: string;
+  type?: string;
+  name?: string;
+}
+
+export type NodeFilePayload =
+  | Buffer
+  | NodeJS.ReadableStream
+  | string;
+
+export interface IdentityDocumentUpload {
+  document_type: string;
+  field_name?: string;
+  file: NodeFilePayload | ReactNativeFileDescriptor;
+  content_type?: string;
+  file_name?: string;
 }

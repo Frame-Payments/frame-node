@@ -70,7 +70,7 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async iterateAllAccounts(per_page = 20) {
+  iterateAllAccounts(per_page = 20): AsyncGenerator<Account> {
     return paginate<Account>(async (page: number) => {
       const res = await this.client.get('/v1/accounts', {
         params: { per_page, page }

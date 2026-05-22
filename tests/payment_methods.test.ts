@@ -149,3 +149,91 @@ test('connect plaid payment method', async () => {
   const result = await paymentMethods.connectPlaid(params);
   expect(result).toEqual(mockPaymentMethod);
 });
+
+test('connectPlaidBankAccount alias hits same endpoint', async () => {
+  const params = {
+    account: 'acct_123',
+    public_token: 'public-sandbox-abc123',
+    account_id: 'plaid_acct_456',
+  };
+
+  nock(baseUrl).post('/v1/payment_methods/connect_plaid', params).reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.connectPlaidBankAccount(params);
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('createApplePayPaymentMethod → POST /v1/payment_methods with wallet envelope', async () => {
+  const params = {
+    type: 'card' as const,
+    customer: 'cus_abc',
+    _wallet: {
+      type: 'apple_pay' as const,
+      apple_pay: {
+        requestId: 'req_1',
+        methodName: 'https://apple.com/apple-pay' as const,
+        details: {
+          token: {
+            paymentData: {
+              version: 'EC_v1',
+              data: 'opaque',
+              signature: 'sig',
+              header: { ephemeralPublicKey: 'epk', publicKeyHash: 'pkh', transactionId: 'txn_1' },
+            },
+            paymentMethod: { displayName: 'Visa', network: 'Visa', type: 'credit' },
+            transactionIdentifier: 'txn_1',
+          },
+        },
+      },
+    },
+  };
+
+  nock(baseUrl)
+    .post('/v1/payment_methods', (body) => body._wallet?.type === 'apple_pay')
+    .matchHeader('X-Frame-Use-Publishable-Key', '1')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.createApplePayPaymentMethod(params);
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('createGooglePayPaymentMethod → POST /v1/payment_methods with wallet envelope', async () => {
+  const params = {
+    type: 'card' as const,
+    account: 'acct_123',
+    _wallet: {
+      type: 'google_pay' as const,
+      google_pay: {
+        apiVersion: 2,
+        apiVersionMinor: 0,
+        email: null,
+        paymentMethodData: { tokenizationData: { token: '{}' } } as Record<string, unknown>,
+      },
+    },
+  };
+
+  nock(baseUrl)
+    .post('/v1/payment_methods', (body) => body._wallet?.type === 'google_pay')
+    .matchHeader('X-Frame-Use-Publishable-Key', '1')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.createGooglePayPaymentMethod(params);
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('createCard honors usePublishableKey opt-in', async () => {
+  const input: CreateCardPaymentMethodParams = {
+    type: PaymentMethodType.CARD,
+    card_number: '4242424242424242',
+    exp_month: '12',
+    exp_year: '30',
+    cvc: '123',
+  };
+
+  nock(baseUrl)
+    .post('/v1/payment_methods')
+    .matchHeader('X-Frame-Use-Publishable-Key', '1')
+    .reply(200, mockPaymentMethod);
+
+  await paymentMethods.createCard(input, { usePublishableKey: true });
+});

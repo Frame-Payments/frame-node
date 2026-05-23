@@ -92,9 +92,18 @@ test('confirm charge intent', async () => {
   expect(result).toEqual(mockChargeIntent);
 });
 
-test('capture charge intent', async () => {
-  nock(baseUrl).post('/v1/charge_intents/ci_123/capture').reply(200, mockChargeIntent);
+test('capture charge intent — full amount (no body)', async () => {
+  nock(baseUrl).post('/v1/charge_intents/ci_123/capture', '').reply(200, mockChargeIntent);
 
   const result = await chargeIntents.capture('ci_123');
+  expect(result).toEqual(mockChargeIntent);
+});
+
+test('capture charge intent — partial amount via amount_captured_cents', async () => {
+  nock(baseUrl)
+    .post('/v1/charge_intents/ci_123/capture', { amount_captured_cents: 500 })
+    .reply(200, mockChargeIntent);
+
+  const result = await chargeIntents.capture('ci_123', { amount_captured_cents: 500 });
   expect(result).toEqual(mockChargeIntent);
 });

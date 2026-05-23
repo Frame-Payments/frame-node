@@ -89,12 +89,16 @@ test('search accounts', async () => {
   expect(result).toEqual(listResponse);
 });
 
-test('get account payment methods', async () => {
-  const mockPaymentMethods = [{ id: 'pm_123', object: 'payment_method', type: 'card', livemode: false, created: 1234567890 }];
-  nock(baseUrl).get('/v1/accounts/acct_123/payment_methods').reply(200, mockPaymentMethods);
+test('get account payment methods — returns the iOS-shape envelope', async () => {
+  const mockEnvelope = {
+    meta: { page: 1, per_page: 20 },
+    data: [{ id: 'pm_123', object: 'payment_method', type: 'card', livemode: false, created: 1234567890 }],
+  };
+  nock(baseUrl).get('/v1/accounts/acct_123/payment_methods').reply(200, mockEnvelope);
 
   const result = await accounts.getPaymentMethods('acct_123');
-  expect(result).toEqual(mockPaymentMethods);
+  expect(result).toEqual(mockEnvelope);
+  expect(result.data?.[0]?.id).toBe('pm_123');
 });
 
 test('restrict account', async () => {

@@ -9,7 +9,7 @@ import type {
   PlaidLinkTokenResponse
 } from '../types/accounts';
 import type { GeoComplianceStatus } from '../types/geo_compliance';
-import type { PaymentMethod } from '../types/payment_methods';
+import type { PaymentMethodListResponse } from '../types/payment_methods';
 import { paginate } from '../utils/paginator';
 import { maybePublishableKey, type RequestOptions } from '../client';
 
@@ -46,7 +46,11 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async getPaymentMethods(id: string, opts?: RequestOptions): Promise<PaymentMethod[]> {
+  // Returns the `{ meta?, data? }` envelope produced by
+  // `GET /v1/accounts/{id}/payment_methods`. Matches Frame-iOS
+  // `PaymentMethodResponses.ListPaymentMethodsResponse`. Callers that just
+  // need the array should read `result.data ?? []`.
+  async getPaymentMethods(id: string, opts?: RequestOptions): Promise<PaymentMethodListResponse> {
     const resp = await this.client.get(`/v1/accounts/${id}/payment_methods`, maybePublishableKey(opts));
     return resp.data;
   }

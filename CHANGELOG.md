@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.5
+
+Parity pass against Frame iOS 3.0.0 as the source-of-truth schema:
+
+- **`ChargeIntentsAPI.capture(id, params?)`** now accepts an optional `{ amount_captured_cents }` body. Matches Frame-iOS `ChargeIntentsRequests.CaptureChargeIntentRequest`, enabling partial captures. Calling `capture(id)` with no params still captures the full authorized amount.
+- **`AccountsAPI.getPaymentMethods(id)`** now returns the `{ meta?, data? }` envelope (`PaymentMethodListResponse`), matching Frame-iOS `PaymentMethodResponses.ListPaymentMethodsResponse`. **Breaking change** — callers that previously did `for (const pm of result)` should now do `for (const pm of result.data ?? [])`.
+- **`Account.terms_of_service`** is now typed as the shared `TermsOfService` interface — `{ token?, ip_address?, accepted_at? }`, matching Frame-iOS `FrameObjects.AccountTermsOfService`. The previous shape's `accepted` boolean is dropped (not in iOS); `user_agent` is dropped from `TermsOfService` (also not in iOS); `token` is added.
+- **`Account.payout_payment_method_id`** field removed — iOS does not model this field, so it was likely a Node-side hallucination.
+- **`Account.metadata`** tightened from `Record<string, unknown>` to `Record<string, string>` to match Frame-iOS `[String: String]?`.
+- **`Account.steps[].fields` / `.currently_due`** tightened from `unknown[]` to `string[]` to match Frame-iOS `[String]`.
+
 ## 2.1.4
 
 - `ClientConfig` now accepts an optional `defaultHeaders: Record<string, string>` map. Headers in this map are attached to every outgoing request *before* the Authorization header is set, so they cannot override key routing. Per-call `headers` continue to take precedence. Used by `framepayments-react-native` to forward the device IP via `ip_address` on every call (matching the native Frame iOS / Frame Android behavior).

@@ -6,12 +6,11 @@ export interface Account {
   type: string;
   status: string;
   external_id?: string | null;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, string>;
   profile?: Record<string, unknown> | null;
   capabilities?: unknown[];
-  payout_payment_method_id?: string | null;
-  terms_of_service?: { token?: string; accepted?: boolean; accepted_at?: string } | null;
-  steps?: Array<{ key: string; status: string; label: string; fields: unknown[]; currently_due: unknown[] }>;
+  terms_of_service?: TermsOfService | null;
+  steps?: Array<{ key: string; status: string; label: string; fields: string[]; currently_due: string[] }>;
   created: number;
   updated: number;
   livemode: boolean;
@@ -32,9 +31,9 @@ export interface ListAccountsParams {
 }
 
 export interface TermsOfService {
-  accepted_at?: string;
+  token?: string;
   ip_address?: string;
-  user_agent?: string;
+  accepted_at?: string;
 }
 
 export interface AccountProfileIndividualName {

@@ -104,6 +104,10 @@ export interface UpdateChargeIntentParams {
   metadata?: Record<string, any>;
 }
 
+export interface CaptureChargeIntentParams {
+  amount_captured_cents: number;
+}
+
 export interface CreateChargeIntentParams {
   amount: number;
   currency: string;

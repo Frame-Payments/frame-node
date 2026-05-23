@@ -2,6 +2,7 @@ import type { AxiosInstance } from 'axios';
 import type {
     ChargeIntent,
     ChargeIntentListResponse,
+    CaptureChargeIntentParams,
     CreateChargeIntentParams,
     UpdateChargeIntentParams
 } from '../types/charge_intents';
@@ -50,8 +51,8 @@ export class ChargeIntentsAPI {
     return resp.data;
   }
 
-  async capture(id: string): Promise<ChargeIntent> {
-    const resp = await this.client.post(`/v1/charge_intents/${id}/capture`);
+  async capture(id: string, params?: CaptureChargeIntentParams): Promise<ChargeIntent> {
+    const resp = await this.client.post(`/v1/charge_intents/${id}/capture`, params);
     return resp.data;
   }
 

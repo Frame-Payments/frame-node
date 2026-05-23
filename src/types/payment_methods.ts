@@ -51,7 +51,7 @@ export interface PaymentMethod {
 }
 
 export interface PaymentMethodListResponse {
-  data: PaymentMethod[];
+  data?: PaymentMethod[];
   meta?: { page?: number; per_page?: number; has_more?: boolean };
 }
 

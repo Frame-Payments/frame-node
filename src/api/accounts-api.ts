@@ -11,6 +11,7 @@ import type {
 import type { GeoComplianceStatus } from '../types/geo_compliance';
 import type { PaymentMethod } from '../types/payment_methods';
 import { paginate } from '../utils/paginator';
+import { maybePublishableKey, type RequestOptions } from '../client';
 
 export class AccountsAPI {
   constructor(private client: AxiosInstance) {}
@@ -20,18 +21,18 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async create(params: CreateAccountParams): Promise<Account> {
-    const resp = await this.client.post('/v1/accounts', params);
+  async create(params: CreateAccountParams, opts?: RequestOptions): Promise<Account> {
+    const resp = await this.client.post('/v1/accounts', params, maybePublishableKey(opts));
     return resp.data;
   }
 
-  async get(id: string): Promise<Account> {
-    const resp = await this.client.get(`/v1/accounts/${id}`);
+  async get(id: string, opts?: RequestOptions): Promise<Account> {
+    const resp = await this.client.get(`/v1/accounts/${id}`, maybePublishableKey(opts));
     return resp.data;
   }
 
-  async update(id: string, params: UpdateAccountParams): Promise<Account> {
-    const resp = await this.client.patch(`/v1/accounts/${id}`, params);
+  async update(id: string, params: UpdateAccountParams, opts?: RequestOptions): Promise<Account> {
+    const resp = await this.client.patch(`/v1/accounts/${id}`, params, maybePublishableKey(opts));
     return resp.data;
   }
 
@@ -45,8 +46,8 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async getPaymentMethods(id: string): Promise<PaymentMethod[]> {
-    const resp = await this.client.get(`/v1/accounts/${id}/payment_methods`);
+  async getPaymentMethods(id: string, opts?: RequestOptions): Promise<PaymentMethod[]> {
+    const resp = await this.client.get(`/v1/accounts/${id}/payment_methods`, maybePublishableKey(opts));
     return resp.data;
   }
 
@@ -60,8 +61,8 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async getPlaidLinkToken(id: string): Promise<PlaidLinkTokenResponse> {
-    const resp = await this.client.get(`/v1/accounts/${id}/plaid_link_token`);
+  async getPlaidLinkToken(id: string, opts?: RequestOptions): Promise<PlaidLinkTokenResponse> {
+    const resp = await this.client.get(`/v1/accounts/${id}/plaid_link_token`, maybePublishableKey(opts));
     return resp.data;
   }
 

@@ -166,6 +166,68 @@ describe('response interceptor — error paths', () => {
   });
 });
 
+describe('defaultHeaders — per-request attachment', () => {
+  test('attaches defaultHeaders to every outgoing request', async () => {
+    const client = createApiClient({
+      apiKey: 'sk_test',
+      defaultHeaders: { ip_address: '203.0.113.42' },
+    });
+
+    nock(baseUrl, {
+      reqheaders: { ip_address: '203.0.113.42', authorization: 'Bearer sk_test' },
+    })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    const resp = await client.get('/v1/customers');
+    expect(resp.status).toBe(200);
+  });
+
+  test('defaultHeaders cannot override Authorization', async () => {
+    const client = createApiClient({
+      apiKey: 'sk_real',
+      defaultHeaders: { Authorization: 'Bearer attacker' },
+    });
+
+    nock(baseUrl, {
+      reqheaders: { authorization: 'Bearer sk_real' },
+    })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    await client.get('/v1/customers');
+  });
+
+  test('caller-supplied per-request header beats defaultHeaders', async () => {
+    const client = createApiClient({
+      apiKey: 'sk_test',
+      defaultHeaders: { 'X-Trace-Id': 'default' },
+    });
+
+    nock(baseUrl, {
+      reqheaders: { 'x-trace-id': 'override' },
+    })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    await client.get('/v1/customers', { headers: { 'X-Trace-Id': 'override' } });
+  });
+
+  test('null/undefined default values are skipped', async () => {
+    const client = createApiClient({
+      apiKey: 'sk_test',
+      defaultHeaders: { ip_address: undefined as unknown as string },
+    });
+
+    nock(baseUrl)
+      .matchHeader('ip_address', (val: string | undefined) => val === undefined)
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    await client.get('/v1/customers');
+  });
+});
+
 describe('callers cannot bypass key routing', () => {
   test('manually-set Authorization header is overwritten by the interceptor', async () => {
     const client = createApiClient({ apiKey: 'sk_real', publishableKey: 'pk_real' });

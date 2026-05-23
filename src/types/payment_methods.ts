@@ -57,6 +57,7 @@ export interface PaymentMethodListResponse {
 
 export interface CreateCardPaymentMethodParams {
   customer?: string;
+  account?: string;
   billing?: Address;
   type: PaymentMethodType.CARD;
   card_number: string;
@@ -67,6 +68,7 @@ export interface CreateCardPaymentMethodParams {
 
 export interface CreateACHPaymentMethodParams {
   customer?: string;
+  account?: string;
   billing?: Address;
   type: PaymentMethodType.ACH;
   account_type: PaymentAccountType;

@@ -1,6 +1,7 @@
 import type { AxiosInstance } from 'axios';
 import type { Transfer, TransferListResponse, CreateTransferParams } from '../types/transfers';
 import { paginate } from '../utils/paginator';
+import { maybePublishableKey, type RequestOptions } from '../client';
 
 export class TransfersAPI {
   constructor(private client: AxiosInstance) {}
@@ -15,8 +16,8 @@ export class TransfersAPI {
     return resp.data;
   }
 
-  async create(params: CreateTransferParams): Promise<Transfer> {
-    const resp = await this.client.post('/v1/transfers', params);
+  async create(params: CreateTransferParams, opts?: RequestOptions): Promise<Transfer> {
+    const resp = await this.client.post('/v1/transfers', params, maybePublishableKey(opts));
     return resp.data;
   }
 

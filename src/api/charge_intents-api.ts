@@ -6,12 +6,13 @@ import type {
     UpdateChargeIntentParams
 } from '../types/charge_intents';
 import { paginate } from '../utils/paginator';
+import { maybePublishableKey, type RequestOptions } from '../client';
 
 export class ChargeIntentsAPI {
   constructor(private client: AxiosInstance) {}
 
-  async create(params: CreateChargeIntentParams): Promise<ChargeIntent> {
-    const resp = await this.client.post('/v1/charge_intents', params);
+  async create(params: CreateChargeIntentParams, opts?: RequestOptions): Promise<ChargeIntent> {
+    const resp = await this.client.post('/v1/charge_intents', params, maybePublishableKey(opts));
     return resp.data;
   }
 
@@ -44,8 +45,8 @@ export class ChargeIntentsAPI {
     return resp.data;
   }
 
-  async confirm(id: string): Promise<ChargeIntent> {
-    const resp = await this.client.post(`/v1/charge_intents/${id}/confirm`);
+  async confirm(id: string, opts?: RequestOptions): Promise<ChargeIntent> {
+    const resp = await this.client.post(`/v1/charge_intents/${id}/confirm`, undefined, maybePublishableKey(opts));
     return resp.data;
   }
 

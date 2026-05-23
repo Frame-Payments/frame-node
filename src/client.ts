@@ -5,6 +5,12 @@ import { FrameAPIError } from './errors/frame_api_error';
 export interface ClientConfig {
   apiKey?: string;
   publishableKey?: string;
+  // Headers to attach to every request from this client. Used by the React
+  // Native SDK to forward the device IP via `ip_address` on each call (matches
+  // the native Frame iOS / Frame Android behavior). The request interceptor
+  // applies these *before* setting Authorization, so callers cannot use this
+  // hook to override key routing.
+  defaultHeaders?: Record<string, string>;
 }
 
 export interface RequestOptions {
@@ -41,7 +47,7 @@ function safeRawFromAxiosError(err: any): unknown {
 }
 
 export const createApiClient = (config: ClientConfig): AxiosInstance => {
-  const { apiKey, publishableKey } = config;
+  const { apiKey, publishableKey, defaultHeaders } = config;
 
   if (!apiKey && !publishableKey) {
     throw new Error(
@@ -67,6 +73,18 @@ export const createApiClient = (config: ClientConfig): AxiosInstance => {
       headers.delete(PUBLISHABLE_FLAG_KEY);
     } else if (headers && PUBLISHABLE_FLAG_KEY in (headers as Record<string, unknown>)) {
       delete (headers as Record<string, unknown>)[PUBLISHABLE_FLAG_KEY];
+    }
+
+    if (defaultHeaders) {
+      for (const [name, value] of Object.entries(defaultHeaders)) {
+        if (value == null) continue;
+        if (headers instanceof AxiosHeaders) {
+          if (!headers.has(name)) headers.set(name, value);
+        } else if (headers) {
+          const h = headers as Record<string, string>;
+          if (h[name] === undefined) h[name] = value;
+        }
+      }
     }
 
     const keyToUse = wantsPublishable ? publishableKey : apiKey;

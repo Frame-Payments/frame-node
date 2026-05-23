@@ -114,7 +114,7 @@ export interface CreateChargeIntentParams {
   confirm?: boolean;
   receipt_email?: string;
   metadata?: Record<string, any>;
-  authorization_mode: AuthorizationMode;
+  authorization_mode?: AuthorizationMode;
   customer_data?: CustomerDataParams;
   payment_method_data?: PaymentMethodDataParams;
   sonar_session_id?: string;

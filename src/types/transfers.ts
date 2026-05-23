@@ -4,10 +4,12 @@ export interface Transfer {
   id: string;
   object: string;
   amount: number;
-  currency: string;
+  currency?: string;
   status: string;
-  source_account_id?: string;
-  destination_account_id?: string;
+  account_id?: string;
+  source_payment_method_id?: string;
+  destination_payment_method_id?: string;
+  description?: string;
   metadata?: Record<string, unknown>;
   created: number;
   updated: number;
@@ -21,8 +23,10 @@ export interface TransferListResponse {
 
 export interface CreateTransferParams {
   amount: number;
-  currency: string;
-  source_account_id?: string;
-  destination_account_id?: string;
+  account_id: string;
+  currency?: string;
+  source_payment_method_id?: string;
+  destination_payment_method_id?: string;
+  description?: string;
   metadata?: Record<string, unknown>;
 }

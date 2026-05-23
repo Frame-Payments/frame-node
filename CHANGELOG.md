@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.1.4
+
+- `ClientConfig` now accepts an optional `defaultHeaders: Record<string, string>` map. Headers in this map are attached to every outgoing request *before* the Authorization header is set, so they cannot override key routing. Per-call `headers` continue to take precedence. Used by `framepayments-react-native` to forward the device IP via `ip_address` on every call (matching the native Frame iOS / Frame Android behavior).
+
+## 2.1.3
+
+- `CreateACHPaymentMethodParams` now accepts an optional `account` field alongside `customer`. Matches the existing `CreateCardPaymentMethodParams` shape and lets mobile SDKs attach ACH methods to an account during onboarding without a customer association.
+
+## 2.1.2
+
+- `AccountsAPI.create`, `AccountsAPI.get`, `AccountsAPI.update`, and `AccountsAPI.getPlaidLinkToken` now accept an optional `RequestOptions` argument so mobile callers can route via `{ usePublishableKey: true }`. Matches the native iOS / Android SDKs which call these endpoints with the publishable key during onboarding.
+
+## 2.1.1
+
+- `TransfersAPI.create`, `ChargeIntentsAPI.create`, and `ChargeIntentsAPI.confirm` now accept an optional `RequestOptions` second argument so mobile callers can route via `{ usePublishableKey: true }`. Matches the native iOS / Android SDKs which call these endpoints with the publishable key.
+
 ## 2.1.0
 
 This release lands the SDK surface that `framepayments-react-native@4.0.0` needs to ship its mobile UI without bundling the native Frame iOS / Android SDKs. Server callers that pass `{ apiKey }` today continue to work unchanged.

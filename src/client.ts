@@ -5,6 +5,10 @@ import { FrameAPIError } from './errors/frame_api_error';
 export interface ClientConfig {
   apiKey?: string;
   publishableKey?: string;
+  // Override the API base URL. Defaults to https://api.framepayments.com.
+  // Useful for pointing local development at a self-hosted Frame OS instance
+  // (e.g. http://api.framepayments.test via puma-dev).
+  baseURL?: string;
   // Headers to attach to every request from this client. Used by the React
   // Native SDK to forward the device IP via `ip_address` on each call (matches
   // the native Frame iOS / Frame Android behavior). The request interceptor
@@ -56,7 +60,7 @@ export const createApiClient = (config: ClientConfig): AxiosInstance => {
     );
   }
 
-  const baseURL = 'https://api.framepayments.com';
+  const baseURL = config.baseURL ?? 'https://api.framepayments.com';
 
   const client = axios.create({
     baseURL,

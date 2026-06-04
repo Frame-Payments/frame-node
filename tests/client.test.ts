@@ -3,6 +3,7 @@
 import nock from 'nock';
 import { createApiClient, withPublishableKey, maybePublishableKey } from '../src/client';
 import { FrameAPIError } from '../src/errors/frame_api_error';
+import { FrameSDK } from '../src';
 
 const baseUrl = 'https://api.framepayments.com';
 
@@ -225,6 +226,41 @@ describe('defaultHeaders — per-request attachment', () => {
       .reply(200, { data: [] });
 
     await client.get('/v1/customers');
+  });
+});
+
+describe('baseURL override', () => {
+  test('defaults to the production base URL when none is supplied', async () => {
+    const client = createApiClient({ apiKey: 'sk_test' });
+
+    nock('https://api.framepayments.com').get('/v1/customers').reply(200, { data: [] });
+
+    const resp = await client.get('/v1/customers');
+    expect(resp.status).toBe(200);
+  });
+
+  test('routes requests to a custom baseURL when supplied', async () => {
+    const customBase = 'http://api.framepayments.test';
+    const client = createApiClient({ apiKey: 'sk_test', baseURL: customBase });
+
+    nock(customBase, {
+      reqheaders: { authorization: 'Bearer sk_test' },
+    })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    const resp = await client.get('/v1/customers');
+    expect(resp.status).toBe(200);
+  });
+
+  test('FrameSDK forwards baseURL to the underlying client', async () => {
+    const customBase = 'http://api.framepayments.test';
+    const frame = new FrameSDK({ apiKey: 'sk_test', baseURL: customBase });
+
+    nock(customBase).get('/v1/customers/cust_123').reply(200, { id: 'cust_123' });
+
+    const customer = await frame.customers.get('cust_123');
+    expect(customer.id).toBe('cust_123');
   });
 });
 

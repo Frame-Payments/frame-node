@@ -37,6 +37,19 @@ const subscription = await frame.subscriptions.create({
 console.log(subscription.status); // e.g. active
 ```
 
+### Local development against a self-hosted Frame OS
+
+Frame engineers can point the SDK at a local Frame OS instance (e.g. served by puma-dev as `http://api.framepayments.test`) by passing `baseURL`:
+
+```ts
+const frame = new FrameSDK({
+  apiKey: 'sk_...',
+  baseURL: 'http://api.framepayments.test',
+});
+```
+
+`baseURL` is optional. When omitted, the SDK defaults to `https://api.framepayments.com`, so existing integrations are unaffected.
+
 ## 📱 Client-side (mobile) usage
 
 For mobile clients running on Frame's React Native SDK (`framepayments-react-native@4+`), initialize with the **publishable** key only and call publishable-keyed endpoints:

@@ -20,6 +20,9 @@
     "dist",
     "README.md"
   ],
+  "engines": {
+    "node": ">=20"
+  },
   "bugs": {
     "url": "https://github.com/Frame-Payments/frame-node/issues"
   },

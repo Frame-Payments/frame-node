@@ -1,12 +1,17 @@
 import type { PaginationMeta } from './customers';
+import type { TransferFeePlan } from './transfer_fee_plans';
+
+type TransferBillingStatus = 'pending' | 'active' | 'inactive';
+type TransferBillingCategory = 'charge' | 'payout';
 
 export interface TransferBillingAgreement {
   id: string;
+  status: TransferBillingStatus;
+  category: TransferBillingCategory;
+  effective_date: string;
   object: string;
-  status: string;
-  account_id?: string;
-  transfer_fee_plan_id?: string;
-  metadata?: Record<string, unknown>;
+  account_id: string | null;
+  fee_plan: TransferFeePlan | null;
   created: number;
   updated: number;
   livemode: boolean;
@@ -19,11 +24,12 @@ export interface TransferBillingAgreementListResponse {
 
 export interface CreateTransferBillingAgreementParams {
   account_id?: string;
-  transfer_fee_plan_id?: string;
-  metadata?: Record<string, unknown>;
+  status?: TransferBillingStatus;
+  transfer_fee_plan_id: string;
+  effective_date: string;
+  category: TransferBillingCategory;
 }
 
 export interface UpdateTransferBillingAgreementParams {
-  status?: string;
-  metadata?: Record<string, unknown>;
+  status: TransferBillingStatus;
 }

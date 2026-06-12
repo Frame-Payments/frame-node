@@ -1,7 +1,10 @@
 import type { PaginationMeta } from './customers';
 
 type FeeApplicationMode = 'deduct' | 'add_on' | 'absorb';
+
 type FeeType = 'flat_plus_percentage' | 'flat' | 'percentage';
+
+type BillableEventType = 'transfer.charge.card' | 'transfer.charge.ach' | 'transfer.payout.ach' | 'transfer.payout.push_to_card';
 
 interface TransferFeePlanItem {
   id: string;
@@ -17,10 +20,10 @@ interface TransferFeePlanItem {
 
 interface CreateTransferFeePlanItemParams {
   fee_type: FeeType;
-  amount_fixed_cents: number;
-  amount_fixed_currency: string;
-  amount_percentage: number;
-  billable_event_type: string;
+  amount_fixed_cents?: number;
+  amount_fixed_currency?: string;
+  amount_percentage?: number;
+  billable_event_type?: BillableEventType;
 }
 
 export interface TransferFeePlan {
@@ -41,6 +44,6 @@ export interface TransferFeePlanListResponse {
 
 export interface CreateTransferFeePlanParams {
   name: string;
-  fee_application_mode: FeeApplicationMode;
-  items: CreateTransferFeePlanItemParams[];
+  fee_application_mode?: FeeApplicationMode;
+  items?: CreateTransferFeePlanItemParams[];
 }

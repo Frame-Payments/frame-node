@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "ignorePatterns": [
+    ".github/**/*",
+    "*.md",
+    "*.json"
+  ]
+}

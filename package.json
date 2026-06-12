@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsdown",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
     "@types/node": "^24.3.0",
     "jest": "^30.0.5",
     "nock": "^14.0.10",
+    "oxfmt": "^0.54.0",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "tsdown": "^0.22.2",

@@ -36,6 +36,25 @@ test('create subscription', async () => {
   expect(result).toEqual(mockSubscription);
 });
 
+test('create account-based subscription', async () => {
+  const input = {
+    account: 'acct_abc',
+    product: 'prod_123',
+    currency: 'usd',
+    default_payment_method: 'pm_123',
+  };
+  const accountSubscription = {
+    ...mockSubscription,
+    customer: undefined,
+    account: 'acct_abc',
+  };
+
+  nock(baseUrl).post('/v1/subscriptions', input).reply(200, accountSubscription);
+
+  const result = await subscriptions.create(input);
+  expect(result).toEqual(accountSubscription);
+});
+
 test('get subscription', async () => {
   nock(baseUrl).get('/v1/subscriptions/sub_123').reply(200, mockSubscription);
 

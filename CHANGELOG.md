@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.1
+
+- `CreateSubscriptionParams.customer` is now optional, with `account` already optional, so subscriptions can be created against an account instead of a customer. The `/v1/subscriptions` API has accepted `account` for a while and enforces exactly-one-of (customer or account); the SDK type previously marked `customer` as required, blocking account-based subscriptions at compile time. Mirrors `CreateChargeIntentParams`.
+
 ## 2.1.5
 
 Parity pass against Frame iOS 3.0.0 as the source-of-truth schema:

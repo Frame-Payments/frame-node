@@ -62,11 +62,14 @@ export interface SubscriptionListResponse {
 }
 
 export interface CreateSubscriptionParams {
-  customer: string;
+  // Provide exactly one owner: either `customer` or `account` (not both).
+  // The API enforces this; both are optional here to support account-based
+  // subscriptions, mirroring CreateChargeIntentParams.
+  customer?: string;
+  account?: string;
   product: string;
   currency: string;
   default_payment_method?: string;
-  account?: string;
   description?: string;
   proration_behavior?: string;
   metadata?: Record<string, any>;

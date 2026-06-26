@@ -8,6 +8,8 @@ Publishable-key-only mobile clients (starting with `framepayments-react-native`,
 - **Per-object client secrets.** `RequestOptions` gains `authToken?: string`, a per-request bearer override for sending an object `client_secret` (e.g. `ci_..._secret_...`) on charge-intent confirm/show and 3-D Secure. `chargeIntents.get` now accepts options; `threeDS.create/get/resend` now accept options.
 - **Auth precedence** in the request interceptor is now exactly: per-request `authToken` > active onboarding-session token > publishable/secret key. The interceptor no longer unconditionally overwrites `Authorization` with the key-derived bearer — higher-precedence overrides win.
 - **`usePublishableKey` coverage** added to the onboarding-flow methods: `threeDS.create/get/resend`, `termsOfService.createToken`, `capabilities.list/request`, and `onboardingSessions.create/getByAccount`.
+- **Auth routing is carried on the axios request config, not on HTTP headers.** The per-request `authToken` (client_secret) and publishable-key flag travel as internal config fields that never serialize onto the wire, so the secret cannot leak as a header and a caller-supplied header cannot spoof key routing.
+- **An explicitly empty `authToken` is rejected** with `code: 'invalid_auth_token'` instead of silently falling through to the session/publishable/secret key.
 
 No breaking changes — all new parameters are optional and default to the prior behavior.
 

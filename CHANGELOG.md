@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.4.0
+
+Publishable-key-only mobile clients (starting with `framepayments-react-native`, FRA-4315) can now authenticate **onboarding sessions** and **per-object client secrets**, matching the three-tier auth resolver of the native Frame iOS / Android SDKs (FRA-4712).
+
+- **Onboarding sessions.** `FrameSDK` gains `setOnboardingSession(token)` and `clearOnboardingSession(token?)`. While a session is active, every request sends `Authorization: Bearer <token>` (e.g. `onb_sess_...`), overriding the configured publishable/secret keys regardless of `usePublishableKey`. Mirrors iOS `beginOnboardingSession` / `endOnboardingSession`. `clearOnboardingSession(token?)` is **safe-clear**: it only clears when `token` is omitted or matches the active token (so a stale unmount cannot wipe a newer session), returning `true`/`false` accordingly. Mirrors Android's guarded teardown.
+- **Per-object client secrets.** `RequestOptions` gains `authToken?: string`, a per-request bearer override for sending an object `client_secret` (e.g. `ci_..._secret_...`) on charge-intent confirm/show and 3-D Secure. `chargeIntents.get` now accepts options; `threeDS.create/get/resend` now accept options.
+- **Auth precedence** in the request interceptor is now exactly: per-request `authToken` > active onboarding-session token > publishable/secret key. The interceptor no longer unconditionally overwrites `Authorization` with the key-derived bearer — higher-precedence overrides win.
+- **`usePublishableKey` coverage** added to the onboarding-flow methods: `threeDS.create/get/resend`, `termsOfService.createToken`, `capabilities.list/request`, and `onboardingSessions.create/getByAccount`.
+- **Auth routing is carried on the axios request config, not on HTTP headers.** The per-request `authToken` (client_secret) and publishable-key flag travel as internal config fields that never serialize onto the wire, so the secret cannot leak as a header and a caller-supplied header cannot spoof key routing.
+- **An explicitly empty `authToken` is rejected** with `code: 'invalid_auth_token'` instead of silently falling through to the session/publishable/secret key.
+
+No breaking changes — all new parameters are optional and default to the prior behavior.
+
 ## 2.3.1
 
 - `CreateSubscriptionParams.customer` is now optional, with `account` already optional, so subscriptions can be created against an account instead of a customer. The `/v1/subscriptions` API has accepted `account` for a while and enforces exactly-one-of (customer or account); the SDK type previously marked `customer` as required, blocking account-based subscriptions at compile time. Mirrors `CreateChargeIntentParams`.

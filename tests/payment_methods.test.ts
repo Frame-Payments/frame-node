@@ -10,10 +10,10 @@ import {
   PaymentMethodStatus
 } from '../src/types/payment_methods';
 import nock from 'nock';
-import axios from 'axios';
+import { createApiClient } from '../src/client';
 
 const baseUrl = 'https://api.framepayments.com';
-const client = axios.create({ baseURL: baseUrl });
+const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' });
 const paymentMethods = new PaymentMethodsAPI(client);
 
 const mockPaymentMethod: PaymentMethod = {
@@ -188,9 +188,8 @@ test('createApplePayPaymentMethod → POST /v1/payment_methods with wallet envel
     },
   };
 
-  nock(baseUrl)
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
     .post('/v1/payment_methods', (body) => body._wallet?.type === 'apple_pay')
-    .matchHeader('X-Frame-Use-Publishable-Key', '1')
     .reply(200, mockPaymentMethod);
 
   const result = await paymentMethods.createApplePayPaymentMethod(params);
@@ -212,9 +211,8 @@ test('createGooglePayPaymentMethod → POST /v1/payment_methods with wallet enve
     },
   };
 
-  nock(baseUrl)
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
     .post('/v1/payment_methods', (body) => body._wallet?.type === 'google_pay')
-    .matchHeader('X-Frame-Use-Publishable-Key', '1')
     .reply(200, mockPaymentMethod);
 
   const result = await paymentMethods.createGooglePayPaymentMethod(params);
@@ -230,9 +228,8 @@ test('createCard honors usePublishableKey opt-in', async () => {
     cvc: '123',
   };
 
-  nock(baseUrl)
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
     .post('/v1/payment_methods')
-    .matchHeader('X-Frame-Use-Publishable-Key', '1')
     .reply(200, mockPaymentMethod);
 
   await paymentMethods.createCard(input, { usePublishableKey: true });

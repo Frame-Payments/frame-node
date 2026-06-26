@@ -22,8 +22,8 @@ export class ChargeIntentsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<ChargeIntent> {
-    const resp = await this.client.get(`/v1/charge_intents/${id}`);
+  async get(id: string, opts?: RequestOptions): Promise<ChargeIntent> {
+    const resp = await this.client.get(`/v1/charge_intents/${id}`, maybePublishableKey(opts));
     return resp.data;
   }
 

@@ -1,11 +1,11 @@
 /// <reference types="jest" />
 
-import axios from 'axios';
 import nock from 'nock';
+import { createApiClient } from '../src/client';
 import { PhoneVerificationsAPI } from '../src/api/phone_verifications-api';
 
 const baseUrl = 'https://api.framepayments.com';
-const client = axios.create({ baseURL: baseUrl });
+const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' });
 const phones = new PhoneVerificationsAPI(client);
 
 afterEach(() => nock.cleanAll());
@@ -40,9 +40,8 @@ test('create response surfaces prove_auth_token when present', async () => {
 });
 
 test('create honors usePublishableKey', async () => {
-  nock(baseUrl)
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
     .post('/v1/accounts/acct_eric/phone_verifications')
-    .matchHeader('X-Frame-Use-Publishable-Key', '1')
     .reply(200, mockVerification);
 
   await phones.create('acct_eric', { phone_number: '+15551234567' }, { usePublishableKey: true });

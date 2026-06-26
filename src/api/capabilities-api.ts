@@ -1,16 +1,17 @@
 import type { AxiosInstance } from 'axios';
 import type { Capability, RequestCapabilitiesParams } from '../types/capabilities';
+import { maybePublishableKey, type RequestOptions } from '../client';
 
 export class CapabilitiesAPI {
   constructor(private client: AxiosInstance) {}
 
-  async list(accountId: string): Promise<Capability[]> {
-    const resp = await this.client.get(`/v1/accounts/${accountId}/capabilities`);
+  async list(accountId: string, opts?: RequestOptions): Promise<Capability[]> {
+    const resp = await this.client.get(`/v1/accounts/${accountId}/capabilities`, maybePublishableKey(opts));
     return resp.data;
   }
 
-  async request(accountId: string, params: RequestCapabilitiesParams): Promise<Capability[]> {
-    const resp = await this.client.post(`/v1/accounts/${accountId}/capabilities`, params);
+  async request(accountId: string, params: RequestCapabilitiesParams, opts?: RequestOptions): Promise<Capability[]> {
+    const resp = await this.client.post(`/v1/accounts/${accountId}/capabilities`, params, maybePublishableKey(opts));
     return resp.data;
   }
 

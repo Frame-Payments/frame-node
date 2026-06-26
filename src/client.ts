@@ -19,23 +19,57 @@ export interface ClientConfig {
 
 export interface RequestOptions {
   usePublishableKey?: boolean;
+  // Per-request bearer override (e.g. an object `client_secret` such as
+  // `ci_..._secret_...`). When present, it wins over both an active onboarding
+  // session token and the configured pk_/sk_ keys. Mirrors the per-call
+  // `client_secret` tier of the native iOS/Android auth resolvers.
+  authToken?: string;
 }
 
-const PUBLISHABLE_FLAG_KEY = 'X-Frame-Use-Publishable-Key';
+// Internal auth routing is carried on the axios request *config* (not on
+// headers). Axios passes unknown config fields straight through to the request
+// interceptor untouched and never serializes them onto the wire, so a secret
+// `frameAuthToken` can never leak as an HTTP header and there is nothing to
+// strip before the request leaves the process. Callers cannot reach these
+// fields through the public helpers' header path, so a raw header named like
+// the old smuggle keys can no longer override key routing.
+interface FrameRequestConfig extends AxiosRequestConfig {
+  frameUsePublishableKey?: boolean;
+  frameAuthToken?: string;
+}
+const FRAME_USE_PUBLISHABLE_KEY = 'frameUsePublishableKey';
+const FRAME_AUTH_TOKEN = 'frameAuthToken';
 
-// Strips the Authorization header before stashing axios's error config on
-// FrameAPIError.raw — without this, every network-layer failure would leak
-// the live Bearer token to anyone logging the error.
+// Holds the active onboarding-session bearer token (e.g. `onb_sess_...`). The
+// request interceptor closes over a single instance of this so the token can be
+// set/cleared on the live client after construction, mirroring the native iOS
+// `beginOnboardingSession`/`endOnboardingSession` model. A mutable holder (vs.
+// recreating the client) keeps every already-wired API class pointed at the
+// same auth state.
+export interface OnboardingSessionStore {
+  token: string | null;
+}
+
+export const createOnboardingSessionStore = (): OnboardingSessionStore => ({ token: null });
+
+// Strips the Authorization header and the per-request `frameAuthToken` (an
+// object client_secret) before stashing axios's error config on
+// FrameAPIError.raw — without this, every network-layer failure would leak the
+// live Bearer token / client_secret to anyone logging the error.
 function safeRawFromAxiosError(err: any): unknown {
   if (!err || typeof err !== 'object') return err;
   const cleanedConfig = err.config
     ? (() => {
-        const { headers, ...restConfig } = err.config as { headers?: unknown } & Record<string, unknown>;
+        const {
+          headers,
+          [FRAME_AUTH_TOKEN]: _authToken,
+          ...restConfig
+        } = err.config as { headers?: unknown } & Record<string, unknown>;
         const cleanedHeaders =
           headers && typeof headers === 'object'
             ? Object.fromEntries(
                 Object.entries(headers as Record<string, unknown>).filter(
-                  ([k]) => k.toLowerCase() !== 'authorization' && k !== PUBLISHABLE_FLAG_KEY,
+                  ([k]) => k.toLowerCase() !== 'authorization',
                 ),
               )
             : headers;
@@ -50,7 +84,10 @@ function safeRawFromAxiosError(err: any): unknown {
   };
 }
 
-export const createApiClient = (config: ClientConfig): AxiosInstance => {
+export const createApiClient = (
+  config: ClientConfig,
+  sessionStore: OnboardingSessionStore = createOnboardingSessionStore(),
+): AxiosInstance => {
   const { apiKey, publishableKey, defaultHeaders } = config;
 
   if (!apiKey && !publishableKey) {
@@ -69,15 +106,23 @@ export const createApiClient = (config: ClientConfig): AxiosInstance => {
 
   client.interceptors.request.use((requestConfig: InternalAxiosRequestConfig) => {
     const headers = requestConfig.headers;
-    const wantsPublishable = headers instanceof AxiosHeaders
-      ? headers.has(PUBLISHABLE_FLAG_KEY)
-      : Boolean((headers as Record<string, unknown> | undefined)?.[PUBLISHABLE_FLAG_KEY]);
-
-    if (headers instanceof AxiosHeaders) {
-      headers.delete(PUBLISHABLE_FLAG_KEY);
-    } else if (headers && PUBLISHABLE_FLAG_KEY in (headers as Record<string, unknown>)) {
-      delete (headers as Record<string, unknown>)[PUBLISHABLE_FLAG_KEY];
+    const cfg = requestConfig as FrameRequestConfig;
+    const wantsPublishable = cfg.frameUsePublishableKey === true;
+    // An explicitly-provided but empty authToken is a caller bug (e.g. an
+    // unpopulated client_secret). Fail loudly rather than silently fall through
+    // to the session/pk/sk bearer, which would send the request under a
+    // broader-privilege credential than intended.
+    const rawAuthToken = cfg.frameAuthToken;
+    if (rawAuthToken === '') {
+      throw new FrameAPIError(
+        'Frame authToken was provided but empty. Pass a non-empty client_secret (e.g. ci_..._secret_...), or omit authToken to use the configured key.',
+        'invalid_auth_token',
+        0,
+        null,
+      );
     }
+    const perRequestAuthToken =
+      typeof rawAuthToken === 'string' && rawAuthToken.length > 0 ? rawAuthToken : undefined;
 
     if (defaultHeaders) {
       for (const [name, value] of Object.entries(defaultHeaders)) {
@@ -91,21 +136,35 @@ export const createApiClient = (config: ClientConfig): AxiosInstance => {
       }
     }
 
-    const keyToUse = wantsPublishable ? publishableKey : apiKey;
-    if (!keyToUse) {
-      throw new FrameAPIError(
-        wantsPublishable
-          ? 'Frame publishable key is not configured. Pass { publishableKey } to new FrameSDK(...) before calling endpoints with { usePublishableKey: true }.'
-          : 'Frame API key is not configured. Pass { apiKey } to new FrameSDK(...) before calling secret-keyed endpoints.',
-        wantsPublishable ? 'missing_publishable_key' : 'missing_api_key',
-        0,
-        null,
-      );
+    // Resolve the bearer with the same three-tier precedence as the native
+    // iOS/Android `bearerToken()`:
+    //   1. per-request authToken (an object client_secret), else
+    //   2. active onboarding-session token, else
+    //   3. publishableKey when usePublishableKey === true, else apiKey.
+    const sessionToken = sessionStore.token;
+    let bearer: string | undefined;
+    if (perRequestAuthToken) {
+      bearer = perRequestAuthToken;
+    } else if (sessionToken) {
+      bearer = sessionToken;
+    } else {
+      const keyToUse = wantsPublishable ? publishableKey : apiKey;
+      if (!keyToUse) {
+        throw new FrameAPIError(
+          wantsPublishable
+            ? 'Frame publishable key is not configured. Pass { publishableKey } to new FrameSDK(...) before calling endpoints with { usePublishableKey: true }.'
+            : 'Frame API key is not configured. Pass { apiKey } to new FrameSDK(...) before calling secret-keyed endpoints.',
+          wantsPublishable ? 'missing_publishable_key' : 'missing_api_key',
+          0,
+          null,
+        );
+      }
+      bearer = keyToUse;
     }
     if (headers instanceof AxiosHeaders) {
-      headers.set('Authorization', `Bearer ${keyToUse}`);
+      headers.set('Authorization', `Bearer ${bearer}`);
     } else if (headers) {
-      (headers as Record<string, string>)['Authorization'] = `Bearer ${keyToUse}`;
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${bearer}`;
     }
     return requestConfig;
   });
@@ -129,24 +188,29 @@ export const createApiClient = (config: ClientConfig): AxiosInstance => {
   return client;
 };
 
+// Translates RequestOptions into the internal axios *config* fields the request
+// interceptor reads (frameUsePublishableKey / frameAuthToken). These never
+// become wire headers, so the per-request client_secret can't leak and a raw
+// caller-supplied header can't spoof key routing. `publishableDefault` differs
+// between the two public helpers (withPublishableKey opts in by default,
+// maybePublishableKey opts out).
+function buildRequestConfig(
+  publishableDefault: boolean,
+  opts?: RequestOptions & AxiosRequestConfig,
+): AxiosRequestConfig {
+  const { usePublishableKey = publishableDefault, authToken, ...rest } = opts ?? {};
+  const cfg: FrameRequestConfig = { ...rest };
+  if (usePublishableKey) cfg[FRAME_USE_PUBLISHABLE_KEY] = true;
+  // Pass authToken through verbatim (including '') so the interceptor — the
+  // single chokepoint that always runs — can reject an empty value loudly.
+  if (authToken !== undefined) cfg[FRAME_AUTH_TOKEN] = authToken;
+  return cfg;
+}
+
 export function withPublishableKey(opts?: RequestOptions & AxiosRequestConfig): AxiosRequestConfig {
-  const { usePublishableKey = true, headers, ...rest } = opts ?? {};
-  if (!usePublishableKey) {
-    return headers ? { ...rest, headers } : { ...rest };
-  }
-  return {
-    ...rest,
-    headers: { ...(headers ?? {}), [PUBLISHABLE_FLAG_KEY]: '1' },
-  };
+  return buildRequestConfig(true, opts);
 }
 
 export function maybePublishableKey(opts?: RequestOptions & AxiosRequestConfig): AxiosRequestConfig {
-  const { usePublishableKey = false, headers, ...rest } = opts ?? {};
-  if (!usePublishableKey) {
-    return headers ? { ...rest, headers } : { ...rest };
-  }
-  return {
-    ...rest,
-    headers: { ...(headers ?? {}), [PUBLISHABLE_FLAG_KEY]: '1' },
-  };
+  return buildRequestConfig(false, opts);
 }

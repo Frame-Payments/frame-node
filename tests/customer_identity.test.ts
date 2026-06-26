@@ -1,11 +1,11 @@
 /// <reference types="jest" />
-import axios from 'axios';
 import nock from 'nock';
 import { CustomerIdentityVerificationsAPI } from '../src/api/customer_identity-api';
 import { VerificationStatus, type CustomerIdentityVerification } from '../src/types/customer_identity';
+import { createApiClient } from '../src/client';
 
 const baseUrl = 'https://api.framepayments.com';
-const client = axios.create({ baseURL: baseUrl });
+const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' });
 const identityAPI = new CustomerIdentityVerificationsAPI(client);
 
 const mockVerification: CustomerIdentityVerification = {
@@ -77,13 +77,12 @@ test('uploadIdentityDocuments (Node Buffer) → multipart POST with parts visibl
   let capturedBody: Buffer | undefined;
   let capturedContentType: string | undefined;
 
-  nock(baseUrl)
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
     .post('/v1/customer_identity_verifications/civ_123/upload_documents')
     .matchHeader('content-type', (val) => {
       capturedContentType = val;
       return typeof val === 'string' && val.includes('multipart/form-data');
     })
-    .matchHeader('X-Frame-Use-Publishable-Key', '1')
     .reply(200, (_uri, requestBody) => {
       capturedBody = Buffer.isBuffer(requestBody)
         ? requestBody

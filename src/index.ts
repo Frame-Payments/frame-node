@@ -1,4 +1,4 @@
-import { createApiClient, type ClientConfig } from './client';
+import { createApiClient, createOnboardingSessionStore, type ClientConfig, type OnboardingSessionStore } from './client';
 import { AccountsAPI } from './api/accounts-api';
 import { CapabilitiesAPI } from './api/capabilities-api';
 import { OnboardingSessionsAPI } from './api/onboarding_sessions-api';
@@ -41,7 +41,7 @@ import { GeoComplianceAPI } from './api/geo_compliance-api';
 export { paginate } from './utils/paginator';
 export { FrameAPIError } from './errors/frame_api_error';
 export { withPublishableKey, maybePublishableKey } from './client';
-export type { ClientConfig, RequestOptions } from './client';
+export type { ClientConfig, RequestOptions, OnboardingSessionStore } from './client';
 
 export type {
   EvervaultConfiguration,
@@ -115,8 +115,14 @@ export class FrameSDK {
   public wallet: WalletAPI;
   public geoCompliance: GeoComplianceAPI;
 
+  // Backs the active onboarding-session bearer token. Mutated in place by
+  // setOnboardingSession / clearOnboardingSession so every wired API class keeps
+  // sending the same auth without rebuilding the client.
+  private onboardingSessionStore: OnboardingSessionStore;
+
   constructor(config: ClientConfig) {
-    const client = createApiClient(config);
+    this.onboardingSessionStore = createOnboardingSessionStore();
+    const client = createApiClient(config, this.onboardingSessionStore);
     this.accounts = new AccountsAPI(client);
     this.capabilities = new CapabilitiesAPI(client);
     this.onboardingSessions = new OnboardingSessionsAPI(client);
@@ -155,5 +161,36 @@ export class FrameSDK {
     this.deviceAttestation = new DeviceAttestationAPI(client);
     this.wallet = new WalletAPI(client);
     this.geoCompliance = new GeoComplianceAPI(client);
+  }
+
+  /**
+   * Begin an onboarding session. While a session is active, every request sends
+   * `Authorization: Bearer <token>` (e.g. an `onb_sess_...` token), overriding
+   * the configured publishable/secret keys regardless of `usePublishableKey`.
+   * A per-request `authToken` (object client_secret) still takes precedence.
+   *
+   * Mirrors the native iOS `beginOnboardingSession`.
+   */
+  setOnboardingSession(token: string): void {
+    this.onboardingSessionStore.token = token;
+  }
+
+  /**
+   * End the active onboarding session, reverting auth to the configured
+   * publishable/secret keys.
+   *
+   * Safe-clear: when `token` is provided, the session is cleared only if it
+   * matches the currently active token. This mirrors Android's guarded
+   * teardown so a stale unmount cannot wipe a newer session. Omit `token` to
+   * force-clear unconditionally.
+   *
+   * @returns true if a session was cleared, false if the guard prevented it.
+   */
+  clearOnboardingSession(token?: string): boolean {
+    if (token !== undefined && this.onboardingSessionStore.token !== token) {
+      return false;
+    }
+    this.onboardingSessionStore.token = null;
+    return true;
   }
 }

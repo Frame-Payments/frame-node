@@ -83,6 +83,42 @@ await frame.configuration.getEvervaultConfiguration({ usePublishableKey: true })
 
 The SDK defaults match the native Frame iOS / Android SDKs exactly — endpoints that those SDKs invoke with `usePublishableKey: true` are publishable-by-default here as well (`paymentMethods.createApplePayPaymentMethod`, `paymentMethods.createGooglePayPaymentMethod`, `deviceAttestation.*`, `wallet.getGooglePayConfiguration`). Everything else defaults to secret.
 
+## 🪪 Onboarding sessions & per-object client secrets
+
+Publishable-key-only mobile clients can authenticate **onboarding sessions** and **per-object client secrets**, matching the three-tier auth model of the native Frame iOS / Android SDKs. The bearer for any request is resolved in this precedence order:
+
+1. a per-request `authToken` (an object `client_secret`, e.g. `ci_..._secret_...`), else
+2. the active onboarding-session token (e.g. `onb_sess_...`), else
+3. the publishable key (when `usePublishableKey: true`) or the secret key.
+
+### Onboarding sessions
+
+Begin a session to route **every** request through the session token, overriding the configured keys (and ignoring `usePublishableKey`) while it is active. Mirrors iOS `beginOnboardingSession` / `endOnboardingSession`.
+
+```ts
+const frame = new FrameSDK({ publishableKey: 'pk_...' });
+
+frame.setOnboardingSession('onb_sess_...');
+// Every call now sends `Authorization: Bearer onb_sess_...`.
+await frame.onboardingSessions.create({ /* ... */ });
+await frame.termsOfService.createToken();
+
+// End the session, reverting to the publishable key.
+frame.clearOnboardingSession();
+```
+
+`clearOnboardingSession(token?)` is **safe-clear**: passing a `token` only clears the session when it matches the active one (so a stale unmount can't wipe a newer session), and returns `true` if it cleared / `false` if the guard prevented it. Omit the argument to force-clear.
+
+### Per-object client secrets
+
+For charge-intent confirm/show and 3-D Secure, pass the object's `client_secret` as a per-request `authToken`. It wins over both an active session and the configured keys:
+
+```ts
+await frame.chargeIntents.confirm('ci_123', { authToken: 'ci_123_secret_...' });
+await frame.chargeIntents.get('ci_123', { authToken: 'ci_123_secret_...' });
+await frame.threeDS.get('tds_123', { authToken: 'tds_123_secret_...' });
+```
+
 ## 📚 Available APIs
 
 | Namespace | Purpose |

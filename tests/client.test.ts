@@ -1,7 +1,12 @@
 /// <reference types="jest" />
 
 import nock from 'nock';
-import { createApiClient, withPublishableKey, maybePublishableKey } from '../src/client';
+import {
+  createApiClient,
+  createOnboardingSessionStore,
+  withPublishableKey,
+  maybePublishableKey,
+} from '../src/client';
 import { FrameAPIError } from '../src/errors/frame_api_error';
 import { FrameSDK } from '../src';
 
@@ -101,6 +106,23 @@ describe('withPublishableKey / maybePublishableKey helpers', () => {
     const cfg = withPublishableKey({ usePublishableKey: false, headers: { 'X-Trace-Id': 'abc' } });
     expect((cfg.headers as Record<string, string>)['X-Trace-Id']).toBe('abc');
     expect((cfg.headers as Record<string, string>)['X-Frame-Use-Publishable-Key']).toBeUndefined();
+  });
+
+  test('maybePublishableKey threads authToken into the smuggle header', () => {
+    const cfg = maybePublishableKey({ authToken: 'ci_1_secret_x' });
+    expect((cfg.headers as Record<string, string>)['X-Frame-Auth-Token']).toBe('ci_1_secret_x');
+    expect((cfg.headers as Record<string, string>)['X-Frame-Use-Publishable-Key']).toBeUndefined();
+  });
+
+  test('authToken and usePublishableKey can be combined and both ride through', () => {
+    const cfg = maybePublishableKey({ authToken: 'ci_1_secret_x', usePublishableKey: true });
+    expect((cfg.headers as Record<string, string>)['X-Frame-Auth-Token']).toBe('ci_1_secret_x');
+    expect((cfg.headers as Record<string, string>)['X-Frame-Use-Publishable-Key']).toBe('1');
+  });
+
+  test('no authToken means no smuggle header', () => {
+    const cfg = maybePublishableKey();
+    expect(cfg.headers).toBeUndefined();
   });
 });
 
@@ -261,6 +283,123 @@ describe('baseURL override', () => {
 
     const customer = await frame.customers.get('cust_123');
     expect(customer.id).toBe('cust_123');
+  });
+});
+
+describe('bearer auth precedence — authToken > session > pk/sk', () => {
+  test('per-request authToken (client_secret) wins over pk/sk and is sent verbatim', async () => {
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' });
+
+    nock(baseUrl, {
+      reqheaders: { authorization: 'Bearer ci_123_secret_abc' },
+    })
+      .post('/v1/charge_intents/ci_123/confirm')
+      .reply(200, { id: 'ci_123' });
+
+    await client.post('/v1/charge_intents/ci_123/confirm', undefined, maybePublishableKey({ authToken: 'ci_123_secret_abc' }));
+  });
+
+  test('per-request authToken wins over an active onboarding session token', async () => {
+    const store = createOnboardingSessionStore();
+    store.token = 'onb_sess_live';
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' }, store);
+
+    nock(baseUrl, {
+      reqheaders: { authorization: 'Bearer ci_123_secret_abc' },
+    })
+      .post('/v1/charge_intents/ci_123/confirm')
+      .reply(200, { id: 'ci_123' });
+
+    await client.post('/v1/charge_intents/ci_123/confirm', undefined, maybePublishableKey({ authToken: 'ci_123_secret_abc' }));
+  });
+
+  test('active onboarding session token wins over pk/sk for all calls, ignoring usePublishableKey', async () => {
+    const store = createOnboardingSessionStore();
+    store.token = 'onb_sess_live';
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' }, store);
+
+    // Default routing (would be sk) -> session token.
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer onb_sess_live' } })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+    // usePublishableKey routing (would be pk) -> still session token.
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer onb_sess_live' } })
+      .get('/v1/config/evervault')
+      .reply(200, {});
+
+    await client.get('/v1/customers');
+    await client.get('/v1/config/evervault', withPublishableKey());
+  });
+
+  test('falls back to pk/sk when no session token and no authToken', async () => {
+    const store = createOnboardingSessionStore();
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' }, store);
+
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer sk_test' } })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    await client.get('/v1/customers');
+  });
+
+  test('session token is sent even on a publishable-key-only client', async () => {
+    const store = createOnboardingSessionStore();
+    store.token = 'onb_sess_live';
+    const client = createApiClient({ publishableKey: 'pk_only' }, store);
+
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer onb_sess_live' } })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+
+    // No api key configured, but the session token covers the request.
+    await client.get('/v1/customers');
+  });
+
+  test('the X-Frame-Auth-Token smuggle header is stripped before the request is sent', async () => {
+    const client = createApiClient({ apiKey: 'sk_test' });
+
+    nock(baseUrl)
+      .matchHeader('X-Frame-Auth-Token', (val: string | undefined) => val === undefined)
+      .post('/v1/charge_intents/ci_1/confirm')
+      .reply(200, {});
+
+    await client.post('/v1/charge_intents/ci_1/confirm', undefined, maybePublishableKey({ authToken: 'ci_1_secret_x' }));
+  });
+
+  test('clearing the session store mid-life reverts to pk/sk', async () => {
+    const store = createOnboardingSessionStore();
+    store.token = 'onb_sess_live';
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' }, store);
+
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer onb_sess_live' } })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+    await client.get('/v1/customers');
+
+    store.token = null;
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer sk_test' } })
+      .get('/v1/customers')
+      .reply(200, { data: [] });
+    await client.get('/v1/customers');
+  });
+});
+
+describe('authToken smuggle does not leak on error.raw', () => {
+  test('network-layer FrameAPIError.raw does NOT leak the per-request authToken', async () => {
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' });
+
+    nock.disableNetConnect();
+    try {
+      await client.post('/v1/charge_intents/ci_1/confirm', undefined, maybePublishableKey({ authToken: 'ci_1_secret_LEAK' }));
+      fail('expected request to reject');
+    } catch (err) {
+      const raw = JSON.stringify((err as FrameAPIError).raw);
+      expect(raw).not.toContain('ci_1_secret_LEAK');
+      expect(raw).not.toContain('X-Frame-Auth-Token');
+      expect(raw).not.toContain('Bearer');
+    } finally {
+      nock.enableNetConnect();
+    }
   });
 });
 

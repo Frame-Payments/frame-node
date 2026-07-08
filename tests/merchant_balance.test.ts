@@ -27,7 +27,10 @@ test('retrieve → GET /v1/merchant_balance (no id)', async () => {
 });
 
 test('retrieve surfaces an unavailable balance', async () => {
-  const unavailable = {
+  // The documented "unavailable" variant carries only status + reason_code and
+  // omits the money fields — typing it as MerchantBalance guards that the type
+  // actually permits that shape (money fields optional).
+  const unavailable: MerchantBalance = {
     status: 'UNAVAILABLE',
     reason_code: 'DOTS_API_ERROR',
   };
@@ -36,4 +39,5 @@ test('retrieve surfaces an unavailable balance', async () => {
   const result = await merchantBalance.retrieve();
   expect(result.status).toBe('UNAVAILABLE');
   expect(result.reason_code).toBe('DOTS_API_ERROR');
+  expect(result.dots_balance).toBeUndefined();
 });

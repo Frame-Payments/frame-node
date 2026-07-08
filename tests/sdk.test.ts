@@ -42,7 +42,9 @@ describe('FrameSDK constructor', () => {
       'paymentLinkSessions',
       'subscriptionChangeLogs',
       'billing',
+      'threeDsIntents',
       'threeDS',
+      'merchantBalance',
       'productPhases',
       'termsOfService',
       'onboarding',
@@ -55,6 +57,10 @@ describe('FrameSDK constructor', () => {
     for (const name of expectedNamespaces) {
       expect((sdk as unknown as Record<string, unknown>)[name]).toBeDefined();
     }
+
+    // threeDS is a deprecated alias of the canonical threeDsIntents — same
+    // instance, so onboarding-session/auth state is shared.
+    expect(sdk.threeDS).toBe(sdk.threeDsIntents);
   });
 
   test('full SDK construction with publishable key only — secret-keyed endpoint throws missing_api_key', async () => {

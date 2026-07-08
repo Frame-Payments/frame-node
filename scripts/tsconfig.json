@@ -1,0 +1,20 @@
+{
+  // Script-local config so the surface-manifest generator runs under ts-node in
+  // CommonJS transpile-only mode. The library's root tsconfig targets ESNext
+  // modules (for the published ESM/CJS bundle); tooling scripts don't need that
+  // and CommonJS avoids the ts-node ESM-loader require-cycle friction.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "rootDir": "..",
+    "verbatimModuleSyntax": false,
+    "isolatedModules": false,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "include": ["./**/*.ts", "../src/**/*.ts"]
+}

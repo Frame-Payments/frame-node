@@ -1,0 +1,832 @@
+{
+  "sdk": "frame-node",
+  "version": "2.4.0",
+  "resources": {
+    "accounts": {
+      "class": "AccountsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "disable",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "getGeoCompliance",
+          "deprecated": false
+        },
+        {
+          "name": "getPaymentMethods",
+          "deprecated": false
+        },
+        {
+          "name": "getPlaidLinkToken",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "restrict",
+          "deprecated": false
+        },
+        {
+          "name": "search",
+          "deprecated": false
+        },
+        {
+          "name": "unrestrict",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "billing": {
+      "class": "BillingAPI",
+      "methods": [
+        {
+          "name": "createBillingCredit",
+          "deprecated": false
+        },
+        {
+          "name": "createBillingInvoice",
+          "deprecated": false
+        },
+        {
+          "name": "createMetering",
+          "deprecated": false
+        },
+        {
+          "name": "createMeteringEvent",
+          "deprecated": false
+        },
+        {
+          "name": "getBillingCredit",
+          "deprecated": false
+        },
+        {
+          "name": "getCustomerReport",
+          "deprecated": false
+        },
+        {
+          "name": "getEventReport",
+          "deprecated": false
+        },
+        {
+          "name": "getEventsReport",
+          "deprecated": false
+        },
+        {
+          "name": "getMetering",
+          "deprecated": false
+        },
+        {
+          "name": "getMeteringEvent",
+          "deprecated": false
+        },
+        {
+          "name": "getSubscriptionReport",
+          "deprecated": false
+        },
+        {
+          "name": "updateMetering",
+          "deprecated": false
+        },
+        {
+          "name": "updateMeteringEvent",
+          "deprecated": false
+        }
+      ]
+    },
+    "capabilities": {
+      "class": "CapabilitiesAPI",
+      "methods": [
+        {
+          "name": "disable",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "request",
+          "deprecated": false
+        }
+      ]
+    },
+    "chargeIntents": {
+      "class": "ChargeIntentsAPI",
+      "methods": [
+        {
+          "name": "cancel",
+          "deprecated": false
+        },
+        {
+          "name": "capture",
+          "deprecated": false
+        },
+        {
+          "name": "confirm",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        },
+        {
+          "name": "voidRemaining",
+          "deprecated": false
+        }
+      ]
+    },
+    "charges": {
+      "class": "ChargesAPI",
+      "methods": [
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "trace",
+          "deprecated": false
+        }
+      ]
+    },
+    "chargeSessions": {
+      "class": "ChargeSessionsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "configuration": {
+      "class": "ConfigurationAPI",
+      "methods": [
+        {
+          "name": "getEvervaultConfiguration",
+          "deprecated": false
+        },
+        {
+          "name": "getSiftConfiguration",
+          "deprecated": false
+        }
+      ]
+    },
+    "coupons": {
+      "class": "CouponsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "customerIdentityVerifications": {
+      "class": "CustomerIdentityVerificationsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "createForCustomer",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "submitForVerification",
+          "deprecated": false
+        },
+        {
+          "name": "uploadDocuments",
+          "deprecated": false
+        },
+        {
+          "name": "uploadIdentityDocuments",
+          "deprecated": false
+        }
+      ]
+    },
+    "customers": {
+      "class": "CustomersAPI",
+      "methods": [
+        {
+          "name": "block",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "getPaymentMethods",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "search",
+          "deprecated": false
+        },
+        {
+          "name": "unblock",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "deviceAttestation": {
+      "class": "DeviceAttestationAPI",
+      "methods": [
+        {
+          "name": "attest",
+          "deprecated": false
+        },
+        {
+          "name": "getChallenge",
+          "deprecated": false
+        }
+      ]
+    },
+    "discounts": {
+      "class": "DiscountsAPI",
+      "methods": [
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "validate",
+          "deprecated": false
+        }
+      ]
+    },
+    "disputes": {
+      "class": "DisputesAPI",
+      "methods": [
+        {
+          "name": "createDocument",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "geoCompliance": {
+      "class": "GeoComplianceAPI",
+      "methods": [
+        {
+          "name": "getAccountStatus",
+          "deprecated": false
+        }
+      ]
+    },
+    "geofences": {
+      "class": "GeofencesAPI",
+      "methods": [
+        {
+          "name": "list",
+          "deprecated": false
+        }
+      ]
+    },
+    "invoiceLineItems": {
+      "class": "InvoiceLineItemsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "invoices": {
+      "class": "InvoicesAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "issue",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "onboarding": {
+      "class": "OnboardingAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "payout",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "onboardingSessions": {
+      "class": "OnboardingSessionsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "getByAccount",
+          "deprecated": false
+        }
+      ]
+    },
+    "paymentLinkSessions": {
+      "class": "PaymentLinkSessionsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        }
+      ]
+    },
+    "paymentMethods": {
+      "class": "PaymentMethodsAPI",
+      "methods": [
+        {
+          "name": "attach",
+          "deprecated": false
+        },
+        {
+          "name": "block",
+          "deprecated": false
+        },
+        {
+          "name": "connectPlaid",
+          "deprecated": false
+        },
+        {
+          "name": "connectPlaidBankAccount",
+          "deprecated": false
+        },
+        {
+          "name": "createACH",
+          "deprecated": false
+        },
+        {
+          "name": "createApplePayPaymentMethod",
+          "deprecated": false
+        },
+        {
+          "name": "createCard",
+          "deprecated": false
+        },
+        {
+          "name": "createGooglePayPaymentMethod",
+          "deprecated": false
+        },
+        {
+          "name": "detach",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "listForCustomer",
+          "deprecated": false
+        },
+        {
+          "name": "unblock",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "payouts": {
+      "class": "PayoutsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        }
+      ]
+    },
+    "phoneVerifications": {
+      "class": "PhoneVerificationsAPI",
+      "methods": [
+        {
+          "name": "confirm",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        }
+      ]
+    },
+    "productPhases": {
+      "class": "ProductPhasesAPI",
+      "methods": [
+        {
+          "name": "bulkUpdate",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "products": {
+      "class": "ProductsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "search",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "promotionCodes": {
+      "class": "PromotionCodesAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "refunds": {
+      "class": "RefundsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        }
+      ]
+    },
+    "sonarSessions": {
+      "class": "SonarSessionsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "subscriptionChangeLogs": {
+      "class": "SubscriptionChangeLogsAPI",
+      "methods": [
+        {
+          "name": "list",
+          "deprecated": false
+        }
+      ]
+    },
+    "subscriptionPhases": {
+      "class": "SubscriptionPhasesAPI",
+      "methods": [
+        {
+          "name": "bulkUpdate",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "subscriptions": {
+      "class": "SubscriptionsAPI",
+      "methods": [
+        {
+          "name": "cancel",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "search",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "termsOfService": {
+      "class": "TermsOfServiceAPI",
+      "methods": [
+        {
+          "name": "createToken",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "threeDsIntents": {
+      "class": "ThreeDSAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "resend",
+          "deprecated": false
+        }
+      ]
+    },
+    "transferBillingAgreements": {
+      "class": "TransferBillingAgreementsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "transferFeePlans": {
+      "class": "TransferFeePlansAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        }
+      ]
+    },
+    "transfers": {
+      "class": "TransfersAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "get",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        }
+      ]
+    },
+    "wallet": {
+      "class": "WalletAPI",
+      "methods": [
+        {
+          "name": "getGooglePayConfiguration",
+          "deprecated": false
+        }
+      ]
+    },
+    "webhookEndpoints": {
+      "class": "WebhookEndpointsAPI",
+      "methods": [
+        {
+          "name": "list",
+          "deprecated": false
+        }
+      ]
+    }
+  }
+}

@@ -21,9 +21,14 @@ export class OnboardingAPI {
     return resp.data;
   }
 
-  async get(sessionId: string): Promise<OnboardingSession> {
+  async retrieve(sessionId: string): Promise<OnboardingSession> {
     const resp = await this.client.get(`/v1/onboarding/sessions/${sessionId}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(sessionId: string): Promise<OnboardingSession> {
+    return this.retrieve(sessionId);
   }
 
   async update(sessionId: string, params: UpdateOnboardingSessionParams): Promise<OnboardingSession> {

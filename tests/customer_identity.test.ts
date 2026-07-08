@@ -31,7 +31,16 @@ test('create identity verification', async () => {
   expect(result).toEqual(mockVerification);
 });
 
-test('get identity verification by id', async () => {
+test('retrieve identity verification by id', async () => {
+  nock(baseUrl)
+    .get('/v1/customer_identity_verifications/civ_123')
+    .reply(200, mockVerification);
+
+  const result = await identityAPI.retrieve('civ_123');
+  expect(result).toEqual(mockVerification);
+});
+
+test('get (deprecated) delegates to retrieve', async () => {
   nock(baseUrl)
     .get('/v1/customer_identity_verifications/civ_123')
     .reply(200, mockVerification);
@@ -55,9 +64,9 @@ test('upload documents for identity verification', async () => {
   expect(result).toEqual(mockVerification);
 });
 
-test('createForCustomer → POST /v1/customers/{id}/identity_verifications', async () => {
+test('createForCustomer → POST /v1/customer_identity_verifications/{customer_id}', async () => {
   nock(baseUrl)
-    .post('/v1/customers/cus_456/identity_verifications')
+    .post('/v1/customer_identity_verifications/cus_456')
     .reply(200, mockVerification);
 
   const result = await identityAPI.createForCustomer('cus_456');

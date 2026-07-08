@@ -41,9 +41,25 @@ test('create onboarding session with steps and return_url', async () => {
   expect(result).toEqual(mockSession);
 });
 
-test('get onboarding session by account', async () => {
+test('list onboarding sessions by account', async () => {
+  nock(baseUrl).get('/v1/onboarding_sessions').query({ account_id: 'acct_123' }).reply(200, mockSession);
+
+  const result = await onboardingSessions.list('acct_123');
+  expect(result).toEqual(mockSession);
+});
+
+test('getByAccount (deprecated) delegates to list', async () => {
   nock(baseUrl).get('/v1/onboarding_sessions').query({ account_id: 'acct_123' }).reply(200, mockSession);
 
   const result = await onboardingSessions.getByAccount('acct_123');
   expect(result).toEqual(mockSession);
+});
+
+test('bootstrap → GET /v1/onboarding_sessions/bootstrap', async () => {
+  const bootstrapPayload = { ...mockSession, account: { id: 'acct_123', status: 'active' } };
+  nock(baseUrl).get('/v1/onboarding_sessions/bootstrap').reply(200, bootstrapPayload);
+
+  const result = await onboardingSessions.bootstrap();
+  expect(result).toEqual(bootstrapPayload);
+  expect(result.account).toEqual({ id: 'acct_123', status: 'active' });
 });

@@ -46,7 +46,14 @@ test('create onboarding session', async () => {
   expect(result).toEqual(mockSession);
 });
 
-test('get onboarding session', async () => {
+test('retrieve onboarding session', async () => {
+  nock(baseUrl).get('/v1/onboarding/sessions/onb_123').reply(200, mockSession);
+
+  const result = await onboarding.retrieve('onb_123');
+  expect(result).toEqual(mockSession);
+});
+
+test('get (deprecated) delegates to retrieve', async () => {
   nock(baseUrl).get('/v1/onboarding/sessions/onb_123').reply(200, mockSession);
 
   const result = await onboarding.get('onb_123');

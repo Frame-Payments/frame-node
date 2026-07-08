@@ -19,21 +19,31 @@ export class CustomerIdentityVerificationsAPI {
     return resp.data;
   }
 
+  // POST /v1/customer_identity_verifications/{customer_id} — the documented
+  // create-for-existing-customer route (monolith
+  // customer_identity_verifications#create_from_customer). Previously posted to
+  // the undocumented /v1/customers/{id}/identity_verifications, which has no
+  // backing route; corrected here.
   async createForCustomer(
     customerId: string,
     opts?: RequestOptions,
   ): Promise<CustomerIdentityVerification> {
     const resp = await this.client.post(
-      `/v1/customers/${customerId}/identity_verifications`,
+      `/v1/customer_identity_verifications/${customerId}`,
       undefined,
       maybePublishableKey(opts),
     );
     return resp.data;
   }
 
-  async get(id: string, opts?: RequestOptions): Promise<CustomerIdentityVerification> {
+  async retrieve(id: string, opts?: RequestOptions): Promise<CustomerIdentityVerification> {
     const resp = await this.client.get(`/v1/customer_identity_verifications/${id}`, maybePublishableKey(opts));
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string, opts?: RequestOptions): Promise<CustomerIdentityVerification> {
+    return this.retrieve(id, opts);
   }
 
   async submitForVerification(id: string, opts?: RequestOptions): Promise<CustomerIdentityVerification> {

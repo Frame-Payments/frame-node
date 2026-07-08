@@ -29,7 +29,8 @@ import { DiscountsAPI } from './api/discounts-api';
 import { PaymentLinkSessionsAPI } from './api/payment_link_sessions-api';
 import { SubscriptionChangeLogsAPI } from './api/subscription_change_logs-api';
 import { BillingAPI } from './api/billing-api';
-import { ThreeDSAPI } from './api/three_ds-api';
+import { ThreeDsIntentsAPI } from './api/three_ds-api';
+import { MerchantBalanceAPI } from './api/merchant_balance-api';
 import { ProductPhasesAPI } from './api/product_phases-api';
 import { TermsOfServiceAPI } from './api/terms_of_service-api';
 import { OnboardingAPI } from './api/onboarding-api';
@@ -106,7 +107,10 @@ export class FrameSDK {
   public paymentLinkSessions: PaymentLinkSessionsAPI;
   public subscriptionChangeLogs: SubscriptionChangeLogsAPI;
   public billing: BillingAPI;
-  public threeDS: ThreeDSAPI;
+  public threeDsIntents: ThreeDsIntentsAPI;
+  /** @deprecated Use `threeDsIntents` (canonical). Removed at v2. */
+  public threeDS: ThreeDsIntentsAPI;
+  public merchantBalance: MerchantBalanceAPI;
   public productPhases: ProductPhasesAPI;
   public termsOfService: TermsOfServiceAPI;
   public onboarding: OnboardingAPI;
@@ -153,7 +157,10 @@ export class FrameSDK {
     this.paymentLinkSessions = new PaymentLinkSessionsAPI(client);
     this.subscriptionChangeLogs = new SubscriptionChangeLogsAPI(client);
     this.billing = new BillingAPI(client);
-    this.threeDS = new ThreeDSAPI(client);
+    this.threeDsIntents = new ThreeDsIntentsAPI(client);
+    // Deprecated alias — same instance, so both properties share state.
+    this.threeDS = this.threeDsIntents;
+    this.merchantBalance = new MerchantBalanceAPI(client);
     this.productPhases = new ProductPhasesAPI(client);
     this.termsOfService = new TermsOfServiceAPI(client);
     this.onboarding = new OnboardingAPI(client);

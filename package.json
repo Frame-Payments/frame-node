@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsdown",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "surface:manifest": "ts-node --project scripts/tsconfig.json scripts/generate-surface-manifest.ts"
   },
   "repository": {
     "type": "git",

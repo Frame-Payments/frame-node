@@ -797,6 +797,14 @@
           "deprecated": false
         },
         {
+          "name": "pause",
+          "deprecated": false
+        },
+        {
+          "name": "resume",
+          "deprecated": false
+        },
+        {
           "name": "retrieve",
           "deprecated": false
         },

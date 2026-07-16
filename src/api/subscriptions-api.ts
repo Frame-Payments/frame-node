@@ -54,4 +54,14 @@ export class SubscriptionsAPI {
     const resp = await this.client.post(`/v1/subscriptions/${id}/cancel`);
     return resp.data;
   }
+
+  async pause(id: string): Promise<Subscription> {
+    const resp = await this.client.post(`/v1/subscriptions/${id}/pause`);
+    return resp.data;
+  }
+
+  async resume(id: string): Promise<Subscription> {
+    const resp = await this.client.post(`/v1/subscriptions/${id}/resume`);
+    return resp.data;
+  }
 }

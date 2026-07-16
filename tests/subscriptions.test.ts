@@ -120,3 +120,17 @@ test('cancel subscription', async () => {
   const result = await subscriptions.cancel('sub_123');
   expect(result).toEqual(mockSubscription);
 });
+
+test('pause subscription', async () => {
+  nock(baseUrl).post('/v1/subscriptions/sub_123/pause').reply(200, mockSubscription);
+
+  const result = await subscriptions.pause('sub_123');
+  expect(result).toEqual(mockSubscription);
+});
+
+test('resume subscription', async () => {
+  nock(baseUrl).post('/v1/subscriptions/sub_123/resume').reply(200, mockSubscription);
+
+  const result = await subscriptions.resume('sub_123');
+  expect(result).toEqual(mockSubscription);
+});

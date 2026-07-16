@@ -62,6 +62,13 @@ test('get subscription', async () => {
   expect(result).toEqual(mockSubscription);
 });
 
+test('retrieve subscription', async () => {
+  nock(baseUrl).get('/v1/subscriptions/sub_123').reply(200, mockSubscription);
+
+  const result = await subscriptions.retrieve('sub_123');
+  expect(result).toEqual(mockSubscription);
+});
+
 test('update subscription', async () => {
   const updates = { metadata: { updated: true } };
   const updated = { ...mockSubscription, ...updates };

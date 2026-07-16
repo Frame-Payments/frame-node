@@ -15,9 +15,14 @@ export class TransferBillingAgreementsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<TransferBillingAgreement> {
+  async retrieve(id: string): Promise<TransferBillingAgreement> {
     const resp = await this.client.get(`/v1/transfer_billing_agreements/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<TransferBillingAgreement> {
+    return this.retrieve(id);
   }
 
   async create(params: CreateTransferBillingAgreementParams): Promise<TransferBillingAgreement> {

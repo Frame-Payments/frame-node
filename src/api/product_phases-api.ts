@@ -15,9 +15,14 @@ export class ProductPhasesAPI {
     return resp.data;
   }
 
-  async get(productId: string, phaseId: string): Promise<ProductPhase> {
+  async retrieve(productId: string, phaseId: string): Promise<ProductPhase> {
     const resp = await this.client.get(`/v1/products/${productId}/phases/${phaseId}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(productId: string, phaseId: string): Promise<ProductPhase> {
+    return this.retrieve(productId, phaseId);
   }
 
   async create(productId: string, params: CreateProductPhaseParams): Promise<ProductPhase> {

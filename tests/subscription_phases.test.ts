@@ -47,6 +47,15 @@ test('get single phase', async () => {
   expect(result).toEqual(mockPhase);
 });
 
+test('retrieve single phase', async () => {
+  nock(baseUrl)
+    .get(`/v1/subscriptions/${subscriptionId}/phases/${phaseId}`)
+    .reply(200, mockPhase);
+
+  const result = await api.retrieve(subscriptionId, phaseId);
+  expect(result).toEqual(mockPhase);
+});
+
 test('create phase', async () => {
   const params = { start_date: 1720000000, end_date: 1720500000 };
 

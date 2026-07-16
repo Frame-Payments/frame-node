@@ -37,6 +37,13 @@ test('get refund', async () => {
   expect(result).toEqual(mockRefund);
 });
 
+test('retrieve refund', async () => {
+  nock(baseUrl).get('/v1/refunds/re_123').reply(200, mockRefund);
+
+  const result = await refunds.retrieve('re_123');
+  expect(result).toEqual(mockRefund);
+});
+
 test('list refunds', async () => {
   const response = {
     data: [mockRefund],

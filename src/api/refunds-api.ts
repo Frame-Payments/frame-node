@@ -10,9 +10,14 @@ export class RefundsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Refund> {
+  async retrieve(id: string): Promise<Refund> {
     const resp = await this.client.get(`/v1/refunds/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Refund> {
+    return this.retrieve(id);
   }
 
   async list(per_page?: number, page?: number): Promise<RefundListResponse> {

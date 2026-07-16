@@ -14,9 +14,14 @@ export class TransferFeePlansAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<TransferFeePlan> {
+  async retrieve(id: string): Promise<TransferFeePlan> {
     const resp = await this.client.get(`/v1/transfer_fee_plans/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<TransferFeePlan> {
+    return this.retrieve(id);
   }
 
   async create(params: CreateTransferFeePlanParams): Promise<TransferFeePlan> {

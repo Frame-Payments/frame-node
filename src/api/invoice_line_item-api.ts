@@ -27,9 +27,14 @@ export class InvoiceLineItemsAPI {
     return resp.data;
   }
 
-  async get(invoiceId: string, lineItemId: string): Promise<InvoiceLineItem> {
+  async retrieve(invoiceId: string, lineItemId: string): Promise<InvoiceLineItem> {
     const resp = await this.client.get(`/v1/invoices/${invoiceId}/line_items/${lineItemId}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(invoiceId: string, lineItemId: string): Promise<InvoiceLineItem> {
+    return this.retrieve(invoiceId, lineItemId);
   }
 
   async delete(invoiceId: string, lineItemId: string): Promise<DeleteInvoiceResponse> {

@@ -64,6 +64,13 @@ test('get account', async () => {
   expect(result).toEqual(mockAccount);
 });
 
+test('retrieve account', async () => {
+  nock(baseUrl).get('/v1/accounts/acct_123').reply(200, mockAccount);
+
+  const result = await accounts.retrieve('acct_123');
+  expect(result).toEqual(mockAccount);
+});
+
 test('update account', async () => {
   const updates = { metadata: { key: 'value' } };
   const updated = { ...mockAccount, ...updates };

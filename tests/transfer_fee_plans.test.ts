@@ -69,6 +69,13 @@ test('get transfer fee plan', async () => {
   expect(result).toEqual(mockFeePlan);
 });
 
+test('retrieve transfer fee plan', async () => {
+  nock(baseUrl).get('/v1/transfer_fee_plans/tfp_123').reply(200, mockFeePlan);
+
+  const result = await transferFeePlans.retrieve('tfp_123');
+  expect(result).toEqual(mockFeePlan);
+});
+
 test('list transfer fee plans', async () => {
   const response = { data: [mockFeePlan], meta: listMeta };
 

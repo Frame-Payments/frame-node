@@ -15,9 +15,14 @@ export class CapabilitiesAPI {
     return resp.data;
   }
 
-  async get(accountId: string, name: string): Promise<Capability> {
+  async retrieve(accountId: string, name: string): Promise<Capability> {
     const resp = await this.client.get(`/v1/accounts/${accountId}/capabilities/${name}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(accountId: string, name: string): Promise<Capability> {
+    return this.retrieve(accountId, name);
   }
 
   async disable(accountId: string, name: string): Promise<Capability> {

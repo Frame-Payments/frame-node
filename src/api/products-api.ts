@@ -15,9 +15,14 @@ export class ProductsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Product> {
+  async retrieve(id: string): Promise<Product> {
     const resp = await this.client.get(`/v1/products/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Product> {
+    return this.retrieve(id);
   }
 
   async list(per_page?: number, page?: number): Promise<ProductListResponse> {

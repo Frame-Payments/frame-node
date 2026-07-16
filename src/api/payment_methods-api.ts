@@ -49,9 +49,14 @@ export class PaymentMethodsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<PaymentMethod> {
+  async retrieve(id: string): Promise<PaymentMethod> {
     const resp = await this.client.get(`/v1/payment_methods/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<PaymentMethod> {
+    return this.retrieve(id);
   }
 
   async list(per_page?: number, page?: number): Promise<PaymentMethodListResponse> {

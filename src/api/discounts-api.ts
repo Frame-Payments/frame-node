@@ -14,9 +14,14 @@ export class DiscountsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Discount> {
+  async retrieve(id: string): Promise<Discount> {
     const resp = await this.client.get(`/v1/discounts/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Discount> {
+    return this.retrieve(id);
   }
 
   async validate(params: ValidateDiscountsParams): Promise<Discount[]> {

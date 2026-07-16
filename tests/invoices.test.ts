@@ -62,6 +62,15 @@ test('get invoice', async () => {
   expect(result).toEqual(mockInvoice);
 });
 
+test('retrieve invoice', async () => {
+  nock(baseURL)
+    .get(`/v1/invoices/${mockInvoice.id}`)
+    .reply(200, mockInvoice);
+
+  const result = await invoices.retrieve(mockInvoice.id);
+  expect(result).toEqual(mockInvoice);
+});
+
 test('list invoices', async () => {
   const response = {
     meta: {

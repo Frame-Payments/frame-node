@@ -15,9 +15,14 @@ export class DisputesAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Dispute> {
+  async retrieve(id: string): Promise<Dispute> {
     const resp = await this.client.get(`/v1/disputes/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Dispute> {
+    return this.retrieve(id);
   }
 
   async list(per_page?: number, page?: number, charge?: string, charge_intent?: string): Promise<DisputeListResponse> {

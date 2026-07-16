@@ -32,6 +32,15 @@ test('get dispute', async () => {
     expect(result).toEqual(mockDispute);
 });
 
+test('retrieve dispute', async () => {
+    nock(baseURL)
+        .get('/v1/disputes/dp_123')
+        .reply(200, mockDispute);
+
+    const result = await disputes.retrieve('dp_123');
+    expect(result).toEqual(mockDispute);
+});
+
 test('update dispute', async () => {
     const updates: UpdateDisputeParams = {
         submit: true

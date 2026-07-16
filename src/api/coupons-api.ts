@@ -15,9 +15,14 @@ export class CouponsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Coupon> {
+  async retrieve(id: string): Promise<Coupon> {
     const resp = await this.client.get(`/v1/coupons/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Coupon> {
+    return this.retrieve(id);
   }
 
   async create(params: CreateCouponParams): Promise<Coupon> {

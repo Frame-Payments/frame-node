@@ -57,6 +57,13 @@ test('get transfer billing agreement', async () => {
   expect(result).toEqual(mockAgreement);
 });
 
+test('retrieve transfer billing agreement', async () => {
+  nock(baseUrl).get('/v1/transfer_billing_agreements/tba_123').reply(200, mockAgreement);
+
+  const result = await transferBillingAgreements.retrieve('tba_123');
+  expect(result).toEqual(mockAgreement);
+});
+
 test('update transfer billing agreement', async () => {
   const input: UpdateTransferBillingAgreementParams = { status: 'inactive' };
   const updated = { ...mockAgreement, status: 'inactive' as const };

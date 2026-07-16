@@ -58,6 +58,13 @@ test('get product', async () => {
   expect(result).toEqual(mockProduct);
 });
 
+test('retrieve product', async () => {
+  nock(baseUrl).get('/v1/products/prod_123').reply(200, mockProduct);
+
+  const result = await products.retrieve('prod_123');
+  expect(result).toEqual(mockProduct);
+});
+
 test('list products', async () => {
   nock(baseUrl).get('/v1/products').query(true).reply(200, {
     data: [mockProduct],

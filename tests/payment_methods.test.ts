@@ -72,6 +72,13 @@ test('get payment method', async () => {
   expect(result).toEqual(mockPaymentMethod);
 });
 
+test('retrieve payment method', async () => {
+  nock(baseUrl).get('/v1/payment_methods/pm_123').reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.retrieve('pm_123');
+  expect(result).toEqual(mockPaymentMethod);
+});
+
 test('list payment methods', async () => {
   const response = {
     data: [mockPaymentMethod],

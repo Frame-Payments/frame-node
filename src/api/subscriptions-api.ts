@@ -21,9 +21,14 @@ export class SubscriptionsAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Subscription> {
+  async retrieve(id: string): Promise<Subscription> {
     const resp = await this.client.get(`/v1/subscriptions/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Subscription> {
+    return this.retrieve(id);
   }
 
   async list(per_page?: number, page?: number): Promise<SubscriptionListResponse> {

@@ -11,9 +11,14 @@ export class TransfersAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<Transfer> {
+  async retrieve(id: string): Promise<Transfer> {
     const resp = await this.client.get(`/v1/transfers/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Transfer> {
+    return this.retrieve(id);
   }
 
   async create(params: CreateTransferParams, opts?: RequestOptions): Promise<Transfer> {

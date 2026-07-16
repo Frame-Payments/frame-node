@@ -15,7 +15,7 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "getGeoCompliance",
@@ -35,6 +35,10 @@
         },
         {
           "name": "restrict",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -117,7 +121,7 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
@@ -125,6 +129,10 @@
         },
         {
           "name": "request",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         }
       ]
@@ -171,6 +179,10 @@
       "methods": [
         {
           "name": "get",
+          "deprecated": true
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -214,10 +226,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -239,6 +255,10 @@
         },
         {
           "name": "get",
+          "deprecated": true
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -314,10 +334,14 @@
       "methods": [
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -335,10 +359,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -378,10 +406,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -403,7 +435,7 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "issue",
@@ -414,7 +446,20 @@
           "deprecated": false
         },
         {
+          "name": "retrieve",
+          "deprecated": false
+        },
+        {
           "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
+    "merchantBalance": {
+      "class": "MerchantBalanceAPI",
+      "methods": [
+        {
+          "name": "retrieve",
           "deprecated": false
         }
       ]
@@ -428,7 +473,7 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
@@ -436,6 +481,10 @@
         },
         {
           "name": "payout",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -448,11 +497,19 @@
       "class": "OnboardingSessionsAPI",
       "methods": [
         {
+          "name": "bootstrap",
+          "deprecated": false
+        },
+        {
           "name": "create",
           "deprecated": false
         },
         {
           "name": "getByAccount",
+          "deprecated": true
+        },
+        {
+          "name": "list",
           "deprecated": false
         }
       ]
@@ -507,7 +564,7 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
@@ -515,6 +572,10 @@
         },
         {
           "name": "listForCustomer",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -566,10 +627,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -591,10 +656,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -616,10 +685,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -637,10 +710,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         }
       ]
@@ -684,10 +761,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -709,10 +790,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -739,7 +824,7 @@
       ]
     },
     "threeDsIntents": {
-      "class": "ThreeDSAPI",
+      "class": "ThreeDsIntentsAPI",
       "methods": [
         {
           "name": "create",
@@ -747,10 +832,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "resend",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         }
       ]
@@ -764,10 +853,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {
@@ -785,10 +878,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         }
       ]
@@ -802,10 +899,14 @@
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         }
       ]
@@ -823,7 +924,27 @@
       "class": "WebhookEndpointsAPI",
       "methods": [
         {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
           "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
+          "deprecated": false
+        },
+        {
+          "name": "rotateSecret",
+          "deprecated": false
+        },
+        {
+          "name": "update",
           "deprecated": false
         }
       ]

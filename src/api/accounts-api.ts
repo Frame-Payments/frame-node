@@ -26,9 +26,14 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async get(id: string, opts?: RequestOptions): Promise<Account> {
+  async retrieve(id: string, opts?: RequestOptions): Promise<Account> {
     const resp = await this.client.get(`/v1/accounts/${id}`, maybePublishableKey(opts));
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string, opts?: RequestOptions): Promise<Account> {
+    return this.retrieve(id, opts);
   }
 
   async update(id: string, params: UpdateAccountParams, opts?: RequestOptions): Promise<Account> {

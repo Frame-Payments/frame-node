@@ -42,6 +42,13 @@ test('get capability', async () => {
   expect(result).toEqual(mockCapability);
 });
 
+test('retrieve capability', async () => {
+  nock(baseUrl).get('/v1/accounts/acct_123/capabilities/card_send').reply(200, mockCapability);
+
+  const result = await capabilities.retrieve('acct_123', 'card_send');
+  expect(result).toEqual(mockCapability);
+});
+
 test('disable capability', async () => {
   nock(baseUrl).delete('/v1/accounts/acct_123/capabilities/card_send').reply(200, mockCapability);
 

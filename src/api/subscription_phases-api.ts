@@ -24,9 +24,14 @@ export class SubscriptionPhasesAPI {
           }, per_page);
         }
 
-  async get(subscriptionId: string, phaseId: string): Promise<SubscriptionPhase> {
+  async retrieve(subscriptionId: string, phaseId: string): Promise<SubscriptionPhase> {
     const resp = await this.client.get(`/v1/subscriptions/${subscriptionId}/phases/${phaseId}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(subscriptionId: string, phaseId: string): Promise<SubscriptionPhase> {
+    return this.retrieve(subscriptionId, phaseId);
   }
 
   async create(subscriptionId: string, params: CreateSubscriptionPhaseParams): Promise<SubscriptionPhase> {

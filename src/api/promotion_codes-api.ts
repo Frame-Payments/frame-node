@@ -15,9 +15,14 @@ export class PromotionCodesAPI {
     return resp.data;
   }
 
-  async get(id: string): Promise<PromotionCode> {
+  async retrieve(id: string): Promise<PromotionCode> {
     const resp = await this.client.get(`/v1/promotion_codes/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<PromotionCode> {
+    return this.retrieve(id);
   }
 
   async create(params: CreatePromotionCodeParams): Promise<PromotionCode> {

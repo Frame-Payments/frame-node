@@ -117,6 +117,13 @@ test('get transfer', async () => {
   expect(result).toEqual(mockTransfer);
 });
 
+test('retrieve transfer', async () => {
+  nock(baseUrl).get('/v1/transfers/tr_123').reply(200, mockTransfer);
+
+  const result = await transfers.retrieve('tr_123');
+  expect(result).toEqual(mockTransfer);
+});
+
 test('list transfers', async () => {
   const response = { data: [mockTransfer], meta: listMeta };
 

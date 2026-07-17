@@ -544,10 +544,18 @@
         },
         {
           "name": "createACH",
+          "deprecated": true
+        },
+        {
+          "name": "createApplePay",
           "deprecated": false
         },
         {
           "name": "createApplePayPaymentMethod",
+          "deprecated": true
+        },
+        {
+          "name": "createBankAccount",
           "deprecated": false
         },
         {
@@ -555,8 +563,12 @@
           "deprecated": false
         },
         {
-          "name": "createGooglePayPaymentMethod",
+          "name": "createGooglePay",
           "deprecated": false
+        },
+        {
+          "name": "createGooglePayPaymentMethod",
+          "deprecated": true
         },
         {
           "name": "detach",

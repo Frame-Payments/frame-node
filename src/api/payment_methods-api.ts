@@ -20,12 +20,17 @@ export class PaymentMethodsAPI {
     return resp.data;
   }
 
-  async createACH(params: CreateACHPaymentMethodParams, opts?: RequestOptions): Promise<PaymentMethod> {
+  async createBankAccount(params: CreateACHPaymentMethodParams, opts?: RequestOptions): Promise<PaymentMethod> {
     const resp = await this.client.post('/v1/payment_methods', params, maybePublishableKey(opts));
     return resp.data;
   }
 
-  async createApplePayPaymentMethod(
+  /** @deprecated Use `createBankAccount` instead. Removed at v2. */
+  async createACH(params: CreateACHPaymentMethodParams, opts?: RequestOptions): Promise<PaymentMethod> {
+    return this.createBankAccount(params, opts);
+  }
+
+  async createApplePay(
     params: CreateApplePayPaymentMethodParams,
     opts?: RequestOptions,
   ): Promise<PaymentMethod> {
@@ -37,7 +42,15 @@ export class PaymentMethodsAPI {
     return resp.data;
   }
 
-  async createGooglePayPaymentMethod(
+  /** @deprecated Use `createApplePay` instead. Removed at v2. */
+  async createApplePayPaymentMethod(
+    params: CreateApplePayPaymentMethodParams,
+    opts?: RequestOptions,
+  ): Promise<PaymentMethod> {
+    return this.createApplePay(params, opts);
+  }
+
+  async createGooglePay(
     params: CreateGooglePayPaymentMethodParams,
     opts?: RequestOptions,
   ): Promise<PaymentMethod> {
@@ -47,6 +60,14 @@ export class PaymentMethodsAPI {
       maybePublishableKey({ usePublishableKey: true, ...opts }),
     );
     return resp.data;
+  }
+
+  /** @deprecated Use `createGooglePay` instead. Removed at v2. */
+  async createGooglePayPaymentMethod(
+    params: CreateGooglePayPaymentMethodParams,
+    opts?: RequestOptions,
+  ): Promise<PaymentMethod> {
+    return this.createGooglePay(params, opts);
   }
 
   async retrieve(id: string): Promise<PaymentMethod> {

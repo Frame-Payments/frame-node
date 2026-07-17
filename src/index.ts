@@ -1,5 +1,6 @@
 import { createApiClient, createOnboardingSessionStore, type ClientConfig, type OnboardingSessionStore } from './client';
 import { AccountsAPI } from './api/accounts-api';
+import { BeneficialOwnersAPI } from './api/beneficial_owners-api';
 import { CapabilitiesAPI } from './api/capabilities-api';
 import { OnboardingSessionsAPI } from './api/onboarding_sessions-api';
 import { CustomersAPI } from './api/customers-api';
@@ -75,9 +76,16 @@ export type {
   NodeFilePayload,
 } from './types/customer_identity';
 export type { GeoComplianceStatus } from './types/geo_compliance';
+export type {
+  BeneficialOwner,
+  BeneficialOwnerListResponse,
+  CreateBeneficialOwnerParams,
+  UpdateBeneficialOwnerParams,
+} from './types/beneficial_owners';
 
 export class FrameSDK {
   public accounts: AccountsAPI;
+  public beneficialOwners: BeneficialOwnersAPI;
   public capabilities: CapabilitiesAPI;
   public onboardingSessions: OnboardingSessionsAPI;
   public customers: CustomersAPI;
@@ -128,6 +136,7 @@ export class FrameSDK {
     this.onboardingSessionStore = createOnboardingSessionStore();
     const client = createApiClient(config, this.onboardingSessionStore);
     this.accounts = new AccountsAPI(client);
+    this.beneficialOwners = new BeneficialOwnersAPI(client);
     this.capabilities = new CapabilitiesAPI(client);
     this.onboardingSessions = new OnboardingSessionsAPI(client);
     this.customers = new CustomersAPI(client);

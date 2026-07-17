@@ -55,6 +55,39 @@
         }
       ]
     },
+    "beneficialOwners": {
+      "class": "BeneficialOwnersAPI",
+      "methods": [
+        {
+          "name": "confirmRoster",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "delete",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "resendInvite",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        }
+      ]
+    },
     "billing": {
       "class": "BillingAPI",
       "methods": [

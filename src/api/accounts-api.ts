@@ -75,8 +75,11 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  async getGeoCompliance(accountId: string): Promise<GeoComplianceStatus> {
-    const resp = await this.client.get(`/v1/accounts/${accountId}/geo_compliance`);
+  async getGeoCompliance(accountId: string, opts?: RequestOptions): Promise<GeoComplianceStatus> {
+    const resp = await this.client.get(
+      `/v1/accounts/${accountId}/geo_compliance`,
+      maybePublishableKey(opts),
+    );
     return resp.data;
   }
 

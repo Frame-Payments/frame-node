@@ -121,3 +121,15 @@ test('unrestrict account', async () => {
   const result = await accounts.unrestrict('acct_123');
   expect(result).toEqual(mockAccount);
 });
+
+test('getGeoCompliance → GET /v1/accounts/{id}/geo_compliance', async () => {
+  const body = {
+    status: 'clear',
+    sonar_session_id: 'sonar_1',
+    evaluated_at: 1234,
+  };
+  nock(baseUrl).get('/v1/accounts/acct_123/geo_compliance').reply(200, body);
+
+  const result = await accounts.getGeoCompliance('acct_123');
+  expect(result).toEqual(body);
+});

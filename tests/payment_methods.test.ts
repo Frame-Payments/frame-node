@@ -65,6 +65,19 @@ test('create ach payment method', async () => {
   expect(result).toEqual(mockACHPaymentMethod);
 });
 
+test('create bank account payment method (canonical)', async () => {
+  const input: CreateACHPaymentMethodParams = {
+      type: PaymentMethodType.ACH,
+      account_type: PaymentAccountType.CHECKING,
+      account_number: '1234567890123',
+      routing_number: '123123123'
+   };
+  nock(baseUrl).post('/v1/payment_methods').reply(200, mockACHPaymentMethod);
+
+  const result = await paymentMethods.createBankAccount(input as any);
+  expect(result).toEqual(mockACHPaymentMethod);
+});
+
 test('get payment method', async () => {
   nock(baseUrl).get('/v1/payment_methods/pm_123').reply(200, mockPaymentMethod);
 
@@ -223,6 +236,34 @@ test('createGooglePayPaymentMethod → POST /v1/payment_methods with wallet enve
     .reply(200, mockPaymentMethod);
 
   const result = await paymentMethods.createGooglePayPaymentMethod(params);
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('createApplePay (canonical) → POST /v1/payment_methods with wallet envelope', async () => {
+  const params = {
+    type: 'card' as const,
+    customer: 'cus_abc',
+    _wallet: { type: 'apple_pay' as const, apple_pay: { requestId: 'req_1' } },
+  };
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
+    .post('/v1/payment_methods', (body) => body._wallet?.type === 'apple_pay')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.createApplePay(params as any);
+  expect(result).toEqual(mockPaymentMethod);
+});
+
+test('createGooglePay (canonical) → POST /v1/payment_methods with wallet envelope', async () => {
+  const params = {
+    type: 'card' as const,
+    account: 'acct_123',
+    _wallet: { type: 'google_pay' as const, google_pay: { apiVersion: 2 } },
+  };
+  nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
+    .post('/v1/payment_methods', (body) => body._wallet?.type === 'google_pay')
+    .reply(200, mockPaymentMethod);
+
+  const result = await paymentMethods.createGooglePay(params as any);
   expect(result).toEqual(mockPaymentMethod);
 });
 

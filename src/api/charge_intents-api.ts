@@ -12,26 +12,31 @@ import { maybePublishableKey, type RequestOptions } from '../client';
 export class ChargeIntentsAPI {
   constructor(private client: AxiosInstance) {}
 
+  /** @deprecated Use `transfers.create` instead. Removed at v2. */
   async create(params: CreateChargeIntentParams, opts?: RequestOptions): Promise<ChargeIntent> {
     const resp = await this.client.post('/v1/charge_intents', params, maybePublishableKey(opts));
     return resp.data;
   }
 
+  /** @deprecated Removed at v2. No canonical transfer equivalent yet (FRA-4463). */
   async update(id: string, params: UpdateChargeIntentParams): Promise<ChargeIntent> {
     const resp = await this.client.patch(`/v1/charge_intents/${id}`, params);
     return resp.data;
   }
 
+  /** @deprecated Use `transfers.retrieve` instead. Removed at v2. */
   async get(id: string, opts?: RequestOptions): Promise<ChargeIntent> {
     const resp = await this.client.get(`/v1/charge_intents/${id}`, maybePublishableKey(opts));
     return resp.data;
   }
 
+  /** @deprecated Use `transfers.list` instead. Removed at v2. */
   async list(per_page?: number, page?: number): Promise<ChargeIntentListResponse> {
     const resp = await this.client.get('/v1/charge_intents', { params: { per_page, page } });
     return resp.data;
   }
 
+  /** @deprecated Use `transfers.iterateAllTransfers` instead. Removed at v2. */
   async iterateAllChargeIntents(per_page = 20) {
           return paginate<ChargeIntent>(async (page: number) => {
             const res = await this.client.get('/v1/charge_intents', {
@@ -41,21 +46,25 @@ export class ChargeIntentsAPI {
           }, per_page);
         }
 
+  /** @deprecated Removed at v2. No canonical transfer equivalent yet (FRA-4463). */
   async cancel(id: string): Promise<ChargeIntent> {
     const resp = await this.client.post(`/v1/charge_intents/${id}/cancel`);
     return resp.data;
   }
 
+  /** @deprecated Use `transfers.confirm` instead. Removed at v2. */
   async confirm(id: string, opts?: RequestOptions): Promise<ChargeIntent> {
     const resp = await this.client.post(`/v1/charge_intents/${id}/confirm`, undefined, maybePublishableKey(opts));
     return resp.data;
   }
 
+  /** @deprecated Removed at v2. No canonical transfer equivalent yet (FRA-4463). */
   async capture(id: string, params?: CaptureChargeIntentParams): Promise<ChargeIntent> {
     const resp = await this.client.post(`/v1/charge_intents/${id}/capture`, params);
     return resp.data;
   }
 
+  /** @deprecated Removed at v2. No canonical transfer equivalent yet (FRA-4463). */
   async voidRemaining(id: string): Promise<ChargeIntent> {
     const resp = await this.client.post(`/v1/charge_intents/${id}/void_remaining`);
     return resp.data;

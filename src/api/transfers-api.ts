@@ -26,6 +26,11 @@ export class TransfersAPI {
     return resp.data;
   }
 
+  async confirm(id: string, opts?: RequestOptions): Promise<Transfer> {
+    const resp = await this.client.post(`/v1/transfers/${id}/confirm`, undefined, maybePublishableKey(opts));
+    return resp.data;
+  }
+
   async iterateAllTransfers(per_page = 20) {
     return paginate<Transfer>(async (page: number) => {
       const res = await this.client.get('/v1/transfers', { params: { per_page, page } });

@@ -88,7 +88,7 @@ export class AccountsAPI {
   // hosted onboarding flow.
   async confirmKycPrefill(id: string, opts?: RequestOptions): Promise<Account> {
     const resp = await this.client.post(
-      `/v1/accounts/${id}/confirm_kyc_prefill`,
+      `/v1/accounts/${id}/kyc_prefill/confirm`,
       undefined,
       maybePublishableKey(opts),
     );

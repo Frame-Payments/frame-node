@@ -83,6 +83,18 @@ export class AccountsAPI {
     return resp.data;
   }
 
+  // Confirms the KYC prefill data on an account, promoting the prefilled
+  // profile to the account's verified identity. Account-scoped op backing the
+  // hosted onboarding flow.
+  async confirmKycPrefill(id: string, opts?: RequestOptions): Promise<Account> {
+    const resp = await this.client.post(
+      `/v1/accounts/${id}/kyc_prefill/confirm`,
+      undefined,
+      maybePublishableKey(opts),
+    );
+    return resp.data;
+  }
+
   iterateAllAccounts(per_page = 20): AsyncGenerator<Account> {
     return paginate<Account>(async (page: number) => {
       const res = await this.client.get('/v1/accounts', {

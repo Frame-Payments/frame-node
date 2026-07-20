@@ -133,3 +133,10 @@ test('getGeoCompliance → GET /v1/accounts/{id}/geo_compliance', async () => {
   const result = await accounts.getGeoCompliance('acct_123');
   expect(result).toEqual(body);
 });
+
+test('confirmKycPrefill → POST /v1/accounts/{id}/kyc_prefill/confirm', async () => {
+  nock(baseUrl).post('/v1/accounts/acct_123/kyc_prefill/confirm').reply(200, mockAccount);
+
+  const result = await accounts.confirmKycPrefill('acct_123');
+  expect(result).toEqual(mockAccount);
+});

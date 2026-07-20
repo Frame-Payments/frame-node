@@ -26,9 +26,14 @@ export class CustomersAPI {
   }
 
   // Retrieve
-  async get(id: string): Promise<Customer> {
+  async retrieve(id: string): Promise<Customer> {
     const resp = await this.client.get(`/v1/customers/${id}`);
     return resp.data;
+  }
+
+  /** @deprecated Use `accounts.retrieve` instead. Removed at v2. */
+  async get(id: string): Promise<Customer> {
+    return this.retrieve(id);
   }
 
   // List, with pagination
@@ -48,7 +53,11 @@ export class CustomersAPI {
     }, per_page);
   }
 
-  // Delete
+  /**
+   * @deprecated Use `accounts.disable` instead. Removed at v2. This continues to
+   * hit `DELETE /v1/customers/{id}`; the customer-lifecycle equivalent on the
+   * accounts resource is `accounts.disable`.
+   */
   async delete(id: string): Promise<DeleteResponse> {
     const resp = await this.client.delete(`/v1/customers/${id}`);
     return resp.data;
@@ -60,18 +69,33 @@ export class CustomersAPI {
     return resp.data;
   }
 
-  // Block
+  /**
+   * @deprecated Use `accounts.block` instead. Removed at v2. The accounts
+   * equivalent (`POST /v1/accounts/{id}/block`) is pending a monolith route and
+   * is not yet available; this method remains functional against
+   * `POST /v1/customers/{id}/block` until then.
+   */
   async block(id: string): Promise<Customer> {
     const resp = await this.client.post(`/v1/customers/${id}/block`);
     return resp.data;
   }
 
-  // Unblock
+  /**
+   * @deprecated Use `accounts.unblock` instead. Removed at v2. The accounts
+   * equivalent (`POST /v1/accounts/{id}/unblock`) is pending a monolith route and
+   * is not yet available; this method remains functional against
+   * `POST /v1/customers/{id}/unblock` until then.
+   */
   async unblock(id: string): Promise<Customer> {
     const resp = await this.client.post(`/v1/customers/${id}/unblock`);
     return resp.data;
   }
 
+  /**
+   * @deprecated Use `paymentMethods.list({ account_id })` instead (FRA-4461).
+   * Removed at v2. Remains functional against
+   * `GET /v1/customers/{id}/payment_methods`.
+   */
   async getPaymentMethods(id: string): Promise<PaymentMethod[]> {
     const resp = await this.client.get(`/v1/customers/${id}/payment_methods`);
     return resp.data;

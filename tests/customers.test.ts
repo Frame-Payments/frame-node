@@ -30,7 +30,14 @@ test('create customer', async () => {
   expect(result).toEqual(mockCustomer);
 });
 
-test('get customer', async () => {
+test('retrieve customer', async () => {
+  nock(baseUrl).get('/v1/customers/cus_123').reply(200, mockCustomer);
+
+  const result = await customers.retrieve('cus_123');
+  expect(result).toEqual(mockCustomer);
+});
+
+test('get customer (deprecated alias → retrieve)', async () => {
   nock(baseUrl).get('/v1/customers/cus_123').reply(200, mockCustomer);
 
   const result = await customers.get('cus_123');

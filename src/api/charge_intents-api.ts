@@ -36,6 +36,7 @@ export class ChargeIntentsAPI {
     return resp.data;
   }
 
+  /** @deprecated Use `transfers.iterateAllTransfers` instead. Removed at v2. */
   async iterateAllChargeIntents(per_page = 20) {
           return paginate<ChargeIntent>(async (page: number) => {
             const res = await this.client.get('/v1/charge_intents', {

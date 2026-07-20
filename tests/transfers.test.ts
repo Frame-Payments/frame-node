@@ -124,6 +124,15 @@ test('retrieve transfer', async () => {
   expect(result).toEqual(mockTransfer);
 });
 
+test('confirm transfer', async () => {
+  const confirmed: Transfer = { ...mockTransfer, status: 'succeeded' };
+
+  nock(baseUrl).post('/v1/transfers/tr_123/confirm').reply(200, confirmed);
+
+  const result = await transfers.confirm('tr_123');
+  expect(result).toEqual(confirmed);
+});
+
 test('list transfers', async () => {
   const response = { data: [mockTransfer], meta: listMeta };
 

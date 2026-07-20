@@ -107,3 +107,46 @@ test('capture charge intent — partial amount via amount_captured_cents', async
   const result = await chargeIntents.capture('ci_123', { amount_captured_cents: 500 });
   expect(result).toEqual(mockChargeIntent);
 });
+
+// Deprecated aliases (create/get/list/confirm) remain functional and keep
+// returning the legacy ChargeIntent type by continuing to hit the
+// /v1/charge_intents endpoints — they are NOT forwarded to /v1/transfers,
+// which would change the return type. See FRA-4462.
+test('deprecated create still hits /v1/charge_intents', async () => {
+  const input = { amount: 1500, currency: 'usd' };
+
+  const scope = nock(baseUrl).post('/v1/charge_intents', input).reply(200, mockChargeIntent);
+
+  const result = await chargeIntents.create(input as any);
+  expect(result).toEqual(mockChargeIntent);
+  expect(scope.isDone()).toBe(true);
+});
+
+test('deprecated get still hits /v1/charge_intents/:id', async () => {
+  const scope = nock(baseUrl).get('/v1/charge_intents/ci_123').reply(200, mockChargeIntent);
+
+  const result = await chargeIntents.get('ci_123');
+  expect(result).toEqual(mockChargeIntent);
+  expect(scope.isDone()).toBe(true);
+});
+
+test('deprecated list still hits /v1/charge_intents', async () => {
+  const response = { data: [mockChargeIntent], page: 1, per_page: 10, total: 1 };
+
+  const scope = nock(baseUrl)
+    .get('/v1/charge_intents')
+    .query({ per_page: 10, page: 1 })
+    .reply(200, response);
+
+  const result = await chargeIntents.list(10, 1);
+  expect(result).toEqual(response);
+  expect(scope.isDone()).toBe(true);
+});
+
+test('deprecated confirm still hits /v1/charge_intents/:id/confirm', async () => {
+  const scope = nock(baseUrl).post('/v1/charge_intents/ci_123/confirm').reply(200, mockChargeIntent);
+
+  const result = await chargeIntents.confirm('ci_123');
+  expect(result).toEqual(mockChargeIntent);
+  expect(scope.isDone()).toBe(true);
+});

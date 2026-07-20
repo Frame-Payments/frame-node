@@ -183,19 +183,19 @@
         },
         {
           "name": "confirm",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "create",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "list",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "update",
@@ -946,6 +946,10 @@
     "transfers": {
       "class": "TransfersAPI",
       "methods": [
+        {
+          "name": "confirm",
+          "deprecated": false
+        },
         {
           "name": "create",
           "deprecated": false

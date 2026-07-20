@@ -6,6 +6,10 @@
       "class": "AccountsAPI",
       "methods": [
         {
+          "name": "confirmKycPrefill",
+          "deprecated": false
+        },
+        {
           "name": "create",
           "deprecated": false
         },
@@ -321,11 +325,11 @@
         },
         {
           "name": "delete",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "get",
-          "deprecated": false
+          "deprecated": true
         },
         {
           "name": "getPaymentMethods",
@@ -333,6 +337,10 @@
         },
         {
           "name": "list",
+          "deprecated": true
+        },
+        {
+          "name": "retrieve",
           "deprecated": false
         },
         {

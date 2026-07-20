@@ -55,6 +55,22 @@ export type {
   AttestResponse,
 } from './types/device_attestation';
 export type { GooglePayConfiguration } from './types/wallet';
+
+// Payment-method enums are runtime values (used to build create params), so
+// they must be exported as values, not `export type`. Interfaces below are
+// type-only. Restores the public types dropped from the 2.4.0 deep-import path.
+export {
+  PaymentMethodType,
+  PaymentAccountType,
+  PaymentMethodStatus,
+} from './types/payment_methods';
+export type {
+  PaymentMethod,
+  PaymentCard,
+  BankAccount,
+  PaymentMethodListResponse,
+} from './types/payment_methods';
+export type { Address } from './types/customers';
 export type {
   ApplePayPaymentDataHeader,
   ApplePayPaymentData,

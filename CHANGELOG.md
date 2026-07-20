@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1
+
+- **Restored payment-method public types at the entry point (FRA-4713).** The 2.4.0 dual CJS/ESM bundle only re-exported the Apple/Google Pay types; the general payment-method types — present in the built declarations but not exported — are now importable directly from `framepayments`: the `PaymentMethodType`, `PaymentAccountType`, and `PaymentMethodStatus` enums (runtime values) plus the `PaymentMethod`, `PaymentCard`, `BankAccount`, `PaymentMethodListResponse`, and `Address` types. These are the shape of `paymentMethods.createCard` / `.createACH` results and the enums needed to build their params. This restores the types removed from the old `framepayments/dist/types/payment_methods` deep-import path, so consumers (e.g. frame-react-native) can drop their local mirror. Types/enums only — no behavior change.
+
 ## 2.4.0
 
 Publishable-key-only mobile clients (starting with `framepayments-react-native`, FRA-4315) can now authenticate **onboarding sessions** and **per-object client secrets**, matching the three-tier auth resolver of the native Frame iOS / Android SDKs (FRA-4712).

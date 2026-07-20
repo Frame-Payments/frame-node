@@ -1,6 +1,6 @@
 {
   "name": "framepayments",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "The Frame Node.js Library simplifies the process of creating a seamless payment experience within your web app. it provides access to the underlying APIs that drive these components, allowing you to design fully customized payment workflows tailored to your app's needs.",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.cts",

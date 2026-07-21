@@ -5,6 +5,7 @@ import { CapabilitiesAPI } from './api/capabilities-api';
 import { OnboardingSessionsAPI } from './api/onboarding_sessions-api';
 import { CustomersAPI } from './api/customers-api';
 import { PaymentMethodsAPI } from './api/payment_methods-api';
+import { BankAccountsAPI } from './api/bank_accounts-api';
 import { ChargeIntentsAPI } from './api/charge_intents-api';
 import { RefundsAPI } from './api/refunds-api';
 import { SubscriptionsAPI } from './api/subscriptions-api';
@@ -70,6 +71,13 @@ export type {
   BankAccount,
   PaymentMethodListResponse,
 } from './types/payment_methods';
+// `BankAccount` (the standalone /v1/bank_accounts resource) is re-exported as
+// `BankAccountResource` to avoid colliding with the payment-method `BankAccount`
+// sub-shape exported just above.
+export type {
+  BankAccount as BankAccountResource,
+  CreateBankAccountParams,
+} from './types/bank_accounts';
 export type { Address } from './types/customers';
 export type {
   ApplePayPaymentDataHeader,
@@ -106,6 +114,7 @@ export class FrameSDK {
   public onboardingSessions: OnboardingSessionsAPI;
   public customers: CustomersAPI;
   public paymentMethods: PaymentMethodsAPI;
+  public bankAccounts: BankAccountsAPI;
   public chargeIntents: ChargeIntentsAPI;
   public refunds: RefundsAPI;
   public subscriptions: SubscriptionsAPI;
@@ -157,6 +166,7 @@ export class FrameSDK {
     this.onboardingSessions = new OnboardingSessionsAPI(client);
     this.customers = new CustomersAPI(client);
     this.paymentMethods = new PaymentMethodsAPI(client);
+    this.bankAccounts = new BankAccountsAPI(client);
     this.chargeIntents = new ChargeIntentsAPI(client);
     this.refunds = new RefundsAPI(client);
     this.subscriptions = new SubscriptionsAPI(client);

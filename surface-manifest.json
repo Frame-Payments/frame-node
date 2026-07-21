@@ -59,6 +59,19 @@
         }
       ]
     },
+    "bankAccounts": {
+      "class": "BankAccountsAPI",
+      "methods": [
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
+          "deprecated": false
+        }
+      ]
+    },
     "beneficialOwners": {
       "class": "BeneficialOwnersAPI",
       "methods": [

@@ -851,6 +851,10 @@
           "deprecated": false
         },
         {
+          "name": "cancelScheduledChange",
+          "deprecated": false
+        },
+        {
           "name": "create",
           "deprecated": false
         },

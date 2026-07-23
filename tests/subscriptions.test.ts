@@ -144,7 +144,7 @@ const mockScheduledChange = {
   created: 1234567890,
 };
 
-test('cancelScheduledChange clears the pending scheduled change', async () => {
+test('cancel scheduled change', async () => {
   const cleared: Subscription = { ...mockSubscription, scheduled_change: null };
 
   nock(baseUrl)
@@ -156,7 +156,7 @@ test('cancelScheduledChange clears the pending scheduled change', async () => {
   expect(result.scheduled_change).toBeNull();
 });
 
-test('subscription deserializes a populated scheduled_change', async () => {
+test('retrieve subscription with scheduled change', async () => {
   const subWithChange: Subscription = {
     ...mockSubscription,
     scheduled_change: mockScheduledChange,

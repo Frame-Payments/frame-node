@@ -134,3 +134,37 @@ test('resume subscription', async () => {
   const result = await subscriptions.resume('sub_123');
   expect(result).toEqual(mockSubscription);
 });
+
+const mockScheduledChange = {
+  id: 'ssc_123',
+  object: 'subscription_scheduled_change',
+  product: 'prod_456',
+  interval_switch: false,
+  effective_date: 1234599999,
+  created: 1234567890,
+};
+
+test('cancel scheduled change', async () => {
+  const cleared: Subscription = { ...mockSubscription, scheduled_change: null };
+
+  nock(baseUrl)
+    .delete('/v1/subscriptions/sub_123/scheduled_change')
+    .reply(200, cleared);
+
+  const result = await subscriptions.cancelScheduledChange('sub_123');
+  expect(result).toEqual(cleared);
+  expect(result.scheduled_change).toBeNull();
+});
+
+test('retrieve subscription with scheduled change', async () => {
+  const subWithChange: Subscription = {
+    ...mockSubscription,
+    scheduled_change: mockScheduledChange,
+  };
+
+  nock(baseUrl).get('/v1/subscriptions/sub_123').reply(200, subWithChange);
+
+  const result = await subscriptions.retrieve('sub_123');
+  expect(result).toEqual(subWithChange);
+  expect(result.scheduled_change).toEqual(mockScheduledChange);
+});

@@ -22,6 +22,15 @@ export interface PlanDetails {
   livemode: boolean;
 }
 
+export interface SubscriptionScheduledChange {
+  id: string;
+  object: string; // Always "subscription_scheduled_change".
+  product: string; // ID of the product the subscription will change to at next renewal.
+  interval_switch: boolean; // Whether the change also switches billing interval.
+  effective_date: number; // Unix ts when the change takes effect; tracks current period end.
+  created: number; // Unix ts when the change was scheduled.
+}
+
 export interface Subscription {
   id: string;
   description?: string;
@@ -44,6 +53,7 @@ export interface Subscription {
   effective_interval?: string | null;
   effective_interval_count?: number | null;
   latest_charge_intent?: string | null;
+  scheduled_change?: SubscriptionScheduledChange | null;
   object?: string;
   created?: number;
   updated?: number;

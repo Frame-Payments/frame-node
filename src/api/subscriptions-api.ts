@@ -64,4 +64,9 @@ export class SubscriptionsAPI {
     const resp = await this.client.post(`/v1/subscriptions/${id}/resume`);
     return resp.data;
   }
+
+  async cancelScheduledChange(id: string): Promise<Subscription> {
+    const resp = await this.client.delete(`/v1/subscriptions/${id}/scheduled_change`);
+    return resp.data;
+  }
 }

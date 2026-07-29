@@ -318,7 +318,7 @@ describe('bearer auth precedence — authToken > session > pk/sk', () => {
     await client.post('/v1/charge_intents/ci_123/confirm', undefined, maybePublishableKey({ authToken: 'ci_123_secret_abc' }));
   });
 
-  test('active onboarding session token wins over pk/sk for all calls, ignoring usePublishableKey', async () => {
+  test('active onboarding session token wins over sk for default-routed calls', async () => {
     const store = createOnboardingSessionStore();
     store.token = 'onb_sess_live';
     const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' }, store);
@@ -327,12 +327,23 @@ describe('bearer auth precedence — authToken > session > pk/sk', () => {
     nock(baseUrl, { reqheaders: { authorization: 'Bearer onb_sess_live' } })
       .get('/v1/customers')
       .reply(200, { data: [] });
-    // usePublishableKey routing (would be pk) -> still session token.
-    nock(baseUrl, { reqheaders: { authorization: 'Bearer onb_sess_live' } })
+
+    await client.get('/v1/customers');
+  });
+
+  test('an explicit usePublishableKey request wins over an active onboarding session', async () => {
+    // Merchant-level, publishable-only endpoints (terms_of_service, device_attestation,
+    // configuration, wallet/pay config) opt in via usePublishableKey. The backend rejects the
+    // onb_sess_ token on them, so an explicit publishable request must beat the session — matching
+    // native iOS/Android `bearerToken()` precedence (publishable above session).
+    const store = createOnboardingSessionStore();
+    store.token = 'onb_sess_live';
+    const client = createApiClient({ apiKey: 'sk_test', publishableKey: 'pk_test' }, store);
+
+    nock(baseUrl, { reqheaders: { authorization: 'Bearer pk_test' } })
       .get('/v1/config/evervault')
       .reply(200, {});
 
-    await client.get('/v1/customers');
     await client.get('/v1/config/evervault', withPublishableKey());
   });
 

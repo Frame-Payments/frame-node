@@ -85,15 +85,16 @@ The SDK defaults match the native Frame iOS / Android SDKs exactly — endpoints
 
 ## 🪪 Onboarding sessions & per-object client secrets
 
-Publishable-key-only mobile clients can authenticate **onboarding sessions** and **per-object client secrets**, matching the three-tier auth model of the native Frame iOS / Android SDKs. The bearer for any request is resolved in this precedence order:
+Publishable-key-only mobile clients can authenticate **onboarding sessions** and **per-object client secrets**, matching the auth model of the native Frame iOS / Android SDKs. The bearer for any request is resolved in this precedence order:
 
 1. a per-request `authToken` (an object `client_secret`, e.g. `ci_..._secret_...`), else
-2. the active onboarding-session token (e.g. `onb_sess_...`), else
-3. the publishable key (when `usePublishableKey: true`) or the secret key.
+2. an explicit publishable-key request (`usePublishableKey: true`) — this wins over an active session, because merchant-level publishable-only endpoints (terms_of_service, device_attestation, configuration, wallet/pay config) reject the session token, else
+3. the active onboarding-session token (e.g. `onb_sess_...`), else
+4. the secret key.
 
 ### Onboarding sessions
 
-Begin a session to route **every** request through the session token, overriding the configured keys (and ignoring `usePublishableKey`) while it is active. Mirrors iOS `beginOnboardingSession` / `endOnboardingSession`.
+Begin a session to route requests through the session token, overriding the configured keys while it is active — except calls that explicitly pass `usePublishableKey: true`, which still use the publishable key (see precedence above). Mirrors iOS `beginOnboardingSession` / `endOnboardingSession`.
 
 ```ts
 const frame = new FrameSDK({ publishableKey: 'pk_...' });

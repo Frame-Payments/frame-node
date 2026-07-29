@@ -136,25 +136,41 @@ export const createApiClient = (
       }
     }
 
-    // Resolve the bearer with the same three-tier precedence as the native
-    // iOS/Android `bearerToken()`:
+    // Resolve the bearer with the same precedence as the native iOS/Android
+    // `bearerToken()`:
     //   1. per-request authToken (an object client_secret), else
-    //   2. active onboarding-session token, else
-    //   3. publishableKey when usePublishableKey === true, else apiKey.
+    //   2. explicit publishableKey request (usePublishableKey === true), else
+    //   3. active onboarding-session token, else
+    //   4. apiKey.
+    //
+    // (2) sits ABOVE the session: merchant-level, publishable-only endpoints
+    // (terms_of_service, device_attestation, configuration, wallet/pay config)
+    // opt in via `usePublishableKey: true`, and the backend rejects the
+    // onb_sess_ token on them ("Client secret is not permitted for this
+    // endpoint."). An explicit publishable request must therefore win over an
+    // active session, exactly as it does on iOS/Android.
     const sessionToken = sessionStore.token;
     let bearer: string | undefined;
     if (perRequestAuthToken) {
       bearer = perRequestAuthToken;
+    } else if (wantsPublishable) {
+      if (!publishableKey) {
+        throw new FrameAPIError(
+          'Frame publishable key is not configured. Pass { publishableKey } to new FrameSDK(...) before calling endpoints with { usePublishableKey: true }.',
+          'missing_publishable_key',
+          0,
+          null,
+        );
+      }
+      bearer = publishableKey;
     } else if (sessionToken) {
       bearer = sessionToken;
     } else {
-      const keyToUse = wantsPublishable ? publishableKey : apiKey;
+      const keyToUse = apiKey;
       if (!keyToUse) {
         throw new FrameAPIError(
-          wantsPublishable
-            ? 'Frame publishable key is not configured. Pass { publishableKey } to new FrameSDK(...) before calling endpoints with { usePublishableKey: true }.'
-            : 'Frame API key is not configured. Pass { apiKey } to new FrameSDK(...) before calling secret-keyed endpoints.',
-          wantsPublishable ? 'missing_publishable_key' : 'missing_api_key',
+          'Frame API key is not configured. Pass { apiKey } to new FrameSDK(...) before calling secret-keyed endpoints.',
+          'missing_api_key',
           0,
           null,
         );

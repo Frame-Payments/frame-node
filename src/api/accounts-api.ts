@@ -70,11 +70,7 @@ export class AccountsAPI {
     return resp.data;
   }
 
-  // Makes an existing ACH payment method the account's payout destination.
-  // Distinct from creating a payout transaction (`PayoutsAPI.create`). This is
-  // also the endpoint iOS calls while onboarding-session-scoped to elect a
-  // payout method during the onboarding flow — there is no separate
-  // onboarding-scoped payout route.
+  // Distinct from creating a payout transaction (`PayoutsAPI.create`).
   async electPayoutMethod(id: string, paymentMethodId: string, opts?: RequestOptions): Promise<Account> {
     const resp = await this.client.post(
       `/v1/accounts/${id}/elect_payout_method`,

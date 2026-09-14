@@ -37,9 +37,7 @@ export class ConfigurationAPI {
     return resp.data;
   }
 
-  // Aggregate of all five config blocks in one round-trip. Matches Frame-iOS's
-  // `GET /v1/config/all` (FRA-6251). Each block is omitted, not nulled, when
-  // that sub-service failed to resolve server-side.
+  // Blocks are omitted, not nulled, if that sub-service failed server-side.
   async getAllConfiguration(opts?: RequestOptions): Promise<AllConfiguration> {
     const resp = await this.client.get('/v1/config/all', maybePublishableKey(opts));
     return resp.data;

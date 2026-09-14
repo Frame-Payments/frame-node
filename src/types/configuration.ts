@@ -26,8 +26,6 @@ export interface MapboxConfiguration {
   expires_at: string | null;
 }
 
-// Each block is omitted (not present, not null) when that sub-service failed
-// to resolve server-side. Matches Frame-iOS `GetAllConfigurationResponse`.
 export interface AllConfiguration {
   evervault?: EvervaultConfiguration;
   fingerprint?: FingerprintConfiguration;

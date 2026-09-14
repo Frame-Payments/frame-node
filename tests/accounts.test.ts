@@ -140,3 +140,12 @@ test('confirmKycPrefill → POST /v1/accounts/{id}/kyc_prefill/confirm', async (
   const result = await accounts.confirmKycPrefill('acct_123');
   expect(result).toEqual(mockAccount);
 });
+
+test('electPayoutMethod → POST /v1/accounts/{id}/elect_payout_method', async () => {
+  nock(baseUrl)
+    .post('/v1/accounts/acct_123/elect_payout_method', { payment_method_id: 'pm_123' })
+    .reply(200, mockAccount);
+
+  const result = await accounts.electPayoutMethod('acct_123', 'pm_123');
+  expect(result).toEqual(mockAccount);
+});

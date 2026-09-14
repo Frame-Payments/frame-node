@@ -10,6 +10,7 @@ import { ChargeIntentsAPI } from './api/charge_intents-api';
 import { RefundsAPI } from './api/refunds-api';
 import { SubscriptionsAPI } from './api/subscriptions-api';
 import { CustomerIdentityVerificationsAPI } from './api/customer_identity-api';
+import { IdvAPI } from './api/idv-api';
 import { SubscriptionPhasesAPI } from './api/subscription_phases-api';
 import { InvoicesAPI } from './api/invoices-api';
 import { InvoiceLineItemsAPI } from './api/invoice_line_item-api';
@@ -17,7 +18,6 @@ import { DisputesAPI } from './api/disputes-api';
 import { ProductsAPI } from './api/products-api';
 import { ChargesAPI } from './api/charges-api';
 import { ChargeSessionsAPI } from './api/charge_sessions-api';
-import { SonarSessionsAPI } from './api/sonar_sessions-api';
 import { PhoneVerificationsAPI } from './api/phone_verifications-api';
 import { GeofencesAPI } from './api/geofences-api';
 import { WebhookEndpointsAPI } from './api/webhook_endpoints-api';
@@ -35,7 +35,6 @@ import { ThreeDsIntentsAPI } from './api/three_ds-api';
 import { MerchantBalanceAPI } from './api/merchant_balance-api';
 import { ProductPhasesAPI } from './api/product_phases-api';
 import { TermsOfServiceAPI } from './api/terms_of_service-api';
-import { OnboardingAPI } from './api/onboarding-api';
 import { ConfigurationAPI } from './api/configuration-api';
 import { DeviceAttestationAPI } from './api/device_attestation-api';
 import { WalletAPI } from './api/wallet-api';
@@ -49,7 +48,16 @@ export type { ClientConfig, RequestOptions, OnboardingSessionStore } from './cli
 export type {
   EvervaultConfiguration,
   SiftConfiguration,
+  FingerprintConfiguration,
+  LegalConfiguration,
+  MapboxConfiguration,
+  AllConfiguration,
 } from './types/configuration';
+export type {
+  CreateIdvSessionResponse,
+  CompleteIdvSessionParams,
+  CompleteIdvSessionResponse,
+} from './types/idv';
 export type {
   ChallengeResponse,
   AttestRequest,
@@ -119,6 +127,7 @@ export class FrameSDK {
   public refunds: RefundsAPI;
   public subscriptions: SubscriptionsAPI;
   public customerIdentityVerifications: CustomerIdentityVerificationsAPI;
+  public idv: IdvAPI;
   public subscriptionPhases: SubscriptionPhasesAPI;
   public invoices: InvoicesAPI;
   public invoiceLineItems: InvoiceLineItemsAPI;
@@ -126,7 +135,6 @@ export class FrameSDK {
   public products: ProductsAPI;
   public charges: ChargesAPI;
   public chargeSessions: ChargeSessionsAPI;
-  public sonarSessions: SonarSessionsAPI;
   public phoneVerifications: PhoneVerificationsAPI;
   public geofences: GeofencesAPI;
   public webhookEndpoints: WebhookEndpointsAPI;
@@ -146,7 +154,6 @@ export class FrameSDK {
   public merchantBalance: MerchantBalanceAPI;
   public productPhases: ProductPhasesAPI;
   public termsOfService: TermsOfServiceAPI;
-  public onboarding: OnboardingAPI;
   public configuration: ConfigurationAPI;
   public deviceAttestation: DeviceAttestationAPI;
   public wallet: WalletAPI;
@@ -171,6 +178,7 @@ export class FrameSDK {
     this.refunds = new RefundsAPI(client);
     this.subscriptions = new SubscriptionsAPI(client);
     this.customerIdentityVerifications = new CustomerIdentityVerificationsAPI(client);
+    this.idv = new IdvAPI(client);
     this.subscriptionPhases = new SubscriptionPhasesAPI(client);
     this.invoices = new InvoicesAPI(client);
     this.invoiceLineItems = new InvoiceLineItemsAPI(client);
@@ -178,7 +186,6 @@ export class FrameSDK {
     this.products = new ProductsAPI(client);
     this.charges = new ChargesAPI(client);
     this.chargeSessions = new ChargeSessionsAPI(client);
-    this.sonarSessions = new SonarSessionsAPI(client);
     this.phoneVerifications = new PhoneVerificationsAPI(client);
     this.geofences = new GeofencesAPI(client);
     this.webhookEndpoints = new WebhookEndpointsAPI(client);
@@ -198,7 +205,6 @@ export class FrameSDK {
     this.merchantBalance = new MerchantBalanceAPI(client);
     this.productPhases = new ProductPhasesAPI(client);
     this.termsOfService = new TermsOfServiceAPI(client);
-    this.onboarding = new OnboardingAPI(client);
     this.configuration = new ConfigurationAPI(client);
     this.deviceAttestation = new DeviceAttestationAPI(client);
     this.wallet = new WalletAPI(client);

@@ -58,3 +58,12 @@ test('list refunds', async () => {
   expect(result).toEqual(response);
 });
 
+test('cancel refund', async () => {
+  const canceled = { ...mockRefund, status: RefundStatus.CANCELED };
+
+  nock(baseUrl).post('/v1/refunds/re_123/cancel').reply(200, canceled);
+
+  const result = await refunds.cancel('re_123');
+  expect(result).toEqual(canceled);
+});
+

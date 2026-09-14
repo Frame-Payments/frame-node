@@ -18,7 +18,6 @@ import { DisputesAPI } from './api/disputes-api';
 import { ProductsAPI } from './api/products-api';
 import { ChargesAPI } from './api/charges-api';
 import { ChargeSessionsAPI } from './api/charge_sessions-api';
-import { SonarSessionsAPI } from './api/sonar_sessions-api';
 import { PhoneVerificationsAPI } from './api/phone_verifications-api';
 import { GeofencesAPI } from './api/geofences-api';
 import { WebhookEndpointsAPI } from './api/webhook_endpoints-api';
@@ -36,7 +35,6 @@ import { ThreeDsIntentsAPI } from './api/three_ds-api';
 import { MerchantBalanceAPI } from './api/merchant_balance-api';
 import { ProductPhasesAPI } from './api/product_phases-api';
 import { TermsOfServiceAPI } from './api/terms_of_service-api';
-import { OnboardingAPI } from './api/onboarding-api';
 import { ConfigurationAPI } from './api/configuration-api';
 import { DeviceAttestationAPI } from './api/device_attestation-api';
 import { WalletAPI } from './api/wallet-api';
@@ -137,7 +135,6 @@ export class FrameSDK {
   public products: ProductsAPI;
   public charges: ChargesAPI;
   public chargeSessions: ChargeSessionsAPI;
-  public sonarSessions: SonarSessionsAPI;
   public phoneVerifications: PhoneVerificationsAPI;
   public geofences: GeofencesAPI;
   public webhookEndpoints: WebhookEndpointsAPI;
@@ -157,7 +154,6 @@ export class FrameSDK {
   public merchantBalance: MerchantBalanceAPI;
   public productPhases: ProductPhasesAPI;
   public termsOfService: TermsOfServiceAPI;
-  public onboarding: OnboardingAPI;
   public configuration: ConfigurationAPI;
   public deviceAttestation: DeviceAttestationAPI;
   public wallet: WalletAPI;
@@ -190,7 +186,6 @@ export class FrameSDK {
     this.products = new ProductsAPI(client);
     this.charges = new ChargesAPI(client);
     this.chargeSessions = new ChargeSessionsAPI(client);
-    this.sonarSessions = new SonarSessionsAPI(client);
     this.phoneVerifications = new PhoneVerificationsAPI(client);
     this.geofences = new GeofencesAPI(client);
     this.webhookEndpoints = new WebhookEndpointsAPI(client);
@@ -210,7 +205,6 @@ export class FrameSDK {
     this.merchantBalance = new MerchantBalanceAPI(client);
     this.productPhases = new ProductPhasesAPI(client);
     this.termsOfService = new TermsOfServiceAPI(client);
-    this.onboarding = new OnboardingAPI(client);
     this.configuration = new ConfigurationAPI(client);
     this.deviceAttestation = new DeviceAttestationAPI(client);
     this.wallet = new WalletAPI(client);

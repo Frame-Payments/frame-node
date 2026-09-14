@@ -25,6 +25,12 @@ export class RefundsAPI {
     return resp.data;
   }
 
+  // Server-only — call with your secret key (sk_), not from a client app.
+  async cancel(id: string): Promise<Refund> {
+    const resp = await this.client.post(`/v1/refunds/${id}/cancel`);
+    return resp.data;
+  }
+
   async iterateAllRefunds(per_page = 20) {
       return paginate<Refund>(async (page: number) => {
         const res = await this.client.get('/v1/refunds', {

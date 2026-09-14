@@ -70,6 +70,18 @@ export class AccountsAPI {
     return resp.data;
   }
 
+  // Makes an existing ACH payment method the account's payout destination.
+  // Distinct from creating a payout transaction (`PayoutsAPI.create`) or the
+  // onboarding-session-scoped `OnboardingAPI.payout()`.
+  async electPayoutMethod(id: string, paymentMethodId: string, opts?: RequestOptions): Promise<Account> {
+    const resp = await this.client.post(
+      `/v1/accounts/${id}/elect_payout_method`,
+      { payment_method_id: paymentMethodId },
+      maybePublishableKey(opts),
+    );
+    return resp.data;
+  }
+
   async getPlaidLinkToken(id: string, opts?: RequestOptions): Promise<PlaidLinkTokenResponse> {
     const resp = await this.client.get(`/v1/accounts/${id}/plaid_link_token`, maybePublishableKey(opts));
     return resp.data;

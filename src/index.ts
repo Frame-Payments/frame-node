@@ -10,6 +10,7 @@ import { ChargeIntentsAPI } from './api/charge_intents-api';
 import { RefundsAPI } from './api/refunds-api';
 import { SubscriptionsAPI } from './api/subscriptions-api';
 import { CustomerIdentityVerificationsAPI } from './api/customer_identity-api';
+import { IdvAPI } from './api/idv-api';
 import { SubscriptionPhasesAPI } from './api/subscription_phases-api';
 import { InvoicesAPI } from './api/invoices-api';
 import { InvoiceLineItemsAPI } from './api/invoice_line_item-api';
@@ -49,7 +50,16 @@ export type { ClientConfig, RequestOptions, OnboardingSessionStore } from './cli
 export type {
   EvervaultConfiguration,
   SiftConfiguration,
+  FingerprintConfiguration,
+  LegalConfiguration,
+  MapboxConfiguration,
+  AllConfiguration,
 } from './types/configuration';
+export type {
+  CreateIdvSessionResponse,
+  CompleteIdvSessionParams,
+  CompleteIdvSessionResponse,
+} from './types/idv';
 export type {
   ChallengeResponse,
   AttestRequest,
@@ -119,6 +129,7 @@ export class FrameSDK {
   public refunds: RefundsAPI;
   public subscriptions: SubscriptionsAPI;
   public customerIdentityVerifications: CustomerIdentityVerificationsAPI;
+  public idv: IdvAPI;
   public subscriptionPhases: SubscriptionPhasesAPI;
   public invoices: InvoicesAPI;
   public invoiceLineItems: InvoiceLineItemsAPI;
@@ -171,6 +182,7 @@ export class FrameSDK {
     this.refunds = new RefundsAPI(client);
     this.subscriptions = new SubscriptionsAPI(client);
     this.customerIdentityVerifications = new CustomerIdentityVerificationsAPI(client);
+    this.idv = new IdvAPI(client);
     this.subscriptionPhases = new SubscriptionPhasesAPI(client);
     this.invoices = new InvoicesAPI(client);
     this.invoiceLineItems = new InvoiceLineItemsAPI(client);

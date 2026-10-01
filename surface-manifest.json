@@ -1,6 +1,6 @@
 {
   "sdk": "frame-node",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "resources": {
     "accounts": {
       "class": "AccountsAPI",
@@ -15,6 +15,10 @@
         },
         {
           "name": "disable",
+          "deprecated": false
+        },
+        {
+          "name": "electPayoutMethod",
           "deprecated": false
         },
         {
@@ -258,7 +262,23 @@
       "class": "ConfigurationAPI",
       "methods": [
         {
+          "name": "getAllConfiguration",
+          "deprecated": false
+        },
+        {
           "name": "getEvervaultConfiguration",
+          "deprecated": false
+        },
+        {
+          "name": "getFingerprintConfiguration",
+          "deprecated": false
+        },
+        {
+          "name": "getLegalConfiguration",
+          "deprecated": false
+        },
+        {
+          "name": "getMapboxConfiguration",
           "deprecated": false
         },
         {
@@ -447,6 +467,19 @@
         }
       ]
     },
+    "idv": {
+      "class": "IdvAPI",
+      "methods": [
+        {
+          "name": "completeSession",
+          "deprecated": false
+        },
+        {
+          "name": "createSession",
+          "deprecated": false
+        }
+      ]
+    },
     "invoiceLineItems": {
       "class": "InvoiceLineItemsAPI",
       "methods": [
@@ -514,35 +547,6 @@
       "methods": [
         {
           "name": "retrieve",
-          "deprecated": false
-        }
-      ]
-    },
-    "onboarding": {
-      "class": "OnboardingAPI",
-      "methods": [
-        {
-          "name": "create",
-          "deprecated": false
-        },
-        {
-          "name": "get",
-          "deprecated": true
-        },
-        {
-          "name": "list",
-          "deprecated": false
-        },
-        {
-          "name": "payout",
-          "deprecated": false
-        },
-        {
-          "name": "retrieve",
-          "deprecated": false
-        },
-        {
-          "name": "update",
           "deprecated": false
         }
       ]
@@ -771,6 +775,10 @@
       "class": "RefundsAPI",
       "methods": [
         {
+          "name": "cancel",
+          "deprecated": false
+        },
+        {
           "name": "create",
           "deprecated": false
         },
@@ -784,19 +792,6 @@
         },
         {
           "name": "retrieve",
-          "deprecated": false
-        }
-      ]
-    },
-    "sonarSessions": {
-      "class": "SonarSessionsAPI",
-      "methods": [
-        {
-          "name": "create",
-          "deprecated": false
-        },
-        {
-          "name": "update",
           "deprecated": false
         }
       ]
@@ -989,6 +984,43 @@
         },
         {
           "name": "retrieve",
+          "deprecated": false
+        }
+      ]
+    },
+    "transfersV2": {
+      "class": "TransfersV2API",
+      "methods": [
+        {
+          "name": "capture",
+          "deprecated": false
+        },
+        {
+          "name": "confirm",
+          "deprecated": false
+        },
+        {
+          "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "refund",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
+          "deprecated": false
+        },
+        {
+          "name": "update",
+          "deprecated": false
+        },
+        {
+          "name": "void",
           "deprecated": false
         }
       ]

@@ -33,6 +33,7 @@ describe('FrameSDK constructor', () => {
       'webhookEndpoints',
       'payouts',
       'transfers',
+      'transfersV2',
       'transferFeePlans',
       'transferBillingAgreements',
       'coupons',

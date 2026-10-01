@@ -23,6 +23,7 @@ import { GeofencesAPI } from './api/geofences-api';
 import { WebhookEndpointsAPI } from './api/webhook_endpoints-api';
 import { PayoutsAPI } from './api/payouts-api';
 import { TransfersAPI } from './api/transfers-api';
+import { TransfersV2API } from './api/transfers-v2-api';
 import { TransferFeePlansAPI } from './api/transfer_fee_plans-api';
 import { TransferBillingAgreementsAPI } from './api/transfer_billing_agreements-api';
 import { CouponsAPI } from './api/coupons-api';
@@ -140,6 +141,8 @@ export class FrameSDK {
   public webhookEndpoints: WebhookEndpointsAPI;
   public payouts: PayoutsAPI;
   public transfers: TransfersAPI;
+  /** Additive V2 Transfers client (`/v2/transfers`). V1 remains on `transfers`. */
+  public transfersV2: TransfersV2API;
   public transferFeePlans: TransferFeePlansAPI;
   public transferBillingAgreements: TransferBillingAgreementsAPI;
   public coupons: CouponsAPI;
@@ -191,6 +194,7 @@ export class FrameSDK {
     this.webhookEndpoints = new WebhookEndpointsAPI(client);
     this.payouts = new PayoutsAPI(client);
     this.transfers = new TransfersAPI(client);
+    this.transfersV2 = new TransfersV2API(client);
     this.transferFeePlans = new TransferFeePlansAPI(client);
     this.transferBillingAgreements = new TransferBillingAgreementsAPI(client);
     this.coupons = new CouponsAPI(client);

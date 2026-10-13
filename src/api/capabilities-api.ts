@@ -29,4 +29,9 @@ export class CapabilitiesAPI {
     const resp = await this.client.delete(`/v1/accounts/${accountId}/capabilities/${name}`);
     return resp.data;
   }
+
+  async reactivate(accountId: string, name: string): Promise<Capability> {
+    const resp = await this.client.post(`/v1/accounts/${accountId}/capabilities/${name}/reactivate`);
+    return resp.data;
+  }
 }

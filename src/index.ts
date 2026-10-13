@@ -39,6 +39,7 @@ import { TermsOfServiceAPI } from './api/terms_of_service-api';
 import { ConfigurationAPI } from './api/configuration-api';
 import { DeviceAttestationAPI } from './api/device_attestation-api';
 import { WalletAPI } from './api/wallet-api';
+import { WalletsAPI } from './api/wallets-api';
 import { GeoComplianceAPI } from './api/geo_compliance-api';
 
 export { paginate } from './utils/paginator';
@@ -65,6 +66,15 @@ export type {
   AttestResponse,
 } from './types/device_attestation';
 export type { GooglePayConfiguration } from './types/wallet';
+export type {
+  Wallet,
+  WalletListParams,
+  WalletListResponse,
+  WalletMoney,
+  WalletRejectedReason,
+  WalletStatus,
+  UpdateWalletParams,
+} from './types/wallets';
 
 // Payment-method enums are runtime values (used to build create params), so
 // they must be exported as values, not `export type`. Interfaces below are
@@ -160,6 +170,8 @@ export class FrameSDK {
   public configuration: ConfigurationAPI;
   public deviceAttestation: DeviceAttestationAPI;
   public wallet: WalletAPI;
+  /** Account wallets (`/v2/wallets`). Distinct from `wallet`, which is Apple Pay / Google Pay configuration. */
+  public wallets: WalletsAPI;
   public geoCompliance: GeoComplianceAPI;
 
   // Backs the active onboarding-session bearer token. Mutated in place by
@@ -212,6 +224,7 @@ export class FrameSDK {
     this.configuration = new ConfigurationAPI(client);
     this.deviceAttestation = new DeviceAttestationAPI(client);
     this.wallet = new WalletAPI(client);
+    this.wallets = new WalletsAPI(client);
     this.geoCompliance = new GeoComplianceAPI(client);
   }
 

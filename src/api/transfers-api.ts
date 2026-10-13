@@ -1,5 +1,11 @@
 import type { AxiosInstance } from 'axios';
-import type { Transfer, TransferListResponse, CreateTransferParams } from '../types/transfers';
+import type {
+  ApproveTransferParams,
+  CreateTransferParams,
+  FraudDeclineParams,
+  Transfer,
+  TransferListResponse,
+} from '../types/transfers';
 import { paginate } from '../utils/paginator';
 import { maybePublishableKey, type RequestOptions } from '../client';
 
@@ -28,6 +34,16 @@ export class TransfersAPI {
 
   async confirm(id: string, opts?: RequestOptions): Promise<Transfer> {
     const resp = await this.client.post(`/v1/transfers/${id}/confirm`, undefined, maybePublishableKey(opts));
+    return resp.data;
+  }
+
+  async approve(id: string, params: ApproveTransferParams, opts?: RequestOptions): Promise<Transfer> {
+    const resp = await this.client.post(`/v1/transfers/${id}/approve`, params, maybePublishableKey(opts));
+    return resp.data;
+  }
+
+  async fraud_decline(id: string, params: FraudDeclineParams, opts?: RequestOptions): Promise<Transfer> {
+    const resp = await this.client.post(`/v1/transfers/${id}/fraud_decline`, params, maybePublishableKey(opts));
     return resp.data;
   }
 

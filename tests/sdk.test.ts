@@ -50,6 +50,7 @@ describe('FrameSDK constructor', () => {
       'configuration',
       'deviceAttestation',
       'wallet',
+      'wallets',
       'geoCompliance',
     ];
 

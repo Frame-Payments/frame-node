@@ -166,3 +166,23 @@ test('iterate all transfers across pages', async () => {
 
   expect(ids).toEqual(['tr_123', 'tr_456']);
 });
+
+test('approve transfer', async () => {
+  const approved = { ...mockTransfer, status: 'succeeded' };
+  nock(baseUrl)
+    .post('/v1/transfers/tr_123/approve', { liability_acknowledged: true })
+    .reply(200, approved);
+
+  const result = await transfers.approve('tr_123', { liability_acknowledged: true });
+  expect(result).toEqual(approved);
+});
+
+test('fraud decline transfer', async () => {
+  const declined = { ...mockTransfer, status: 'fraud_declined' };
+  nock(baseUrl)
+    .post('/v1/transfers/tr_123/fraud_decline', { reason: 'suspected_fraud' })
+    .reply(200, declined);
+
+  const result = await transfers.fraud_decline('tr_123', { reason: 'suspected_fraud' });
+  expect(result).toEqual(declined);
+});

@@ -24,6 +24,16 @@ export interface TransferListResponse {
   data: Transfer[];
 }
 
+export interface ApproveTransferParams {
+  liability_acknowledged: true;
+}
+
+export type FraudDeclineReason = 'suspected_fraud' | 'will_not_fulfill';
+
+export interface FraudDeclineParams {
+  reason: FraudDeclineReason;
+}
+
 export interface CreateTransferParams {
   amount: number;
   account_id: string;

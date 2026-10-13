@@ -182,6 +182,10 @@
           "deprecated": false
         },
         {
+          "name": "reactivate",
+          "deprecated": false
+        },
+        {
           "name": "request",
           "deprecated": false
         },
@@ -967,11 +971,19 @@
       "class": "TransfersAPI",
       "methods": [
         {
+          "name": "approve",
+          "deprecated": false
+        },
+        {
           "name": "confirm",
           "deprecated": false
         },
         {
           "name": "create",
+          "deprecated": false
+        },
+        {
+          "name": "fraud_decline",
           "deprecated": false
         },
         {
@@ -1030,6 +1042,27 @@
       "methods": [
         {
           "name": "getGooglePayConfiguration",
+          "deprecated": false
+        }
+      ]
+    },
+    "wallets": {
+      "class": "WalletsAPI",
+      "methods": [
+        {
+          "name": "list",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve",
+          "deprecated": false
+        },
+        {
+          "name": "retrieve_default",
+          "deprecated": false
+        },
+        {
+          "name": "update",
           "deprecated": false
         }
       ]

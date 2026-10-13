@@ -55,3 +55,11 @@ test('disable capability', async () => {
   const result = await capabilities.disable('acct_123', 'card_send');
   expect(result).toEqual(mockCapability);
 });
+
+test('reactivate capability', async () => {
+  const reactivated = { ...mockCapability, status: 'pending' };
+  nock(baseUrl).post('/v1/accounts/acct_123/capabilities/card_send/reactivate').reply(200, reactivated);
+
+  const result = await capabilities.reactivate('acct_123', 'card_send');
+  expect(result).toEqual(reactivated);
+});
